@@ -468,6 +468,71 @@ def circuit_sets():
     save(fig, "circuit-sets")
 
 
+def sae_names():
+    """Step 5: a latent for each name as the one that acts, and as the other name: how often it fires when it should and when it should not."""
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 5.6), sharex=True)
+    for col, seed in enumerate(SEEDS):
+        run = read(f"sae/sae-{seed}")
+        for row, (role, says) in enumerate((("acts", "the name acts"), ("other", "the name is the other one"))):
+            ax, rows = axes[row][col], run["task"]["names"][role]
+            for i, x in enumerate(rows):
+                ax.plot([100 * x["fires when it is not"], 100 * x["fires when it is"]], [i, i], color=RULE[0], linewidth=1.2, zorder=1)
+                ax.plot([100 * x["fires when it is"]], [i], marker="o", markersize=5, color=BLUE[0], linestyle="", label="when it is" if i == 0 else None)
+                ax.plot([100 * x["fires when it is not"]], [i], marker="o", markersize=5, markerfacecolor="none", markeredgewidth=1.3, color=RED[0], linestyle="", label="when it is not" if i == 0 else None)
+            ax.set_yticks(range(len(rows)), [x["name"] for x in rows], fontsize=7.5)
+            ax.set_ylim(len(rows) - 0.5, -0.5)
+            ax.set_xlim(-4, 104)
+            ax.tick_params(axis="y", length=0)
+            ax.set_title(f"{seed}: {says}; {len({x['latent'] for x in rows})} different latents")
+            if row == 1:
+                ax.set_xlabel("the latent fires, percent of prompts")
+    handles, labels = axes[0][0].get_legend_handles_labels()
+    fig.tight_layout(h_pad=1.4, w_pad=2.0)
+    fig.legend(handles, labels, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.05))
+    save(fig, "sae-names")
+
+
+def sae_readers():
+    """Step 5: the other name at the acting name, read by step 2's reader from three inputs."""
+    rng = np.random.default_rng(0)
+    inputs = (("stream", "the stream"), ("rebuilt", "the rebuilt\nstream"), ("missed", "what the\ndictionary misses"))
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.2), sharey=True)
+    for ax, seed in zip(axes, SEEDS):
+        reader = read(f"sae/sae-{seed}")["task"]["reader"]
+        for i, (key, _) in enumerate(inputs):
+            by = 100 * np.array(reader[key]["by pattern"])  # (patterns, versions)
+            for v, version in enumerate(VERSIONS[:2]):
+                x = i + (v - 0.5) * 0.3
+                dots(ax, x + rng.uniform(-0.05, 0.05, by.shape[0]), by[:, v], COLOR[version][0], size=3.2)
+                ax.plot([x - 0.1, x + 0.1], [by[:, v].mean()] * 2, color=COLOR[version][0], linewidth=2.0, label=f"{version} prompts, mean" if i == 0 else None)
+        percent(ax, 12)
+        ax.set_xticks(range(len(inputs)), [says for _, says in inputs], fontsize=8)
+        ax.tick_params(axis="x", length=0)
+        ax.set_title(seed)
+    axes[0].set_ylabel("other name right, percent of test rows")
+    handles, labels = axes[0].get_legend_handles_labels()
+    handles.append(plt.Line2D([], [], marker="o", linestyle="", markersize=3.5, color=MUTED[0]))
+    labels.append("one held-out pattern")
+    fig.tight_layout(w_pad=2.0)
+    fig.legend(handles, labels, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.1))
+    save(fig, "sae-readers")
+
+
+def sae_often():
+    """Step 5: how often the latents fire."""
+    fig, ax = plt.subplots(figsize=(4.8, 2.6))
+    edges = np.linspace(-5, 0, 25)
+    for seed, color in zip(SEEDS, (BLUE[0], RED[0])):
+        counts = np.array(read(f"sae/sae-{seed}")["rebuilds"]["log10 of how often each latent fires"])
+        ax.step(edges, np.append(counts, counts[-1]), where="post", color=color, linewidth=1.5, label=seed)
+    ax.set_xticks([-4, -3, -2, -1, 0], ["0.01%", "0.1%", "1%", "10%", "100%"])
+    ax.set_xlim(-4.2, 0)
+    ax.set_xlabel("a latent fires on this share of tokens")
+    ax.set_ylabel("latents")
+    ax.legend(loc="upper right")
+    save(fig, "sae-often")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -482,3 +547,6 @@ if __name__ == "__main__":
     circuit_diagram()
     circuit_writes()
     circuit_sets()
+    sae_names()
+    sae_readers()
+    sae_often()
