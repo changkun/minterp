@@ -101,3 +101,27 @@ def read(train, labels, groups, test, k, lams=LAMS):
     by_lam = torch.stack([scores(t, *fit(a, y, lam), k) for lam in lams])  # (lams, places, rows, targets, k)
     pick = chosen[None, :, None, :, None].expand(1, -1, by_lam.shape[2], -1, k)
     return by_lam.gather(0, pick)[0], chosen
+
+
+def weights(train, labels, groups, k, lams=LAMS):
+    """
+    The reader itself, for one place and one property: its weights (dim, k),
+    intercept (k,), and the mean and spread it standardizes with, at the
+    penalty that read() would choose. With them a reader fitted on one input
+    can be applied to parts of that input: its scores are linear, so the
+    scores of two parts add up to the score of their sum.
+    """
+    train = train.double()[None]
+    labels = labels[None]
+    inner = torch.zeros(len(lams), dtype=torch.float64)
+    for g in groups.unique():
+        held = groups == g
+        a, v = standardize(train[:, ~held], train[:, held])
+        y = onehot(labels[:, ~held], k)
+        for i, lam in enumerate(lams):
+            guess = scores(v, *fit(a, y, lam), k).argmax(-1)[0, :, 0]
+            inner[i] += (guess == labels[0, held]).double().mean()
+    lam = lams[len(lams) - 1 - inner.flip(0).argmax().item()]
+    mean, spread = train.mean(-2, keepdim=True), train.std(-2, keepdim=True).clamp_min(1e-8)
+    W, b = fit((train - mean) / spread, onehot(labels, k), lam)
+    return W[0], b, mean[0], spread[0]

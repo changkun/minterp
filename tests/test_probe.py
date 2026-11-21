@@ -62,3 +62,16 @@ def test_standardize_uses_the_training_rows_only():
 def test_onehot_puts_the_targets_side_by_side():
     y = probe.onehot(torch.tensor([[0, 2], [1, 1]]), 3)
     assert y.tolist() == [[1, 0, 0, 0, 1, 0], [0, 0, 1, 0, 1, 0]]
+
+
+def test_weights_are_the_reader_that_read_applies():
+    X, labels = toy()
+    groups = torch.arange(len(labels)) % 4
+    out, _ = probe.read(X[:1, :180], labels[None, :180], groups[:180], X[:1, 180:], 4)
+    W, b, mean, spread = probe.weights(X[0, :180], labels[:180], groups[:180], 4)
+    again = ((X[0, 180:] - mean) / spread) @ W + b
+    assert torch.allclose(again, out[0, :, 0], atol=1e-9)
+    # The scores of two parts of an input add up to the score of the input.
+    part = 0.3 * X[0, 180:]
+    rest = X[0, 180:] - part
+    assert torch.allclose(((part - mean) / spread) @ W + b + (rest / spread) @ W, again, atol=1e-9)
