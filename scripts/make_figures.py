@@ -561,6 +561,72 @@ def features_count():
     save(fig, "features-count")
 
 
+STEERED = (("pair", INK, "-", "pair: the same two names in the other four patterns"), ("names", BLUE, "-", "names: pair, with a term per name and none for the two together"),
+           ("means + order", GREEN, "-", "means + order"), ("means", RED, "-", "means: who acts, by name"), ("order", RED, (0, (4, 2)), "order: the same vector for every pair"),
+           ("other names", MUTED, (0, (4, 2)), "control: means for two names not in the prompt"), ("random, long", MUTED, (0, (1, 2)), "control: a random direction as long as pair"))
+
+
+def steer_who():
+    """Step 7: how far a direction added at the acting name takes a clean prompt towards its flipped twin, by dose."""
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 5.6), sharex=True, sharey="row")
+    for col, seed in enumerate(SEEDS):
+        run = read(f"steer/steer-{seed}")
+        doses, T = np.array(run["doses"]), run["who acts"]["templates"]
+        for row, (measure, level, says) in enumerate((("share", "a third name acts, share", "a third name acts"), ("turned", "the flipped prompt turned", "the flipped prompt itself"))):
+            ax = axes[row, col]
+            for name, color, style, _ in STEERED:
+                by = np.array([t["steered"][name][measure] for t in T])  # (patterns, doses)
+                ax.fill_between(doses, by.min(0), by.max(0), color=color[0], alpha=0.13, linewidth=0)
+                ax.plot(doses, by.mean(0), color=color[0], linewidth=1.5, linestyle=style)
+            ax.axhline(np.mean([t["plain"][level] for t in T]), color=MUTED[0], linewidth=0.8)
+            ax.annotate(says, (-2.0, np.mean([t["plain"][level] for t in T])), xytext=(0, 3), textcoords="offset points", fontsize=8, color=MUTED[0])
+            zero(ax)
+            ax.axvline(0, color=RULE[0], linewidth=0.8, zorder=0)
+            if row == 0:
+                ax.set_title(seed)
+            else:
+                ax.set_xlabel("dose: 1 is the direction as built")
+                ax.set_xticks([-2, -1, 0, 1, 2])
+    axes[0, 0].set_ylabel("share of the way from the clean\nanswer to the flipped one")
+    axes[1, 0].set_ylabel("share of prompts where A\nis now above B")
+    handles = [plt.Line2D([], [], color=color[0], linewidth=1.5, linestyle=style) for _, color, style, _ in STEERED]
+    handles.append(Rectangle((0, 0), 1, 1, color=MUTED[0], alpha=0.25, linewidth=0))
+    fig.tight_layout(w_pad=2.0, h_pad=1.2)
+    fig.legend(handles, [says for *_, says in STEERED] + ["the range over the five sentence patterns"], loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.16))
+    save(fig, "steer-who")
+
+
+def steer_kind():
+    """Step 7: the pronoun the model goes on with after a sentence about one name, as a direction is added at the name."""
+    titles = {"means": "means: She names minus He names", "latent": "latent: the one the six She names share", "random": "control: a random direction"}
+    fig, axes = plt.subplots(2, 3, figsize=(9.2, 5.0), sharex=True, sharey="row")
+    for row, seed in enumerate(SEEDS):
+        run = read(f"steer/steer-{seed}")
+        doses, K = np.array(run["doses"]), run["kind"]
+        people = run["names that go on with She"]
+        for col, name in enumerate(titles):
+            ax = axes[row, col]
+            every = np.array([t["steered"][name]["gap by name"] for t in K["templates"]])  # (sentences, names, doses)
+            assert every.shape[1] == 2 * len(people)
+            for group, color in (("She names", BLUE), ("He names", RED)):
+                lines = every[:, [i for i in range(every.shape[1]) if (run["kind"]["order"][i] in people) == (group == "She names")]].reshape(-1, len(doses))
+                for line in lines:
+                    ax.plot(doses, line, color=color[0], linewidth=0.5, alpha=0.3)
+                ax.plot(doses, lines.mean(0), color=color[0], linewidth=1.8, label=f"{group}: the direction is {'taken away' if group == 'She names' else 'added'} (thin: one name in one sentence)")
+            zero(ax)
+            ax.axvline(0, color=RULE[0], linewidth=0.8, zorder=0)
+            ax.set_xticks([-2, -1, 0, 1, 2])
+            if row == 0:
+                ax.set_title(titles[name])
+            else:
+                ax.set_xlabel("dose: 1 is the direction as built")
+        axes[row, 0].set_ylabel(f"{seed}\nlogit of She minus logit of He")
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.tight_layout(w_pad=1.6, h_pad=1.2)
+    fig.legend(handles, labels, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.07))
+    save(fig, "steer-kind")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -579,3 +645,5 @@ if __name__ == "__main__":
     sae_readers()
     sae_often()
     features_count()
+    steer_who()
+    steer_kind()
