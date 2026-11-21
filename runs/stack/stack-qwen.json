@@ -1,0 +1,210 @@
+{
+ "model": {
+  "name": "qwen",
+  "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+  "config": {
+   "dim": 896,
+   "n_layers": 24,
+   "n_heads": 14,
+   "n_kv_heads": 2,
+   "vocab_size": 151936
+  }
+ },
+ "versions": {
+  "transformer-lens": "4.4.0",
+  "transformers": "5.24.0",
+  "torch": "2.15.0"
+ },
+ "prompts": {
+  "count": 16,
+  "of": 132,
+  "pattern": "Once upon a time, {A} and {B} went to the park. {S} gave a toy to",
+  "first names": {
+   "Lily": 11,
+   "Tom": 5
+  }
+ },
+ "the tokenizers decode the prompt alike": true,
+ "a string gets no first token from the library": true,
+ "module paths of the transformers model": {
+  "model.layers": 24,
+  "lm_head": true,
+  "transformer.h": false
+ },
+ "the attention setting in transformers' config": {
+  "before wrapping": "sdpa",
+  "after": "eager"
+ },
+ "calls of transformers' own modules in one pass": {
+  "before wrapping": {
+   "attention": 24,
+   "MLP": 24
+  },
+  "wrapped": {
+   "attention": 0,
+   "MLP": 24
+  },
+  "wrapped, in compatibility mode": {
+   "attention": 0,
+   "MLP": 0
+  }
+ },
+ "hook points in the cache": 1117,
+ "logits": {
+  "largest entry": 21.42905616760254,
+  "minllm's loader against transformers, before wrapping": 8.487701416015625e-05,
+  "the library against minterp": 8.058547973632812e-05,
+  "the library against transformers, before wrapping": 7.581710815429688e-05
+ },
+ "pieces": {
+  "(\"resid\", 0) against hook_embed": {
+   "difference": 0.0,
+   "largest entry": 0.0712890625
+  },
+  "(\"resid\", 1) against blocks.0.hook_resid_post": {
+   "difference": 3.337860107421875e-06,
+   "largest entry": 2.913395643234253
+  },
+  "(\"resid\", 12) against blocks.11.hook_resid_post": {
+   "difference": 1.7642974853515625e-05,
+   "largest entry": 1394.08251953125
+  },
+  "(\"resid\", 24) against blocks.23.hook_resid_post": {
+   "difference": 0.000202178955078125,
+   "largest entry": 40.35601806640625
+  },
+  "(\"attn\", 1) against blocks.0.hook_attn_out": {
+   "difference": 1.7881393432617188e-07,
+   "largest entry": 0.4927174746990204
+  },
+  "(\"attn\", 12) against blocks.11.hook_attn_out": {
+   "difference": 6.943941116333008e-06,
+   "largest entry": 1.9847309589385986
+  },
+  "(\"attn\", 24) against blocks.23.hook_attn_out": {
+   "difference": 5.1021575927734375e-05,
+   "largest entry": 14.650864601135254
+  },
+  "(\"mlp\", 1) against blocks.0.hook_mlp_out": {
+   "difference": 3.337860107421875e-06,
+   "largest entry": 2.9349801540374756
+  },
+  "(\"mlp\", 12) against blocks.11.hook_mlp_out": {
+   "difference": 1.3828277587890625e-05,
+   "largest entry": 2.5919973850250244
+  },
+  "(\"mlp\", 24) against blocks.23.hook_mlp_out": {
+   "difference": 0.000133514404296875,
+   "largest entry": 63.0684814453125
+  },
+  "(\"heads\", 1) against blocks.0.attn.hook_z": {
+   "difference": 7.599592208862305e-07,
+   "largest entry": 0.2900488078594208
+  },
+  "(\"heads\", 12) against blocks.11.attn.hook_z": {
+   "difference": 2.1219253540039062e-05,
+   "largest entry": 2.911912202835083
+  },
+  "(\"heads\", 24) against blocks.23.attn.hook_z": {
+   "difference": 2.1457672119140625e-05,
+   "largest entry": 6.175273895263672
+  }
+ },
+ "names": {
+  "(\"resid\", 0)": "hook_embed",
+  "(\"resid\", i)": "blocks.i-1.hook_resid_post",
+  "(\"attn\", i)": "blocks.i-1.hook_attn_out",
+  "(\"mlp\", i)": "blocks.i-1.hook_mlp_out",
+  "(\"heads\", i)": "blocks.i-1.attn.hook_z",
+  "attention.patterns(model, tap)[:, i-1]": "blocks.i-1.attn.hook_pattern"
+ },
+ "canonical names": {
+  "hook_embed": "embed.hook_out",
+  "blocks.i.hook_resid_post": "blocks.i.hook_out",
+  "blocks.i.hook_attn_out": "blocks.i.attn.hook_out",
+  "blocks.i.hook_mlp_out": "blocks.i.mlp.hook_out",
+  "blocks.i.attn.hook_z": "blocks.i.attn.o.hook_in"
+ },
+ "pattern": [7.42e-06, 5.13e-06, 3.64e-06],
+ "attribute": {
+  "parts": 49,
+  "parts of lens.attribute before the heads are summed": 361,
+  "the logit difference": 6.55172061920166,
+  "minterp's parts sum to": 6.551719919778407,
+  "the library's helper on the published weights": {
+   "sums to": 0.7929329872131348,
+   "largest difference to minterp, per part": 5.038913726806641,
+   "correlation of its mean parts with minterp's": 0.7353941798210144
+  },
+  "the final norm's gain": {
+   "smallest": -0.01141357421875,
+   "largest": 16.75,
+   "mean": 7.139321327209473
+  },
+  "with the stack multiplied by the gain first": {
+   "sums to": 6.551721572875977,
+   "largest difference to minterp, per part": 1.5702098608016968e-05
+  },
+  "in compatibility mode": {
+   "sums to": 6.551715850830078,
+   "largest difference to minterp, per part": 1.2159347534179688e-05,
+   "for one token's logit it sums to": 22.48003387451172,
+   "that token's published logit": 18.910036087036133,
+   "the published logit less its mean over the vocabulary": 22.48003578186035
+  }
+ },
+ "mode": {
+  "logits, largest difference to the published model's": 5.331779479980469,
+  "log-probabilities, largest difference": 8.96453857421875e-05,
+  "the shift within one prompt and position, largest spread over the vocabulary": 0.00012874603271484375,
+  "the shift over prompts and positions": {
+   "smallest": -5.331742286682129,
+   "largest": -0.252658486366272
+  },
+  "at the last position": {
+   "smallest": -4.189053535461426,
+   "largest": -3.057756185531616
+  },
+  "the shift against the mean of the published logits over the vocabulary": 1.9073486328125e-06,
+  "pieces after block 12 against minterp's, on the published weights": {
+   "resid": 0.001220703125,
+   "attn": 9.655952453613281e-06,
+   "mlp": 1.2874603271484375e-05,
+   "heads": 1.312512755393982
+  },
+  "largest entry of the heads there": 2.911912202835083,
+  "the heads' change": {
+   "largest entry": 1.312512755393982,
+   "largest spread over prompts and positions": 3.62396240234375e-05,
+   "largest entry of that block's value bias": 1.3125
+  }
+ },
+ "the name a hook function sees": {
+  "as wrapped: hook_embed": "embed.hook_out",
+  "as wrapped: blocks.11.attn.hook_pattern": "blocks.11.attn.hook_pattern",
+  "as wrapped: blocks.11.attn.hook_z": "blocks.11.attn.o.hook_in",
+  "as wrapped: blocks.11.hook_resid_post": "blocks.11.hook_out",
+  "in compatibility mode: hook_embed": "hook_embed",
+  "in compatibility mode: blocks.11.attn.hook_pattern": "blocks.11.attn.hook_pattern",
+  "in compatibility mode: blocks.11.attn.hook_z": "blocks.11.attn.hook_z",
+  "in compatibility mode: blocks.11.hook_resid_post": "blocks.11.hook_out"
+ },
+ "sizes": {
+  "the stream after the middle block, without the first position": 11.555389404296875,
+  "attention weights": 1.0
+ },
+ "patch": {
+  "where": "after block 12, at the acting name",
+  "plain": 6.55172061920166,
+  "plain, per prompt": [5.441195487976074, 8.16887092590332],
+  "by minterp": -7.431078910827637,
+  "by the library": -7.431087017059326,
+  "logits, largest difference": 6.67572021484375e-05
+ },
+ "steer": {
+  "where": "after block 12, at the acting name",
+  "by minterp": 0.08705854415893555,
+  "by the library": 0.08704525232315063,
+  "logits, largest difference": 5.7220458984375e-05
+ }
+}
