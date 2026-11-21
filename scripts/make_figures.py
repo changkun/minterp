@@ -533,6 +533,34 @@ def sae_often():
     save(fig, "sae-often")
 
 
+def features_count():
+    """Step 6: how much of the gap the highest-ranked latents carry, estimated and moved for real."""
+    rng = np.random.default_rng(0)
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.2), sharey=True)
+    for ax, seed in zip(axes, SEEDS):
+        run = read(f"features/features-{seed}")
+        counts = run["counts"]
+        x = np.arange(len(counts))
+        for key, color, says in (("real", BLUE[0], "moved for real"), ("estimated", RED[0], "estimated from the gradient")):
+            by = np.array([t["by count"][key] for t in run["templates"]])  # (patterns, counts)
+            for i in range(len(counts)):
+                dots(ax, i + rng.uniform(-0.08, 0.08, by.shape[0]), by[:, i], color, size=3.0)
+            ax.plot(x, by.mean(0), color=color, linewidth=1.6, label=says)
+        whole = np.mean([t["parts"]["rebuilt"] for t in run["templates"]])
+        ax.axhline(whole, color=MUTED[0], linewidth=1.0, linestyle=(0, (4, 2)), label="all of what the dictionary rebuilds, for real")
+        zero(ax)
+        ax.set_xticks(x, [str(c) for c in counts])
+        ax.set_xlabel("latents moved, highest-ranked first")
+        ax.set_title(seed)
+    axes[0].set_ylabel("share of the gap that comes along")
+    handles, labels = axes[0].get_legend_handles_labels()
+    handles.append(plt.Line2D([], [], marker="o", linestyle="", markersize=3.5, color=MUTED[0]))
+    labels.append("one sentence pattern")
+    fig.tight_layout(w_pad=2.0)
+    fig.legend(handles, labels, loc="lower center", ncol=2, bbox_to_anchor=(0.5, -0.17))
+    save(fig, "features-count")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -550,3 +578,4 @@ if __name__ == "__main__":
     sae_names()
     sae_readers()
     sae_often()
+    features_count()
