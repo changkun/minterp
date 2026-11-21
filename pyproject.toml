@@ -1,0 +1,33 @@
+[project]
+name = "minterp"
+version = "0.0.0"
+description = "A minimal walk through interpretability on a model small enough to train on a laptop, written from scratch: one behavior followed through hooks, probes, patching, circuits, sparse autoencoders and steering."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "minllm",
+    "numpy>=2.5.3",
+    "torch>=2.14.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+# The model code and the tokenizer. Pinned, because the hooks of
+# minterp/tap.py name modules of minllm/model.py.
+minllm = { git = "https://github.com/changkun/minllm", tag = "v1.1.3" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+# Only scripts/make_figures.py needs it. No experiment does.
+figures = [
+    "matplotlib>=3.10",
+]
