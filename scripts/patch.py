@@ -28,6 +28,7 @@ choice   Every head and MLP of the clean run replaced in four ways: by the
 
     uv run scripts/patch.py
     uv run scripts/patch.py --model seed1
+    uv run scripts/patch.py --model qwen --stream-only   # step 8
 """
 
 import argparse
@@ -38,7 +39,8 @@ from minterp import patch, tasks
 from minterp.common import load, rounded, save
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="seed0", help="seed0, seed1, or the path of a checkpoint")
+parser.add_argument("--model", default="seed0", help="seed0, seed1, qwen, or the path of a checkpoint")
+parser.add_argument("--stream-only", action="store_true", help="travel and name only, without the heads and MLPs: for a larger model (step 8)")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
@@ -112,6 +114,11 @@ for batch in tasks.batches(tok, device):
     entry["size at S"] = {"embedding": rms(at["resid", 0][:, p["S"]]), "after block 1": rms(at["resid", 1][:, p["S"]]),
                           "attention 1": rms(at["attn", 1][:, p["S"]]), "MLP 1": rms(at["mlp", 1][:, p["S"]])}
 
+    if args.stream_only:
+        result["templates"].append(entry)
+        print(batch.template, {k: round(v, 2) for k, v in entry["logit_diff"].items()})
+        continue
+
     # parts
     scopes = {"all": None, "last": [p["end"]], "not last": list(range(p["end"])), "S": [p["S"]]}
     entry["parts"] = {}
@@ -139,25 +146,26 @@ for batch in tasks.batches(tok, device):
     result["templates"].append(entry)
     print(batch.template, {k: round(v, 2) for k, v in entry["logit_diff"].items()})
 
-# The four parts with the largest share, block 1's MLP aside, moved two at a time: do their shares add?
-single = torch.tensor([t.pop("carry by part") for t in result["templates"]]).mean(0)
-single[PARTS.index(("mlp", 1, None))] = 0
-top = [PARTS[i] for i in single.abs().argsort(descending=True)[:4].tolist()]
-name_of = lambda part: f"block {part[1]} " + ("MLP" if part[0] == "mlp" else f"head {part[2]}")
-pairs = [(a, b) for i, a in enumerate(top) for b in top[i + 1:]]
-together = {pair: [] for pair in pairs}
-for batch in tasks.batches(tok, device):
-    ld = lambda logits: tasks.logit_diff(logits.float(), batch.right, batch.wrong)
-    clean, clean_logits = patch.record(model, batch.clean)
-    _, flipped_logits = patch.record(model, batch.flipped)
-    for a, b in pairs:
-        edits = {}
-        for part in (a, b):  # two heads of one block share a key, so their edits are chained
-            key, edit = next(iter(swap_part(part, clean).items()))
-            edits[key] = (lambda x, first=edits[key], second=edit: second(first(x))) if key in edits else edit
-        together[a, b].append(patch.share(ld(patch.run(model, batch.flipped, edits)), ld(flipped_logits), ld(clean_logits)))
-result["pairs"] = [{"parts": [name_of(a), name_of(b)], "each": [round(single[PARTS.index(a)].item(), 3), round(single[PARTS.index(b)].item(), 3)],
-                    "together": round(sum(v) / len(v), 3)} for (a, b), v in together.items()]
+if not args.stream_only:
+    # The four parts with the largest share, block 1's MLP aside, moved two at a time: do their shares add?
+    single = torch.tensor([t.pop("carry by part") for t in result["templates"]]).mean(0)
+    single[PARTS.index(("mlp", 1, None))] = 0
+    top = [PARTS[i] for i in single.abs().argsort(descending=True)[:4].tolist()]
+    name_of = lambda part: f"block {part[1]} " + ("MLP" if part[0] == "mlp" else f"head {part[2]}")
+    pairs = [(a, b) for i, a in enumerate(top) for b in top[i + 1:]]
+    together = {pair: [] for pair in pairs}
+    for batch in tasks.batches(tok, device):
+        ld = lambda logits: tasks.logit_diff(logits.float(), batch.right, batch.wrong)
+        clean, clean_logits = patch.record(model, batch.clean)
+        _, flipped_logits = patch.record(model, batch.flipped)
+        for a, b in pairs:
+            edits = {}
+            for part in (a, b):  # two heads of one block share a key, so their edits are chained
+                key, edit = next(iter(swap_part(part, clean).items()))
+                edits[key] = (lambda x, first=edits[key], second=edit: second(first(x))) if key in edits else edit
+            together[a, b].append(patch.share(ld(patch.run(model, batch.flipped, edits)), ld(flipped_logits), ld(clean_logits)))
+    result["pairs"] = [{"parts": [name_of(a), name_of(b)], "each": [round(single[PARTS.index(a)].item(), 3), round(single[PARTS.index(b)].item(), 3)],
+                        "together": round(sum(v) / len(v), 3)} for (a, b), v in together.items()]
 
 mean_of = lambda pick: torch.tensor([pick(t) for t in result["templates"]]).mean(0)
 show = lambda row: " ".join(f"{v:6.2f}" for v in row.tolist())
@@ -171,6 +179,9 @@ for d, row in enumerate(mean_of(lambda t: t["name"])):
 print(f"\nfirst name: share of the way from A to C (columns: {', '.join(FIRST)})")
 for d, row in enumerate(mean_of(lambda t: t["first name"])):
     print(f"  {'emb' if d == 0 else d:>3}  " + show(row))
+if args.stream_only:
+    save(f"runs/patch/patch-{meta['name']}.json", result)
+    raise SystemExit(0)
 print("\ntwo parts moved together, against the sum of their shares")
 for pair in result["pairs"]:
     print(f"  {pair['parts'][0]:16s} + {pair['parts'][1]:16s} together {pair['together']:.2f}, sum {sum(pair['each']):.2f}")
