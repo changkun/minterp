@@ -23,6 +23,7 @@
   }
  },
  "block": 4,
+ "dictionary": "first",
  "counts": [1, 2, 4, 8, 16, 32],
  "veto head": "block 8 head 0",
  "names that go on with She": [
@@ -923,5 +924,6 @@
    ]
   }
  ],
- "one latent for the six": [2201]
+ "one latent for the six": [2201],
+ "the shared latent": 2201
 }
