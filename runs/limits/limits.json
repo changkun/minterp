@@ -1,0 +1,1032 @@
+{
+ "rule": "a number is the same when two columns differ by at most a fifth of the larger, or by 0.05; a count or a name when they are equal",
+ "models": {
+  "columns": [
+   "seed0",
+   "seed1",
+   "qwen"
+  ],
+  "rows": [
+   {
+    "step": 1,
+    "what": "clean prompts with B above A, share",
+    "kind": "number",
+    "values": [0.9984848484848484, 0.9545454545454545, 1.0],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 1,
+    "what": "flipped prompts with A above B, share",
+    "kind": "number",
+    "values": [0.8454545454545455, 0.7575757575757576, 1.0],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     false
+    ]
+   },
+   {
+    "step": 1,
+    "what": "share of the clean logit difference written by the last quarter of the blocks",
+    "kind": "number",
+    "values": [0.9392558845861808, 0.9032012195121951, 0.9243602431782835],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 2,
+    "what": "the due name read at the acting name at half depth, on new pairs, clean prompts, share right",
+    "kind": "number",
+    "values": [
+     0.95,
+     0.7954600000000001,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 2,
+    "what": "the same on flipped prompts",
+    "kind": "number",
+    "values": [
+     0.89544,
+     0.7091000000000001,
+     null
+    ],
+    "the two story models agree": false,
+    "the open model agrees with": null
+   },
+   {
+    "step": 3,
+    "what": "the last depth at which the acting name alone carries half of the gap, as a share of the depth",
+    "kind": "number",
+    "values": [0.75, 0.875, 0.625],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     false
+    ]
+   },
+   {
+    "step": 4,
+    "what": "the head that carries most at the last position (block.head)",
+    "kind": "name",
+    "values": [
+     "7.0",
+     "8.0",
+     null
+    ],
+    "the two story models agree": false,
+    "the open model agrees with": null
+   },
+   {
+    "step": 4,
+    "what": "the seven heads of the circuit together carry, share of the gap",
+    "kind": "number",
+    "values": [
+     1.06718,
+     0.97482,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 5,
+    "what": "variance the dictionary misses on stories, share",
+    "kind": "number",
+    "values": [
+     0.07833842804957404,
+     0.08409662812886752,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 5,
+    "what": "the loss rises by, share",
+    "kind": "number",
+    "values": [
+     0.032098333761994224,
+     0.03911419536851901,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 6,
+    "what": "who acts carried by what the dictionary rebuilds, share of the gap",
+    "kind": "number",
+    "values": [
+     0.9358780026435852,
+     0.996260142326355,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 6,
+    "what": "carried by the highest-ranked latent",
+    "kind": "number",
+    "values": [
+     0.17112162411212922,
+     0.2728900820016861,
+     null
+    ],
+    "the two story models agree": false,
+    "the open model agrees with": null
+   },
+   {
+    "step": 6,
+    "what": "of the six She names, how many share the veto head's latent",
+    "kind": "count",
+    "values": [
+     6,
+     6,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 6,
+    "what": "the veto head's write to an acting She name against its own kind, logits",
+    "kind": "number",
+    "values": [
+     -0.26347694396972654,
+     -0.23113106191158295,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 7,
+    "what": "the pair direction at dose 1, share of the way",
+    "kind": "number",
+    "values": [0.9545, 1.03542, 1.0030800000000002],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "its part with a term per name",
+    "kind": "number",
+    "values": [0.95814, 1.03786, 1.00368],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the names' means with the vector every flipped prompt shares",
+    "kind": "number",
+    "values": [0.8073599999999999, 0.8496400000000002, 1.0043000000000002],
+    "the two story models agree": true,
+    "the open model agrees with": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the names' means alone",
+    "kind": "number",
+    "values": [0.38478, 0.80732, 0.79534],
+    "the two story models agree": false,
+    "the open model agrees with": [
+     false,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the shared vector alone",
+    "kind": "number",
+    "values": [0.39708, 0.07148, 0.08792],
+    "the two story models agree": false,
+    "the open model agrees with": [
+     false,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "a random direction as long as the pair direction",
+    "kind": "number",
+    "values": [0.22565999999999997, 0.14298, 0.06856],
+    "the two story models agree": false,
+    "the open model agrees with": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the kind alone, on pairs of two kinds, share of their gap",
+    "kind": "number",
+    "values": [0.3278594380104032, 0.5664383154577975, 0.10237257468982118],
+    "the two story models agree": false,
+    "the open model agrees with": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the gap between two She names against the gap between names of two kinds",
+    "kind": "number",
+    "values": [0.31960044737335086, 0.09863165473646314, 1.0101369563135685],
+    "the two story models agree": false,
+    "the open model agrees with": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "pronouns turned by the difference of means at dose 1, of 72",
+    "kind": "count",
+    "values": [
+     72,
+     72,
+     null
+    ],
+    "the two story models agree": true,
+    "the open model agrees with": null
+   },
+   {
+    "step": 7,
+    "what": "pronouns turned by the shared latent at its mean value, of 72",
+    "kind": "count",
+    "values": [
+     15,
+     9,
+     null
+    ],
+    "the two story models agree": false,
+    "the open model agrees with": null
+   }
+  ],
+  "rows the two story models agree on": {
+   "with the first dictionaries": 15,
+   "with the second dictionaries": 14,
+   "of": 24
+  },
+  "the depth row with another line": {
+   "0.9": [0.75, 0.875, 0.5833333333333334],
+   "0.5": [0.75, 0.875, 0.625],
+   "0.25": [0.75, 0.875, 0.8333333333333334],
+   "0.1": [0.75, 0.875, 0.9166666666666666]
+  },
+  "by depth": {
+   "seed0": {
+    "depths": [0, 2, 4, 6, 8],
+    "pair": [0.9999999284744263, 1.0057993888854981, 0.9544961333274842, 0.9490632534027099, 0.0],
+    "means": [0.9999999642372132, 1.0053811073303223, 0.3847933173179626, 0.373838996887207, 0.0],
+    "order": [2.771611846696942e-08, 0.000538944941945374, 0.39707598090171814, 0.3843922197818756, 0.0],
+    "means + order": [0.9999999523162841, 1.006160306930542, 0.8073496222496033, 0.7818110585212708, 0.0]
+   },
+   "seed1": {
+    "depths": [0, 2, 4, 6, 8],
+    "pair": [1.0000000476837159, 1.0111538648605347, 1.0354279279708862, 0.9195002555847168, 0.0],
+    "means": [1.0000000238418578, 0.9910539507865905, 0.807330310344696, 0.7464950084686279, 0.0],
+    "order": [-4.598018077395238e-09, 0.00012879235582659022, 0.07147563472390175, 0.004135972133371979, 0.0],
+    "means + order": [0.9999999880790711, 0.991801130771637, 0.8496324300765992, 0.7395047903060913, 0.0]
+   },
+   "qwen": {
+    "depths": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24],
+    "pair": [1.0, 0.9992498278617858, 0.9980515003204345, 0.9980005860328675, 0.999485433101654, 1.002729105949402, 1.003080677986145, 1.0245579361915589, 0.45889021158218385, 0.47638654708862305, 0.4525701642036438, 0.14713026583194733, 0.0],
+    "means": [1.0, 0.9998510360717774, 1.0038509726524354, 1.0037068247795105, 1.0284318923950195, 1.0392186522483826, 0.7953752756118775, 0.43556594252586367, 0.4337444484233856, 0.4541370809078217, 0.43055359125137327, 0.1456643059849739, 0.0],
+    "order": [0.0, 0.00011170573852723465, -0.0028386049103573895, -0.0011320155928842724, 0.002850286290049553, -0.010511432588100434, 0.08790022917091847, 0.5382409155368805, -0.03862994387745857, -0.02189747418742627, -0.014275615103542805, 0.0039640382630750535, 0.0],
+    "means + order": [1.0, 0.9994932889938355, 0.9979021310806274, 0.9973695755004883, 0.9999008178710938, 0.9976462483406067, 1.0043084025382996, 1.0229893684387208, 0.45238637924194336, 0.46980735659599304, 0.4478731691837311, 0.14312785714864731, 0.0]
+   }
+  }
+ },
+ "dictionaries": {
+  "columns": [
+   "seed0, first",
+   "seed0, second",
+   "seed1, first",
+   "seed1, second"
+  ],
+  "rows": [
+   {
+    "step": 5,
+    "what": "variance the dictionary misses on stories, share",
+    "kind": "number",
+    "values": [0.07833842804957404, 0.07806089836960857, 0.08409662812886752, 0.08430469567225046],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 5,
+    "what": "the loss rises by, share",
+    "kind": "number",
+    "values": [0.032098333761994224, 0.03307212637322565, 0.03911419536851901, 0.038972554972678264],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "who acts carried by what the dictionary rebuilds",
+    "kind": "number",
+    "values": [0.9358780026435852, 0.9127124071121215, 0.996260142326355, 0.9947098135948181],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "carried by the highest-ranked latent",
+    "kind": "number",
+    "values": [0.17112162411212922, 0.20941518247127533, 0.2728900820016861, 0.27943937182426454],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "by the eight highest",
+    "kind": "number",
+    "values": [0.6902511239051818, 0.7087493896484375, 0.852148175239563, 0.8631134033203125],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "by the 32 highest",
+    "kind": "number",
+    "values": [0.9107912540435791, 0.8851837635040283, 0.9841563820838928, 0.9831070065498352],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "the gradient's estimate against the real effect, correlation",
+    "kind": "number",
+    "values": [0.9479313373565674, 0.9105597496032715, 0.985133695602417, 0.982265055179596],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "the two names' latents moved for real, share of the gap",
+    "kind": "number",
+    "values": [0.23199703097343444, 0.27557888627052307, 0.4297828435897827, 0.4509231925010681],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "of the six She names, how many share the veto head's latent",
+    "kind": "count",
+    "values": [6, 6, 6, 5],
+    "the two dictionaries agree": [
+     true,
+     false
+    ]
+   },
+   {
+    "step": 6,
+    "what": "different latents among the six He names",
+    "kind": "count",
+    "values": [6, 5, 6, 4],
+    "the two dictionaries agree": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 6,
+    "what": "the shared latent off: the acting She name against the nine, logits",
+    "kind": "number",
+    "values": [0.6816418409347534, 0.7615211606025696, 0.7668309092521668, 0.670732855796814],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 6,
+    "what": "the same against its own kind",
+    "kind": "number",
+    "values": [-0.027273567765951155, -0.016781018301844596, -0.015967567916959524, -0.016485527344048023],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the two names' latents steered, share of the way",
+    "kind": "number",
+    "values": [0.18574, 0.22018, 0.43334, 0.45374],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the shared latent at its mean value moves the pronoun measure after a He name by, logits (mean)",
+    "kind": "number",
+    "values": [6.590204189427694, 6.803254189427694, 5.519058972803752, 6.132642306137084],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "pronouns it turns, of 72",
+    "kind": "count",
+    "values": [15, 18, 9, 14],
+    "the two dictionaries agree": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "of them after the 36 He names",
+    "kind": "count",
+    "values": [12, 12, 9, 10],
+    "the two dictionaries agree": [
+     true,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "and after the 36 She names",
+    "kind": "count",
+    "values": [3, 6, 0, 4],
+    "the two dictionaries agree": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "at twice that value, of 72",
+    "kind": "count",
+    "values": [72, 72, 71, 72],
+    "the two dictionaries agree": [
+     true,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the rebuilt part of the difference of means turns, of 72",
+    "kind": "count",
+    "values": [72, 72, 72, 72],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the missed part turns, of 72",
+    "kind": "count",
+    "values": [0, 0, 0, 0],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the missed part moves the measure by, logits (the larger of the two groups' means)",
+    "kind": "number",
+    "values": [0.3768875227610273, 0.5092291439056398, 0.1875910271962482, 0.07337563947041748],
+    "the two dictionaries agree": [
+     false,
+     false
+    ]
+   },
+   {
+    "step": 7,
+    "what": "the dictionary reads the latent back at, share of what was written",
+    "kind": "number",
+    "values": [0.7133333333333333, 0.8888833333333334, 0.7061666666666667, 0.7411666666666666],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "its encoder's reading of one unit of the latent's direction",
+    "kind": "number",
+    "values": [0.8829059600830078, 0.8665724992752075, 0.8862062692642212, 0.9103502035140991],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "where the reading starts on a He name, share of the latent's mean value",
+    "kind": "number",
+    "values": [-0.16963282227516174, 0.022224681451916695, -0.18029461801052094, -0.16923579573631287],
+    "the two dictionaries agree": [
+     false,
+     true
+    ]
+   },
+   {
+    "step": 7,
+    "what": "latents that differ by more than 0.5 between the kinds (mean of six sentences)",
+    "kind": "number",
+    "values": [29.5, 28.666666666666668, 31.833333333333332, 31.0],
+    "the two dictionaries agree": [
+     true,
+     true
+    ]
+   }
+  ]
+ },
+ "matches": {
+  "seed0": {
+   "latents of the first dictionary": 4096,
+   "latents that never fire on the stories": 0,
+   "story tokens": 76800,
+   "with a counterpart in the second dictionary": {
+    "at a cosine of 0.9 or more": 0.026123046875,
+    "at 0.7 or more": 0.086181640625,
+    "at 0.5 or more": 0.304443359375,
+    "median cosine": 0.41328302025794983
+   },
+   "by how often a latent fires": {
+    "fires on up to 0.1% of story tokens": {
+     "latents": 161,
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.012422360479831696,
+     "at 0.5 or more": 0.06832297891378403,
+     "median cosine": 0.3261277675628662
+    },
+    "on 0.1% to 1%": {
+     "latents": 3272,
+     "at a cosine of 0.9 or more": 0.003973104991018772,
+     "at 0.7 or more": 0.03973105177283287,
+     "at 0.5 or more": 0.23533007502555847,
+     "median cosine": 0.3945220112800598
+    },
+    "on more than 1%": {
+     "latents": 663,
+     "at a cosine of 0.9 or more": 0.1417797952890396,
+     "at 0.7 or more": 0.3333333432674408,
+     "at 0.5 or more": 0.7028657793998718,
+     "median cosine": 0.5993026494979858
+    }
+   },
+   "for comparison": {
+    "the nearest other latent of the same dictionary": {
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.00048828125,
+     "at 0.5 or more": 0.007568359375,
+     "median cosine": 0.24198584258556366
+    },
+    "two sets of random directions": {
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.0,
+     "at 0.5 or more": 0.0,
+     "median cosine": 0.18181119859218597
+    }
+   },
+   "one to one": {
+    "at a cosine of 0.7 or more by the decoder": 0.08447265625,
+    "the same partner by encoder and decoder, 0.7 or more in both": 0.05322265625
+   },
+   "the shared latent": {
+    "first": 1451,
+    "second": 3006,
+    "cosine of the best counterpart": 0.8329437375068665,
+    "the best counterpart is the second dictionary's shared latent": true,
+    "correlation of the two over all prompts": 0.9710853695869446,
+    "among the prompts where a She name acts": 0.7191292643547058,
+    "share of the other prompts on which each fires": [0.019696969538927078, 0.1984848529100418],
+    "share of the She prompts on which each fires": [1.0, 1.0],
+    "prompts": 1320
+   },
+   "the veto head's latents": [
+    {
+     "latent": 219,
+     "names": [
+      "Sam"
+     ],
+     "cosine of the best counterpart": 0.7298386693000793,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 460,
+     "names": [
+      "Tim"
+     ],
+     "cosine of the best counterpart": 0.6289380788803101,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 1451,
+     "names": [
+      "Lily",
+      "Mia",
+      "Lucy",
+      "Anna",
+      "Sue",
+      "Sara"
+     ],
+     "cosine of the best counterpart": 0.8329437375068665,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2308,
+     "names": [
+      "Ben"
+     ],
+     "cosine of the best counterpart": 0.6855634450912476,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2768,
+     "names": [
+      "Max"
+     ],
+     "cosine of the best counterpart": 0.6687337756156921,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2780,
+     "names": [
+      "Tom"
+     ],
+     "cosine of the best counterpart": 0.8117773532867432,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 3712,
+     "names": [
+      "Jack"
+     ],
+     "cosine of the best counterpart": 0.9343869090080261,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    }
+   ],
+   "step 5's latents": [
+    {
+     "latent": 156,
+     "names": [
+      "Mia"
+     ],
+     "cosine of the best counterpart": 0.5502020716667175,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 219,
+     "names": [
+      "Sam"
+     ],
+     "cosine of the best counterpart": 0.7298386693000793,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 1104,
+     "names": [
+      "Sara"
+     ],
+     "cosine of the best counterpart": 0.2677236795425415,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 1537,
+     "names": [
+      "Ben"
+     ],
+     "cosine of the best counterpart": 0.5006009340286255,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2050,
+     "names": [
+      "Tom"
+     ],
+     "cosine of the best counterpart": 0.5777627229690552,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2240,
+     "names": [
+      "Sue"
+     ],
+     "cosine of the best counterpart": 0.5303087830543518,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2271,
+     "names": [
+      "Jack"
+     ],
+     "cosine of the best counterpart": 0.36290398240089417,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2302,
+     "names": [
+      "Max"
+     ],
+     "cosine of the best counterpart": 0.30863216519355774,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2395,
+     "names": [
+      "Lily"
+     ],
+     "cosine of the best counterpart": 0.8583131432533264,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2478,
+     "names": [
+      "Anna"
+     ],
+     "cosine of the best counterpart": 0.590164065361023,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2732,
+     "names": [
+      "Tim"
+     ],
+     "cosine of the best counterpart": 0.963102400302887,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 3487,
+     "names": [
+      "Lucy"
+     ],
+     "cosine of the best counterpart": 0.65315842628479,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    }
+   ]
+  },
+  "seed1": {
+   "latents of the first dictionary": 4096,
+   "latents that never fire on the stories": 0,
+   "story tokens": 76800,
+   "with a counterpart in the second dictionary": {
+    "at a cosine of 0.9 or more": 0.034912109375,
+    "at 0.7 or more": 0.133056640625,
+    "at 0.5 or more": 0.394775390625,
+    "median cosine": 0.4565088152885437
+   },
+   "by how often a latent fires": {
+    "fires on up to 0.1% of story tokens": {
+     "latents": 175,
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.0057142856530845165,
+     "at 0.5 or more": 0.1371428519487381,
+     "median cosine": 0.35477155447006226
+    },
+    "on 0.1% to 1%": {
+     "latents": 3220,
+     "at a cosine of 0.9 or more": 0.005900620948523283,
+     "at 0.7 or more": 0.06521739065647125,
+     "at 0.5 or more": 0.3242236077785492,
+     "median cosine": 0.43384867906570435
+    },
+    "on more than 1%": {
+     "latents": 701,
+     "at a cosine of 0.9 or more": 0.17689014971256256,
+     "at 0.7 or more": 0.476462185382843,
+     "at 0.5 or more": 0.7831668853759766,
+     "median cosine": 0.688302218914032
+    }
+   },
+   "for comparison": {
+    "the nearest other latent of the same dictionary": {
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.0009765625,
+     "at 0.5 or more": 0.010009765625,
+     "median cosine": 0.24944698810577393
+    },
+    "two sets of random directions": {
+     "at a cosine of 0.9 or more": 0.0,
+     "at 0.7 or more": 0.0,
+     "at 0.5 or more": 0.0,
+     "median cosine": 0.18181119859218597
+    }
+   },
+   "one to one": {
+    "at a cosine of 0.7 or more by the decoder": 0.13037109375,
+    "the same partner by encoder and decoder, 0.7 or more in both": 0.076904296875
+   },
+   "the shared latent": {
+    "first": 2201,
+    "second": 1301,
+    "cosine of the best counterpart": 0.7726489305496216,
+    "the best counterpart is the second dictionary's shared latent": true,
+    "correlation of the two over all prompts": 0.9774289727210999,
+    "among the prompts where a She name acts": 0.28780224919319153,
+    "share of the other prompts on which each fires": [0.072727270424366, 0.010606060735881329],
+    "share of the She prompts on which each fires": [1.0, 1.0],
+    "prompts": 1320
+   },
+   "the veto head's latents": [
+    {
+     "latent": 13,
+     "names": [
+      "Jack"
+     ],
+     "cosine of the best counterpart": 0.8920528888702393,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 1745,
+     "names": [
+      "Tim"
+     ],
+     "cosine of the best counterpart": 0.78676438331604,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2012,
+     "names": [
+      "Ben"
+     ],
+     "cosine of the best counterpart": 0.6261314749717712,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2201,
+     "names": [
+      "Lily",
+      "Mia",
+      "Lucy",
+      "Anna",
+      "Sue",
+      "Sara"
+     ],
+     "cosine of the best counterpart": 0.7726489305496216,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2370,
+     "names": [
+      "Sam"
+     ],
+     "cosine of the best counterpart": 0.7227290868759155,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 3457,
+     "names": [
+      "Tom"
+     ],
+     "cosine of the best counterpart": 0.6564708948135376,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 4054,
+     "names": [
+      "Max"
+     ],
+     "cosine of the best counterpart": 0.6485196948051453,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    }
+   ],
+   "step 5's latents": [
+    {
+     "latent": 565,
+     "names": [
+      "Sue"
+     ],
+     "cosine of the best counterpart": 0.3886096477508545,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 1463,
+     "names": [
+      "Max"
+     ],
+     "cosine of the best counterpart": 0.6819363236427307,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 1477,
+     "names": [
+      "Lily"
+     ],
+     "cosine of the best counterpart": 0.27164289355278015,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 1745,
+     "names": [
+      "Tim"
+     ],
+     "cosine of the best counterpart": 0.78676438331604,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2049,
+     "names": [
+      "Ben"
+     ],
+     "cosine of the best counterpart": 0.512058675289154,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2106,
+     "names": [
+      "Mia"
+     ],
+     "cosine of the best counterpart": 0.806942343711853,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2129,
+     "names": [
+      "Sara"
+     ],
+     "cosine of the best counterpart": 0.2956324815750122,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 2370,
+     "names": [
+      "Sam"
+     ],
+     "cosine of the best counterpart": 0.7227290868759155,
+     "the counterpart is the second dictionary's latent for most of these names": true
+    },
+    {
+     "latent": 2495,
+     "names": [
+      "Lucy"
+     ],
+     "cosine of the best counterpart": 0.6201795339584351,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 3233,
+     "names": [
+      "Anna"
+     ],
+     "cosine of the best counterpart": 0.5391988754272461,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 3243,
+     "names": [
+      "Jack"
+     ],
+     "cosine of the best counterpart": 0.3932328522205353,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    },
+    {
+     "latent": 3457,
+     "names": [
+      "Tom"
+     ],
+     "cosine of the best counterpart": 0.6564708948135376,
+     "the counterpart is the second dictionary's latent for most of these names": false
+    }
+   ]
+  }
+ }
+}
