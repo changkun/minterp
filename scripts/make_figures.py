@@ -371,6 +371,103 @@ def patch_choice():
     save(fig, "patch-choice")
 
 
+def circuit_run(seed):
+    run = read(f"circuit/circuit-{seed}")
+    name = lambda x: f"block {x['block']} head {x['head']}"
+    avg = lambda pick: float(np.mean([pick(t) for t in run["templates"]]))
+    return run, name, avg
+
+
+def circuit_diagram():
+    """Step 4: which position each head reads from, and whether it raises or lowers the name it reads."""
+    from matplotlib.patches import FancyArrowPatch
+
+    xs = {"A": 0, "B": 1, "stop": 2, "S": 3, "end": 4}
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 7.4), sharex=True, sharey=True)
+    for row, seed in zip(axes, SEEDS):
+        run, name, avg = circuit_run(seed)
+        for ax, version, says in zip(row, ("clean", "flipped"), ("the first name acts", "the second name acts")):
+            acting = "A" if version == "clean" else "B"
+            slot = {}  # heads of one block are drawn one above the other
+            for x in run["heads"]:
+                slot.setdefault(x["block"], []).append(x["head"])
+            for x in run["heads"]:
+                looks = {k: avg(lambda t: t["attention"][name(x)][version][k]) for k in ("A", "B", "stop", "S")}
+                source = max(looks, key=looks.get)
+                if looks[source] < 0.25:
+                    continue
+                if x["acts at"] == "S":
+                    color = MUTED[0]
+                else:
+                    # What it adds to the logit of the name it reads. At the acting name that is the name
+                    # that acts, and at the full stop, which holds no name of its own, both names.
+                    read = {"S": [acting], "stop": ["A", "B"]}.get(source, [source])
+                    color = (BLUE if np.mean([avg(lambda t, k=k: t["writes"][name(x)][version][k]) for k in read]) >= 0 else RED)[0]
+                mates = slot[x["block"]]
+                y = x["block"] + (mates.index(x["head"]) - (len(mates) - 1) / 2) * 0.36 - 0.08
+                ax.add_patch(FancyArrowPatch((xs[source], y), (xs[x["acts at"]], y), arrowstyle="-|>", mutation_scale=9,
+                                             linewidth=0.6 + 3.4 * looks[source], color=color, shrinkA=6, shrinkB=6))
+                ax.text((xs[source] + xs[x["acts at"]]) / 2, y + 0.07, f"{x['block']}.{x['head']}  reads {looks[source]:.2f}", ha="center", va="bottom", fontsize=7.5, color=INK[0])
+            for k, x0 in xs.items():
+                ax.axvline(x0, color=RULE[0], linewidth=0.8, zorder=0)
+            ax.set_xlim(-0.45, 4.45)
+            ax.set_ylim(0.5, 8.9)
+            ax.set_xticks(list(xs.values()), ["first\nname", "second\nname", "full\nstop", "acting\nname", "last\nposition"], fontsize=8)
+            ax.set_yticks(range(1, 9))
+            ax.tick_params(length=0)
+            for side in ("left", "bottom"):
+                ax.spines[side].set_visible(False)
+            ax.set_title(f"{seed}, {version} prompt: {says}")
+        row[0].set_ylabel("block")
+    handles = [plt.Line2D([], [], color=c, linewidth=2.4, label=l) for c, l in (
+        (BLUE[0], "raises the name it reads"), (RED[0], "lowers the name it reads"), (MUTED[0], "writes at the acting name; what it writes was not decoded"))]
+    fig.legend(handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.045))
+    fig.tight_layout(h_pad=1.6)
+    save(fig, "circuit-diagram")
+
+
+def circuit_writes():
+    """Step 4: what each head at the last position adds to the logit of each name of the prompt."""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.3))
+    for ax, seed in zip(axes, SEEDS):
+        run, name, avg = circuit_run(seed)
+        readers = [x for x in run["heads"] if x["acts at"] == "end"]
+        columns = [("clean", "A"), ("clean", "B"), ("flipped", "A"), ("flipped", "B"), ("neutral", "A"), ("neutral", "B"), ("neutral", "C")]
+        grid = np.array([[avg(lambda t: t["writes"][name(x)][v][k]) for v, k in columns] for x in readers])
+        cells(ax, grid, [k for _, k in columns], [f"{x['block']}.{x['head']}" for x in readers], floor=0.1)
+        for edge in (1.5, 3.5):
+            ax.axvline(edge, color=RULE[0], linewidth=0.8)
+        for at, v in ((0.5, "clean:\nA acts"), (2.5, "flipped:\nB acts"), (5, "neutral:\nC acts")):
+            ax.text(at, -0.62, v, ha="center", va="bottom", fontsize=8, color=INK[0])
+        ax.set_ylabel("head (block.head)")
+        ax.set_title(seed, pad=26)
+    fig.tight_layout(w_pad=2.5)
+    save(fig, "circuit-writes")
+
+
+def circuit_sets():
+    """Step 4: the heads of the set moved together, against random sets of as many heads."""
+    rng = np.random.default_rng(0)
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 2.6), sharex=True)
+    for ax, seed in zip(axes, SEEDS):
+        run, _, avg = circuit_run(seed)
+        random = np.mean([t["sets"]["random"] for t in run["templates"]], axis=0)
+        dots(ax, random, rng.uniform(-0.28, 0.28, len(random)), MUTED[0], size=3.4)
+        for key, color, says in (("the heads", BLUE[0], f"the {len(run['heads'])} heads of the set"), ("all other heads", RED[0], "all other heads")):
+            ax.plot([avg(lambda t: t["sets"][key])], [0], marker="D", markersize=7, color=color, linestyle="", label=says)
+        ax.plot([], [], marker="o", markersize=3.5, linestyle="", color=MUTED[0], label=f"a random set of {len(run['heads'])} heads")
+        zero(ax, horizontal=False)
+        ax.set_yticks([])
+        ax.set_ylim(-0.6, 0.6)
+        ax.spines["left"].set_visible(False)
+        ax.set_xlabel("share of the gap that comes along")
+        ax.set_title(seed)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.tight_layout(w_pad=2.0)
+    fig.legend(handles, [l.replace(f"{len(run['heads'])} heads of", "heads of") for l in labels], loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.16), columnspacing=1.6)
+    save(fig, "circuit-sets")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -382,3 +479,6 @@ if __name__ == "__main__":
     patch_travel()
     patch_parts()
     patch_choice()
+    circuit_diagram()
+    circuit_writes()
+    circuit_sets()
