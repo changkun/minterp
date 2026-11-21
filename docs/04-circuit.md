@@ -115,6 +115,12 @@ name.** One head in each model does it strongly: head 7.0 of seed0 takes
 seed1 takes off 1.46 to 1.65. The others do the same by 0.5 or less. The
 two strong heads also add 0.4 to 0.5 to the other name of the pair.
 
+[Step 6](06-feature-circuit.md) looks at this again and finds it too
+narrow. "Lowers the acting name" is measured against uninvolved names, and
+on the clean prompts, where step 6 measured it, most of it for the six
+names the model follows with "She" is all names of that kind going down,
+not the acting name alone.
+
 **The heads that read a name raise it.** The script splits a head's write
 by the position it was read from. On clean prompts head 8.4 of seed0 adds
 3.54 to the second name, of which 3.01 comes from that name's position. On
