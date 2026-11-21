@@ -25,6 +25,7 @@ the task    at the acting name's position, where step 4 found the other
 
     uv run scripts/sae.py                    # the model of minllm's stage 3, after block 4
     uv run scripts/sae.py --model seed1
+    uv run scripts/sae.py --seed 1 --dict s1 # a second dictionary, for step 8
 """
 
 import argparse
@@ -48,6 +49,7 @@ parser.add_argument("--width", type=int, default=4096)
 parser.add_argument("--k", type=int, default=32)
 parser.add_argument("--steps", type=int, default=4000)
 parser.add_argument("--seed", type=int, default=0)
+parser.add_argument("--dict", default="", help="a name for another dictionary of the same place, kept beside the first (step 8)")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
@@ -78,10 +80,10 @@ print(f"{flat_train.shape[0]:,} training vectors, {flat.shape[0]:,} held out")
 sae = S.train(flat_train, args.width, args.k, steps=args.steps, seed=args.seed, device=device,
               log=lambda step, loss: print(f"  step {step:5d}  loss {loss:.3f}"))
 os.makedirs("out/sae", exist_ok=True)
-S.save(sae, f"out/sae/{meta['name']}-b{args.block}.pt")
+S.save(sae, S.path(meta["name"], args.block, args.dict))
 rebuild = lambda x: sae(x.float())[0].to(x.dtype)
 
-result = {"model": meta, "block": args.block, "width": args.width, "k": args.k, "steps": args.steps,
+result = {"model": meta, "block": args.block, "width": args.width, "k": args.k, "steps": args.steps, "seed": args.seed,
           "training vectors": flat_train.shape[0], "held-out vectors": flat.shape[0]}
 
 # rebuilds
@@ -363,4 +365,4 @@ for where, by in t["effects"].items():
         f"acting {g(v, 'veto head adds to the acting name'):+.2f}, other {g(v, 'veto head adds to the other name'):+.2f}, "
         f"other largest {pc(g(v, 'other name largest in what the veto head writes'))}%" for v in ("clean", "flipped")))
 
-save(f"runs/sae/sae-{meta['name']}.json", result)
+save(f"runs/sae/sae-{meta['name']}{'-' + args.dict if args.dict else ''}.json", result)
