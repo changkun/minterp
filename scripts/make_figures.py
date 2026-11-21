@@ -289,6 +289,88 @@ def probe_controls():
     save(fig, "probe-controls")
 
 
+def cells(ax, grid, columns, rows, floor=0.03, top=None):
+    """A table of numbers as shaded cells: blue above zero, red below, strength by size."""
+    top = top or np.abs(grid).max()
+    for r in range(grid.shape[0]):
+        for c in range(grid.shape[1]):
+            v = grid[r, c]
+            ax.add_patch(Rectangle((c - 0.5, r - 0.5), 1, 1, facecolor=(BLUE if v >= 0 else RED)[0], alpha=min(1, abs(v) / top) * 0.85, edgecolor="none"))
+            if abs(v) >= floor:
+                ax.text(c, r, f"{v:.2f}", ha="center", va="center", fontsize=7.5, color=INK[0])
+    ax.set_xlim(-0.5, grid.shape[1] - 0.5)
+    ax.set_ylim(grid.shape[0] - 0.5, -0.5)
+    ax.set_xticks(range(len(columns)), columns, fontsize=8)
+    ax.set_yticks(range(len(rows)), rows)
+    ax.tick_params(length=0)
+    for side in ("left", "bottom"):
+        ax.spines[side].set_visible(False)
+
+
+def patch_mean(seed, pick):
+    run = read(f"patch/patch-{seed}")
+    return run, np.mean([pick(t) for t in run["templates"]], axis=0), np.array([pick(t) for t in run["templates"]])
+
+
+def patch_travel():
+    """Step 3: where the acting name and the second name are, by depth and position."""
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 6.6))
+    depths = ["emb"] + [str(i) for i in range(1, 9)]
+    for col, seed in enumerate(SEEDS):
+        run, grid, _ = patch_mean(seed, lambda t: t["travel"]["carry"])
+        keep = [run["travel groups"].index(g) for g in ("A", "B", "S", "S+1", "between", "end")]
+        cells(axes[0][col], grid[:, keep], ["first\nname", "second\nname", "acting\nname", "token\nafter it", "tokens\nbetween", "last\nposition"], depths, top=1)
+        axes[0][col].set_title(f"{seed}: who acts. Clean stream into the flipped run")
+        run, grid, _ = patch_mean(seed, lambda t: t["name"])
+        cells(axes[1][col], grid, ["second\nname", "up to the\nacting name", "acting\nname", "token\nafter it", "tokens\nbetween", "last\nposition"], depths, top=1)
+        axes[1][col].set_title(f"{seed}: the second name. Stream with another name into the clean run")
+        for ax in (axes[0][col], axes[1][col]):
+            ax.set_ylabel("stream after block")
+    fig.tight_layout(h_pad=1.8, w_pad=2.0)
+    save(fig, "patch-travel")
+
+
+def patch_parts():
+    """Step 3: every head and MLP moved from the clean prompt into the flipped run."""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.3))
+    for ax, seed in zip(axes, SEEDS):
+        _, grid, _ = patch_mean(seed, lambda t: t["parts"]["carry"]["all"])
+        cells(ax, grid, [f"head {h}" for h in range(grid.shape[1] - 1)] + ["MLP"], [str(i + 1) for i in range(grid.shape[0])], top=1)
+        ax.axvline(grid.shape[1] - 1.5, color=RULE[0], linewidth=0.8)
+        ax.set_ylabel("block")
+        ax.set_title(f"{seed}: share of the gap that comes along")
+    fig.tight_layout(w_pad=2.5)
+    save(fig, "patch-parts")
+
+
+def patch_choice():
+    """Step 3: the same parts replaced in four ways, on the clean run."""
+    says = {"flipped": "the flipped prompt's", "neutral": "the neutral prompt's", "mean": "the average over prompts", "zero": "nothing"}
+    color = {"flipped": RED[0], "neutral": GREEN[0], "mean": MUTED[0], "zero": INK[0]}
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.9))
+    for ax, seed in zip(axes, SEEDS):
+        run = read(f"patch/patch-{seed}")
+        per = {c: np.array([t["choice"][c] for t in run["templates"]]) for c in run["choices"]}  # (patterns, blocks, heads + 1)
+        size = np.max([np.abs(per[c].mean(0)) for c in run["choices"]], axis=0)
+        size[0, -1] = 0  # block 1's MLP carries the token itself and would set the scale
+        order = np.dstack(np.unravel_index(np.argsort(-size, axis=None), size.shape))[0][:8]
+        for i, (b, h) in enumerate(order):
+            for j, c in enumerate(run["choices"]):
+                y = i + (j - 1.5) * 0.19
+                dots(ax, per[c][:, b, h], np.full(per[c].shape[0], y), color[c], size=3.0)
+                ax.plot([per[c][:, b, h].mean()], [y], marker="|", markersize=9, markeredgewidth=1.6, color=color[c], linestyle="", label=says[c] if i == 0 else None)
+        zero(ax, horizontal=False)
+        heads = size.shape[1] - 1
+        ax.set_yticks(range(len(order)), [f"block {b + 1} " + ("MLP" if h == heads else f"head {h}") for b, h in order], fontsize=8)
+        ax.set_ylim(len(order) - 0.5, -0.5)
+        ax.tick_params(axis="y", length=0)
+        ax.set_xlabel("change of the logit difference on the clean prompts")
+        ax.set_title(seed)
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.13), title="the part's output replaced by", title_fontsize=8.5)
+    fig.tight_layout(w_pad=2.5)
+    save(fig, "patch-choice")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -297,3 +379,6 @@ if __name__ == "__main__":
     probe_end()
     probe_where()
     probe_controls()
+    patch_travel()
+    patch_parts()
+    patch_choice()
