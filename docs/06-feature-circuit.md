@@ -151,6 +151,11 @@ The six that share a latent are the six after which the model goes on with
 which any of them acts. So where both names of a pair are of that kind, the
 head's "two latents" are one, and moving it carries nothing.
 
+[Step 8](08-limits.md) trains a second dictionary for each model and finds
+this table only in part: there the shared latent is the head's first
+choice for six and for five of the names, and the other six names have
+five and four latents between them.
+
 The other six latents are different latents, and in seed0 still mostly not
 latents for one name. By the test of firing on 90% of a name's prompts, seed0's
 latent for Tim also fires for Ben and Jack, the one for Max also for Jack,
