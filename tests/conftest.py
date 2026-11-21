@@ -57,3 +57,4 @@ def model(tok):
 
 
 needs_model = pytest.mark.skipif(not common.has_model("seed0"), reason="train the story model in minllm: uv run scripts/train.py")
+needs_open = pytest.mark.skipif(not common.has_model("qwen"), reason="download the open model in minllm: uv run scripts/download_qwen.py")

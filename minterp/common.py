@@ -22,6 +22,12 @@ MINLLM = os.environ.get("MINLLM_DIR", "../minllm")
 # out/base-seed1` in minllm.
 MODELS = {"seed0": "out/base/ckpt.pt", "seed1": "out/base-seed1/ckpt.pt"}
 
+# A published model of 0.5 billion parameters, for step 8. minllm's stage 5
+# reads its weights and tokenizer into the same Transformer class, so every
+# hook of minterp/tap.py finds the module it names: `uv run
+# scripts/download_qwen.py` in minllm downloads it.
+OPEN = {"qwen": ("data/qwen2.5-0.5b-instruct", "Qwen/Qwen2.5-0.5B-Instruct")}
+
 # The published record. Scripts write to out/runs/ unless MINTERP_RUNS=runs,
 # so that trying a script does not change the numbers the notes quote.
 RESULTS = os.environ.get("MINTERP_RUNS", "out/runs")
@@ -33,12 +39,22 @@ def model_path(name):
 
 
 def has_model(name="seed0"):
+    if name in OPEN:
+        return os.path.exists(os.path.join(MINLLM, OPEN[name][0], "model.safetensors"))
     return os.path.exists(model_path(name)) and os.path.exists(os.path.join(MINLLM, "out/tokenizer.json"))
 
 
 def load(name="seed0", device=None):
     """The model, frozen and in evaluation mode, with its tokenizer."""
     device = device or pick_device()
+    if name in OPEN:
+        from minllm.pretrained import load_model, load_tokenizer
+
+        folder, repo = OPEN[name]
+        model = load_model(os.path.join(MINLLM, folder), device=device).requires_grad_(False)
+        cfg = model.cfg
+        config = {"dim": cfg.dim, "n_layers": cfg.n_layers, "n_heads": cfg.n_heads, "n_kv_heads": cfg.n_kv_heads, "vocab_size": cfg.vocab_size}
+        return model, load_tokenizer(os.path.join(MINLLM, folder)), {"name": name, "repo": repo, "config": config}
     model, ckpt = load_checkpoint(model_path(name), device)
     model.eval().requires_grad_(False)
     tok = Tokenizer.load(os.path.join(MINLLM, "out/tokenizer.json"))
