@@ -1,0 +1,935 @@
+{
+ "model": {
+  "name": "seed1",
+  "step": 6000,
+  "val_loss": 1.4608239859342576,
+  "config": {
+   "vocab_size": 4096,
+   "max_seq_len": 256,
+   "dim": 384,
+   "n_layers": 8,
+   "n_heads": 6,
+   "n_kv_heads": 2,
+   "mlp_dim": 1024,
+   "rope_theta": 10000.0,
+   "norm_eps": 1e-06,
+   "tie_embeddings": true,
+   "qkv_bias": false,
+   "n_experts": 0,
+   "n_active": 2,
+   "rope_scaling": null,
+   "kv_latent": 0,
+   "rope_dim": 32
+  }
+ },
+ "block": 4,
+ "dictionary": "s1",
+ "counts": [1, 2, 4, 8, 16, 32],
+ "veto head": "block 8 head 0",
+ "names that go on with She": [
+  "Lily",
+  "Mia",
+  "Lucy",
+  "Anna",
+  "Sue",
+  "Sara"
+ ],
+ "templates": [
+  {
+   "template": "Once upon a time, {A} and {B} went to the park. {S} gave a toy to",
+   "gap": 6.852961540222168,
+   "parts": {
+    "rebuilt": 0.9791166186332703,
+    "missed": 0.06490536034107208,
+    "both": 1.0272828340530396
+   },
+   "name parts": {
+    "second name": {
+     "rebuilt": 0.06827498227357864,
+     "missed": 0.024701004847884178,
+     "both": 0.09378502517938614
+    },
+    "first name": {
+     "rebuilt": 0.08077501505613327,
+     "missed": 0.030676262453198433,
+     "both": 0.11152169108390808
+    }
+   },
+   "estimate": {
+    "rebuilt": 0.7678012847900391,
+    "missed": 0.05360923707485199,
+    "latents that differ": 46.10606002807617,
+    "on in the clean prompt only": 14.106060981750488,
+    "on in the flipped prompt only": 14.106060981750488,
+    "on in both": 17.893939971923828
+   },
+   "by count": {
+    "estimated": [0.24733182787895203, 0.426024466753006, 0.5901760458946228, 0.6949288249015808, 0.7489508986473083, 0.7658083438873291],
+    "real": [0.2726098597049713, 0.4984879791736603, 0.7013972997665405, 0.8413291573524475, 0.9282925724983215, 0.964297354221344]
+   },
+   "one latent": {
+    "estimated": [1.695, 1.225, 0.748, 0.377, 0.282],
+    "real": [1.868, 1.46, 0.871, 0.424, 0.313],
+    "correlation": 0.9814138412475586,
+    "same sign": 1.0
+   },
+   "pairs": {
+    "both She": {
+     "prompts": 30,
+     "gap": 1.0773833990097046
+    },
+    "both He": {
+     "prompts": 30,
+     "gap": 5.955998420715332
+    },
+    "one of each": {
+     "prompts": 72,
+     "gap": 9.633188247680664
+    }
+   },
+   "names": {
+    "step 5's latents": {
+     "moved for real": 0.2178501933813095,
+     "estimated": 0.19847746193408966,
+     "the highest is one of them": 0.3863636255264282,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.35777053236961365,
+       "the highest is one of them": 0.4000000059604645
+      },
+      "both He": {
+       "moved for real": 0.40219390392303467,
+       "the highest is one of them": 0.8333333134651184
+      },
+      "one of each": {
+       "moved for real": 0.1638398915529251,
+       "the highest is one of them": 0.1944444477558136
+      }
+     }
+    },
+    "the head's latents": {
+     "moved for real": 0.4421669542789459,
+     "estimated": 0.3740013539791107,
+     "the highest is one of them": 0.7196969985961914,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.3015434741973877,
+       "the highest is one of them": 0.3333333432674408
+      },
+      "both He": {
+       "moved for real": 0.3362709581851959,
+       "the highest is one of them": 0.699999988079071
+      },
+      "one of each": {
+       "moved for real": 0.47600051760673523,
+       "the highest is one of them": 0.8888888955116272
+      }
+     }
+    }
+   },
+   "head": {
+    "by kind of the acting name": {
+     "She": {
+      "prompts": 66,
+      "against the nine": -1.160488486289978,
+      "against its own kind": -0.24045373499393463,
+      "its own kind against the other": -1.7128465175628662
+     },
+     "He": {
+      "prompts": 66,
+      "against the nine": -1.6634975671768188,
+      "against its own kind": -1.1163711547851562,
+      "its own kind against the other": -1.041351318359375
+     }
+    },
+    "the shared latent switched off, where a She name acts": {
+     "the acting name against the nine": 0.5991399884223938,
+     "estimated": 0.612758457660675,
+     "the acting name against its own kind": -0.0032330742105841637,
+     "its own kind against the other": 1.1195564270019531
+    },
+    "adds to the acting name": -1.4119930267333984,
+    "estimated to rest on": {
+     "the latents at the acting name": -0.9872681498527527,
+     "what the dictionary misses there": 0.06924106925725937,
+     "the other positions": 0.16621281206607819,
+     "its highest latent": -0.7748492360115051,
+     "the latents below zero": -1.5695526599884033,
+     "the latents above zero": 0.5822844505310059
+    },
+    "really lost when switched off": {
+     "its highest latent": -0.7819971442222595,
+     "all latents at the acting name": -0.884129524230957
+    },
+    "its highest latent is the head's latent for the name": 0.9469696879386902,
+    "the other name": {
+     "adds": 0.3580563962459564,
+     "adds, same kind": -0.4302319288253784,
+     "adds, other kind": 1.0149633884429932,
+     "estimated to rest on the latents at the acting name": 0.2823253571987152,
+     "really lost when all latents there are switched off": 1.0300034284591675,
+     "its highest latent, size": 0.6174696683883667,
+     "its highest latent, same kind": -0.40871572494506836,
+     "its highest latent, other kind": 0.7004063725471497
+    }
+   }
+  },
+  {
+   "template": "One day, {A} and {B} were playing in the garden. {S} said hello to",
+   "gap": 7.530083656311035,
+   "parts": {
+    "rebuilt": 0.9923324584960938,
+    "missed": 0.027453847229480743,
+    "both": 1.0275956392288208
+   },
+   "name parts": {
+    "second name": {
+     "rebuilt": 0.07910188287496567,
+     "missed": 0.02211511693894863,
+     "both": 0.10010971873998642
+    },
+    "first name": {
+     "rebuilt": 0.1005239337682724,
+     "missed": 0.025308871641755104,
+     "both": 0.12439784407615662
+    }
+   },
+   "estimate": {
+    "rebuilt": 0.8352567553520203,
+    "missed": 0.020283525809645653,
+    "latents that differ": 45.121212005615234,
+    "on in the clean prompt only": 13.121212005615234,
+    "on in the flipped prompt only": 13.121212005615234,
+    "on in both": 18.878787994384766
+   },
+   "by count": {
+    "estimated": [0.26664096117019653, 0.4657791256904602, 0.6306523680686951, 0.7460784912109375, 0.8107636570930481, 0.8340129256248474],
+    "real": [0.28583189845085144, 0.5288807153701782, 0.7175599336624146, 0.8711674809455872, 0.9461281299591064, 0.9843323230743408]
+   },
+   "one latent": {
+    "estimated": [2.008, 1.5, 0.779, 0.463, 0.32],
+    "real": [2.152, 1.731, 0.826, 0.493, 0.33],
+    "correlation": 0.9875535368919373,
+    "same sign": 1.0
+   },
+   "pairs": {
+    "both She": {
+     "prompts": 30,
+     "gap": 0.9525108337402344
+    },
+    "both He": {
+     "prompts": 30,
+     "gap": 6.1457672119140625
+    },
+    "one of each": {
+     "prompts": 72,
+     "gap": 10.847537994384766
+    }
+   },
+   "names": {
+    "step 5's latents": {
+     "moved for real": 0.18007488548755646,
+     "estimated": 0.16791632771492004,
+     "the highest is one of them": 0.35606059432029724,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.37441977858543396,
+       "the highest is one of them": 0.4000000059604645
+      },
+      "both He": {
+       "moved for real": 0.36074912548065186,
+       "the highest is one of them": 0.8333333134651184
+      },
+      "one of each": {
+       "moved for real": 0.13031335175037384,
+       "the highest is one of them": 0.1388888955116272
+      }
+     }
+    },
+    "the head's latents": {
+     "moved for real": 0.45217806100845337,
+     "estimated": 0.40165358781814575,
+     "the highest is one of them": 0.6969696879386902,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.3297154903411865,
+       "the highest is one of them": 0.3333333432674408
+      },
+      "both He": {
+       "moved for real": 0.30477669835090637,
+       "the highest is one of them": 0.6666666865348816
+      },
+      "one of each": {
+       "moved for real": 0.4914550185203552,
+       "the highest is one of them": 0.8611111044883728
+      }
+     }
+    }
+   },
+   "head": {
+    "by kind of the acting name": {
+     "She": {
+      "prompts": 66,
+      "against the nine": -0.9752567410469055,
+      "against its own kind": -0.1916869580745697,
+      "its own kind against the other": -1.469712257385254
+     },
+     "He": {
+      "prompts": 66,
+      "against the nine": -1.494243860244751,
+      "against its own kind": -1.0081887245178223,
+      "its own kind against the other": -0.9309135675430298
+     }
+    },
+    "the shared latent switched off, where a She name acts": {
+     "the acting name against the nine": 0.6034797430038452,
+     "estimated": 0.5748407244682312,
+     "the acting name against its own kind": -0.012880882248282433,
+     "its own kind against the other": 1.1362707614898682
+    },
+    "adds to the acting name": -1.2347503900527954,
+    "estimated to rest on": {
+     "the latents at the acting name": -0.8314447999000549,
+     "what the dictionary misses there": 0.04530932009220123,
+     "the other positions": 0.0005100058042444289,
+     "its highest latent": -0.7143527865409851,
+     "the latents below zero": -1.3842066526412964,
+     "the latents above zero": 0.5527617931365967
+    },
+    "really lost when switched off": {
+     "its highest latent": -0.7575678825378418,
+     "all latents at the acting name": -1.1175411939620972
+    },
+    "its highest latent is the head's latent for the name": 0.9318181872367859,
+    "the other name": {
+     "adds": 0.41554516553878784,
+     "adds, same kind": -0.25767379999160767,
+     "adds, other kind": 0.9765608906745911,
+     "estimated to rest on the latents at the acting name": 0.11396544426679611,
+     "really lost when all latents there are switched off": 0.7395344972610474,
+     "its highest latent, size": 0.5807026028633118,
+     "its highest latent, same kind": -0.4817659258842468,
+     "its highest latent, other kind": 0.5938056111335754
+    }
+   }
+  },
+  {
+   "template": "Once there were two friends, {A} and {B}. One day, {S} gave a big hug to",
+   "gap": 5.516167640686035,
+   "parts": {
+    "rebuilt": 1.017409324645996,
+    "missed": 0.049090951681137085,
+    "both": 1.0712461471557617
+   },
+   "name parts": {
+    "second name": {
+     "rebuilt": 0.050735391676425934,
+     "missed": 0.02343878336250782,
+     "both": 0.07376835495233536
+    },
+    "first name": {
+     "rebuilt": 0.05959611013531685,
+     "missed": 0.02225743979215622,
+     "both": 0.08165385574102402
+    }
+   },
+   "estimate": {
+    "rebuilt": 0.9632568359375,
+    "missed": 0.04242314398288727,
+    "latents that differ": 43.31060791015625,
+    "on in the clean prompt only": 11.310606002807617,
+    "on in the flipped prompt only": 11.310606002807617,
+    "on in both": 20.689393997192383
+   },
+   "by count": {
+    "estimated": [0.29894107580184937, 0.5224930644035339, 0.726179838180542, 0.8596934676170349, 0.9348067045211792, 0.9623444676399231],
+    "real": [0.30638498067855835, 0.5432742238044739, 0.758574366569519, 0.9062544703483582, 0.9769542217254639, 1.0084630250930786]
+   },
+   "one latent": {
+    "estimated": [1.649, 1.233, 0.732, 0.392, 0.265],
+    "real": [1.69, 1.325, 0.779, 0.404, 0.276],
+    "correlation": 0.9932599067687988,
+    "same sign": 1.0
+   },
+   "pairs": {
+    "both She": {
+     "prompts": 30,
+     "gap": 0.7390170097351074
+    },
+    "both He": {
+     "prompts": 30,
+     "gap": 4.685808181762695
+    },
+    "one of each": {
+     "prompts": 72,
+     "gap": 7.852629661560059
+    }
+   },
+   "names": {
+    "step 5's latents": {
+     "moved for real": 0.2405635565519333,
+     "estimated": 0.23209351301193237,
+     "the highest is one of them": 0.3787878751754761,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.4565957486629486,
+       "the highest is one of them": 0.4000000059604645
+      },
+      "both He": {
+       "moved for real": 0.45255011320114136,
+       "the highest is one of them": 0.8333333134651184
+      },
+      "one of each": {
+       "moved for real": 0.17938557267189026,
+       "the highest is one of them": 0.1805555522441864
+      }
+     }
+    },
+    "the head's latents": {
+     "moved for real": 0.4848146438598633,
+     "estimated": 0.4594360291957855,
+     "the highest is one of them": 0.7348484992980957,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.3589390516281128,
+       "the highest is one of them": 0.3333333432674408
+      },
+      "both He": {
+       "moved for real": 0.37506213784217834,
+       "the highest is one of them": 0.699999988079071
+      },
+      "one of each": {
+       "moved for real": 0.5170386433601379,
+       "the highest is one of them": 0.9166666865348816
+      }
+     }
+    }
+   },
+   "head": {
+    "by kind of the acting name": {
+     "She": {
+      "prompts": 66,
+      "against the nine": -1.3234672546386719,
+      "against its own kind": -0.24409881234169006,
+      "its own kind against the other": -2.0118110179901123
+     },
+     "He": {
+      "prompts": 66,
+      "against the nine": -1.7334580421447754,
+      "against its own kind": -1.211885690689087,
+      "its own kind against the other": -0.9925783276557922
+     }
+    },
+    "the shared latent switched off, where a She name acts": {
+     "the acting name against the nine": 0.6685958504676819,
+     "estimated": 0.6469424366950989,
+     "the acting name against its own kind": -0.012607766315340996,
+     "its own kind against the other": 1.2556813955307007
+    },
+    "adds to the acting name": -1.528462529182434,
+    "estimated to rest on": {
+     "the latents at the acting name": -1.0445833206176758,
+     "what the dictionary misses there": 0.0019485349766910076,
+     "the other positions": 0.08655110001564026,
+     "its highest latent": -0.8054870963096619,
+     "the latents below zero": -1.6155381202697754,
+     "the latents above zero": 0.5709548592567444
+    },
+    "really lost when switched off": {
+     "its highest latent": -0.8397716879844666,
+     "all latents at the acting name": -1.069387435913086
+    },
+    "its highest latent is the head's latent for the name": 0.939393937587738,
+    "the other name": {
+     "adds": 0.3449874520301819,
+     "adds, same kind": -0.5093267560005188,
+     "adds, other kind": 1.0569158792495728,
+     "estimated to rest on the latents at the acting name": 0.16414518654346466,
+     "really lost when all latents there are switched off": 0.7395217418670654,
+     "its highest latent, size": 0.6299018263816833,
+     "its highest latent, same kind": -0.5099012851715088,
+     "its highest latent, other kind": 0.6478537917137146
+    }
+   }
+  },
+  {
+   "template": "One sunny day, {A} and {B} had a red ball. {S} threw the ball to",
+   "gap": 9.611797332763672,
+   "parts": {
+    "rebuilt": 0.9949878454208374,
+    "missed": 0.05404098331928253,
+    "both": 1.020910620689392
+   },
+   "name parts": {
+    "second name": {
+     "rebuilt": 0.08044550567865372,
+     "missed": 0.03070724755525589,
+     "both": 0.11099905520677567
+    },
+    "first name": {
+     "rebuilt": 0.12142527848482132,
+     "missed": 0.038095299154520035,
+     "both": 0.15841345489025116
+    }
+   },
+   "estimate": {
+    "rebuilt": 0.7605738043785095,
+    "missed": 0.04248287156224251,
+    "latents that differ": 46.45454406738281,
+    "on in the clean prompt only": 14.454545021057129,
+    "on in the flipped prompt only": 14.454545021057129,
+    "on in both": 17.545454025268555
+   },
+   "by count": {
+    "estimated": [0.25450265407562256, 0.4313776195049286, 0.5880480408668518, 0.6766056418418884, 0.7362526655197144, 0.759577751159668],
+    "real": [0.28296080231666565, 0.5391820669174194, 0.735385537147522, 0.8698554635047913, 0.9490360617637634, 0.9854470491409302]
+   },
+   "one latent": {
+    "estimated": [2.446, 1.7, 1.01, 0.496, 0.311],
+    "real": [2.72, 2.181, 1.158, 0.558, 0.343],
+    "correlation": 0.9764075875282288,
+    "same sign": 1.0
+   },
+   "pairs": {
+    "both She": {
+     "prompts": 30,
+     "gap": 1.4004950523376465
+    },
+    "both He": {
+     "prompts": 30,
+     "gap": 7.737469673156738
+    },
+    "one of each": {
+     "prompts": 72,
+     "gap": 13.814143180847168
+    }
+   },
+   "names": {
+    "step 5's latents": {
+     "moved for real": 0.1997905820608139,
+     "estimated": 0.17886009812355042,
+     "the highest is one of them": 0.3636363744735718,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.3624904751777649,
+       "the highest is one of them": 0.36666667461395264
+      },
+      "both He": {
+       "moved for real": 0.40198248624801636,
+       "the highest is one of them": 0.8333333134651184
+      },
+      "one of each": {
+       "moved for real": 0.14573022723197937,
+       "the highest is one of them": 0.1666666716337204
+      }
+     }
+    },
+    "the head's latents": {
+     "moved for real": 0.4632035493850708,
+     "estimated": 0.37138137221336365,
+     "the highest is one of them": 0.6818181872367859,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.29716336727142334,
+       "the highest is one of them": 0.30000001192092896
+      },
+      "both He": {
+       "moved for real": 0.33004558086395264,
+       "the highest is one of them": 0.6333333253860474
+      },
+      "one of each": {
+       "moved for real": 0.5012938380241394,
+       "the highest is one of them": 0.8611111044883728
+      }
+     }
+    }
+   },
+   "head": {
+    "by kind of the acting name": {
+     "She": {
+      "prompts": 66,
+      "against the nine": -1.404197335243225,
+      "against its own kind": -0.2549237012863159,
+      "its own kind against the other": -2.13157057762146
+     },
+     "He": {
+      "prompts": 66,
+      "against the nine": -2.064406156539917,
+      "against its own kind": -1.3822300434112549,
+      "its own kind against the other": -1.2982330322265625
+     }
+    },
+    "the shared latent switched off, where a She name acts": {
+     "the acting name against the nine": 0.8645927906036377,
+     "estimated": 0.7967996597290039,
+     "the acting name against its own kind": -0.03064913861453533,
+     "its own kind against the other": 1.637184500694275
+    },
+    "adds to the acting name": -1.7343016862869263,
+    "estimated to rest on": {
+     "the latents at the acting name": -1.1287708282470703,
+     "what the dictionary misses there": 0.09115482121706009,
+     "the other positions": 0.1398489624261856,
+     "its highest latent": -0.9303465485572815,
+     "the latents below zero": -1.8215657472610474,
+     "the latents above zero": 0.6927948594093323
+    },
+    "really lost when switched off": {
+     "its highest latent": -1.0186477899551392,
+     "all latents at the acting name": -1.618849515914917
+    },
+    "its highest latent is the head's latent for the name": 0.9545454382896423,
+    "the other name": {
+     "adds": 0.47303664684295654,
+     "adds, same kind": -0.5061541795730591,
+     "adds, other kind": 1.2890288829803467,
+     "estimated to rest on the latents at the acting name": 0.15678955614566803,
+     "really lost when all latents there are switched off": 1.1532883644104004,
+     "its highest latent, size": 0.7635971903800964,
+     "its highest latent, same kind": -0.6633194088935852,
+     "its highest latent, other kind": 0.7593943476676941
+    }
+   }
+  },
+  {
+   "template": "One morning, {A} and {B} went to the zoo. {S} showed the map to",
+   "gap": 7.939970016479492,
+   "parts": {
+    "rebuilt": 0.9897028207778931,
+    "missed": 0.04526694118976593,
+    "both": 1.0340622663497925
+   },
+   "name parts": {
+    "second name": {
+     "rebuilt": 0.08266410231590271,
+     "missed": 0.022514859214425087,
+     "both": 0.10540453344583511
+    },
+    "first name": {
+     "rebuilt": 0.08326035737991333,
+     "missed": 0.03044162504374981,
+     "both": 0.11317119002342224
+    }
+   },
+   "estimate": {
+    "rebuilt": 0.7042589783668518,
+    "missed": 0.03600236028432846,
+    "latents that differ": 46.628787994384766,
+    "on in the clean prompt only": 14.628787994384766,
+    "on in the flipped prompt only": 14.628787994384766,
+    "on in both": 17.371212005615234
+   },
+   "by count": {
+    "estimated": [0.21038013696670532, 0.36662203073501587, 0.5179279446601868, 0.6230815649032593, 0.6812939643859863, 0.7034106254577637],
+    "real": [0.24940931797027588, 0.4663648307323456, 0.6683575510978699, 0.8269604444503784, 0.9164407849311829, 0.9729952812194824]
+   },
+   "one latent": {
+    "estimated": [1.67, 1.241, 0.743, 0.458, 0.315],
+    "real": [1.98, 1.566, 0.881, 0.52, 0.352],
+    "correlation": 0.9726904034614563,
+    "same sign": 1.0
+   },
+   "pairs": {
+    "both She": {
+     "prompts": 30,
+     "gap": 1.1000144481658936
+    },
+    "both He": {
+     "prompts": 30,
+     "gap": 6.769295692443848
+    },
+    "one of each": {
+     "prompts": 72,
+     "gap": 11.277732849121094
+    }
+   },
+   "names": {
+    "step 5's latents": {
+     "moved for real": 0.18375247716903687,
+     "estimated": 0.16474387049674988,
+     "the highest is one of them": 0.3863636255264282,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.30723440647125244,
+       "the highest is one of them": 0.36666667461395264
+      },
+      "both He": {
+       "moved for real": 0.3440876603126526,
+       "the highest is one of them": 0.800000011920929
+      },
+      "one of each": {
+       "moved for real": 0.13863448798656464,
+       "the highest is one of them": 0.2222222238779068
+      }
+     }
+    },
+    "the head's latents": {
+     "moved for real": 0.4122527539730072,
+     "estimated": 0.3190217912197113,
+     "the highest is one of them": 0.7045454382896423,
+     "by pair": {
+      "both She": {
+       "moved for real": 0.2890610694885254,
+       "the highest is one of them": 0.3333333432674408
+      },
+      "both He": {
+       "moved for real": 0.2863594889640808,
+       "the highest is one of them": 0.6333333253860474
+      },
+      "one of each": {
+       "moved for real": 0.4487450122833252,
+       "the highest is one of them": 0.8888888955116272
+      }
+     }
+    }
+   },
+   "head": {
+    "by kind of the acting name": {
+     "She": {
+      "prompts": 66,
+      "against the nine": -1.1348536014556885,
+      "against its own kind": -0.22449210286140442,
+      "its own kind against the other": -1.6913942098617554
+     },
+     "He": {
+      "prompts": 66,
+      "against the nine": -1.6350300312042236,
+      "against its own kind": -1.0681084394454956,
+      "its own kind against the other": -1.0800573825836182
+     }
+    },
+    "the shared latent switched off, where a She name acts": {
+     "the acting name against the nine": 0.6178559064865112,
+     "estimated": 0.5948668718338013,
+     "the acting name against its own kind": -0.023056775331497192,
+     "its own kind against the other": 1.1784284114837646
+    },
+    "adds to the acting name": -1.384941816329956,
+    "estimated to rest on": {
+     "the latents at the acting name": -0.9836814403533936,
+     "what the dictionary misses there": 0.12338139861822128,
+     "the other positions": 0.056612491607666016,
+     "its highest latent": -0.7655661106109619,
+     "the latents below zero": -1.5962207317352295,
+     "the latents above zero": 0.6125392913818359
+    },
+    "really lost when switched off": {
+     "its highest latent": -0.8033758997917175,
+     "all latents at the acting name": -1.185214877128601
+    },
+    "its highest latent is the head's latent for the name": 0.9318181872367859,
+    "the other name": {
+     "adds": 0.359131395816803,
+     "adds, same kind": -0.4282948672771454,
+     "adds, other kind": 1.015320062637329,
+     "estimated to rest on the latents at the acting name": 0.19191335141658783,
+     "really lost when all latents there are switched off": 0.9141757488250732,
+     "its highest latent, size": 0.6071359515190125,
+     "its highest latent, same kind": -0.4555877149105072,
+     "its highest latent, other kind": 0.6522839665412903
+    }
+   }
+  }
+ ],
+ "names": [
+  {
+   "name": "Lily",
+   "step 5's latent": 424,
+   "the head's latent": 1301,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 1,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ]
+  },
+  {
+   "name": "Tom",
+   "step 5's latent": 3499,
+   "the head's latent": 2032,
+   "the head rests on it most in": 0.5727272629737854,
+   "on a pattern left out": 0.5727272629737854,
+   "latents that mark the name by firing": 0,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": false,
+   "names for which the head's latent fires on 90% or more": [
+    "Tom",
+    "Tim",
+    "Ben",
+    "Sam",
+    "Max",
+    "Jack"
+   ]
+  },
+  {
+   "name": "Tim",
+   "step 5's latent": 55,
+   "the head's latent": 55,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 1,
+   "the head's latent marks the name by firing": true,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Tim"
+   ]
+  },
+  {
+   "name": "Ben",
+   "step 5's latent": 1667,
+   "the head's latent": 2032,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 0,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": false,
+   "names for which the head's latent fires on 90% or more": [
+    "Tom",
+    "Tim",
+    "Ben",
+    "Sam",
+    "Max",
+    "Jack"
+   ]
+  },
+  {
+   "name": "Mia",
+   "step 5's latent": 752,
+   "the head's latent": 1301,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 0,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": false,
+   "names for which the head's latent fires on 90% or more": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ]
+  },
+  {
+   "name": "Sam",
+   "step 5's latent": 705,
+   "the head's latent": 705,
+   "the head rests on it most in": 0.9363636374473572,
+   "on a pattern left out": 0.9363636255264283,
+   "latents that mark the name by firing": 1,
+   "the head's latent marks the name by firing": true,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Sam"
+   ]
+  },
+  {
+   "name": "Lucy",
+   "step 5's latent": 212,
+   "the head's latent": 1301,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 2,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ]
+  },
+  {
+   "name": "Max",
+   "step 5's latent": 179,
+   "the head's latent": 179,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 2,
+   "the head's latent marks the name by firing": true,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Max"
+   ]
+  },
+  {
+   "name": "Anna",
+   "step 5's latent": 495,
+   "the head's latent": 495,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 0,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": false,
+   "names for which the head's latent fires on 90% or more": [
+    "Anna",
+    "Sara"
+   ]
+  },
+  {
+   "name": "Sue",
+   "step 5's latent": 752,
+   "the head's latent": 1301,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 0,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": false,
+   "names for which the head's latent fires on 90% or more": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ]
+  },
+  {
+   "name": "Jack",
+   "step 5's latent": 1884,
+   "the head's latent": 2032,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 3,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Tom",
+    "Tim",
+    "Ben",
+    "Sam",
+    "Max",
+    "Jack"
+   ]
+  },
+  {
+   "name": "Sara",
+   "step 5's latent": 230,
+   "the head's latent": 1301,
+   "the head rests on it most in": 1.0,
+   "on a pattern left out": 1.0,
+   "latents that mark the name by firing": 1,
+   "the head's latent marks the name by firing": false,
+   "step 5's latent marks the name by firing": true,
+   "names for which the head's latent fires on 90% or more": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ]
+  }
+ ],
+ "one latent for the six": [495, 1301],
+ "the shared latent": 1301
+}
