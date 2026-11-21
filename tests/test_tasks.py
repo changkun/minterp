@@ -37,6 +37,13 @@ def test_the_three_versions_differ_in_one_token(tok, people):
         assert offsets == set(range(1, len(people)))
         counts = [sum(c == n for _, _, c in batch.names) for n in people]
         assert max(counts) - min(counts) <= 2
+        # The fourth version differs from the clean one at the second name only, and has C there.
+        differs = batch.other != batch.clean
+        assert differs[:, batch.pos["B"]].all() and differs.sum() == n
+        assert (batch.other[:, batch.pos["B"]] == batch.third).all()
+        differs = batch.other_first != batch.flipped
+        assert differs[:, batch.pos["A"]].all() and differs.sum() == n
+        assert (batch.other_first[:, batch.pos["A"]] == batch.third).all()
         assert [batch.labels[batch.pos[k]] for k in ("A", "B", "S")] == ["A", "B", "S"]
         assert len(batch.labels) == batch.clean.shape[1]
 

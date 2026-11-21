@@ -16,6 +16,11 @@ acts (S):
     flipped   S = B, the second name     the answer is A
     neutral   S = C, a third name        neither A nor B is due more
 
+Two more versions change a name and leave who acts alone. `other` is the
+clean prompt with the third name C in place of B, and `other_first` is the
+flipped prompt with C in place of A. In both, C is due. They show which way
+a name travels, where the first three show which way "who acts" travels.
+
 Each prompt begins with the token that opens every story in the training
 data, as the stories the model saw did.
 
@@ -56,8 +61,11 @@ class Batch:
     clean: torch.Tensor  # (prompts, seq) token ids
     flipped: torch.Tensor
     neutral: torch.Tensor
+    other: torch.Tensor  # the clean prompt with C in place of B
+    other_first: torch.Tensor  # the flipped prompt with C in place of A
     right: torch.Tensor  # (prompts,) the id of B, the answer to the clean prompt
     wrong: torch.Tensor  # (prompts,) the id of A
+    third: torch.Tensor  # (prompts,) the id of C
     pos: dict  # where A, B and S stand, and "end", the last position
     labels: list  # one string per position: the token, or A, B, S
 
@@ -78,7 +86,7 @@ def build(tok, template, people, device="cpu"):
     def encode(a, b, s):
         return [start] + tok.encode_ordinary(template.format(A=a, B=b, S=s))
 
-    triples, clean, flipped, neutral = [], [], [], []
+    triples, clean, flipped, neutral, other, other_first = [], [], [], [], [], []
     for k, (a, b) in enumerate(itertools.permutations(people, 2)):
         # A third name, taken in turn from the other names, so that which
         # name it is does not depend on A or on B.
@@ -88,7 +96,9 @@ def build(tok, template, people, device="cpu"):
         clean.append(encode(a, b, a))
         flipped.append(encode(a, b, b))
         neutral.append(encode(a, b, c))
-    assert len({len(p) for p in clean + flipped + neutral}) == 1, "a name is more than one token"
+        other.append(encode(a, c, a))
+        other_first.append(encode(c, b, b))
+    assert len({len(p) for p in clean + flipped + neutral + other + other_first}) == 1, "a name is more than one token"
 
     a, b, _ = triples[0]
     first = clean[0]
@@ -102,9 +112,9 @@ def build(tok, template, people, device="cpu"):
 
     ids = lambda rows: torch.tensor(rows, device=device)
     return Batch(
-        template, triples, ids(clean), ids(flipped), ids(neutral),
+        template, triples, ids(clean), ids(flipped), ids(neutral), ids(other), ids(other_first),
         right=ids([ident[b] for _, b, _ in triples]), wrong=ids([ident[a] for a, _, _ in triples]),
-        pos=pos, labels=labels,
+        third=ids([ident[c] for _, _, c in triples]), pos=pos, labels=labels,
     )
 
 
