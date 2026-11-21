@@ -37,7 +37,7 @@ is read from. Steps without a link are not written yet.
 | 4 | [Circuit](docs/04-circuit.md) | These parts do it, in this way | What the heads found in steps 1 and 3 read and write, which of them works through which, and the set moved together against the other heads and against random sets |
 | 5 | [Features](docs/05-features.md) | These are the units | A sparse autoencoder on the stream: what it rebuilds, what it costs the model, what its latents fire on, and whether it has a unit for what the mechanism of step 4 uses |
 | 6 | [Feature circuit](docs/06-feature-circuit.md) | The mechanism in those units | The answer attributed to latents by a gradient, checked by moving them for real, and set beside the veto head of step 4 |
-| 7 | Steer | The description is good enough to change the behavior | Directions from steps 2, 3 and 5 added while the model writes: the dose, the effect, and the damage elsewhere |
+| 7 | [Steer](docs/07-steer.md) | The description is good enough to change the behavior | Directions from steps 2, 3 and 6 added to the stream at one position: the dose, the controls, the effect, and what else changes |
 | 8 | Limits | This much holds for another model | What held in both models through the first seven steps, a second dictionary, and the same task in an open model of 0.5 billion parameters |
 | 9 | The practitioner's stack | | Each piece mapped to the library people use for it |
 
