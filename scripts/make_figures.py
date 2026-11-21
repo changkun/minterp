@@ -192,8 +192,108 @@ def versions():
     save(fig, "read-versions")
 
 
+ROLE_NAMES = {"A": "first\nname", "B": "second\nname", "S": "acting\nname", "S+1": "the token\nafter it", "end": "last\nposition"}
+
+
+def probe_run(seed):
+    run = read(f"probe/probe-{seed}")
+    roles, targets = run["roles"], run["targets"]
+    pick = lambda rule, target, role: np.array(run[rule]["accuracy"])[:, :, :, roles.index(role), targets.index(target)]
+    return run, pick  # pick(...) is (folds, versions, depth)
+
+
+def percent(ax, k):
+    ax.set_ylim(-3, 103)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.axhline(100 / k, color=RULE[0], linewidth=0.8, zorder=0)
+
+
+def depth_axis(ax, depth):
+    ax.set_xticks(range(depth), ["emb"] + [str(i) for i in range(1, depth)])
+    ax.set_xlabel("stream after block")
+
+
+def probe_end():
+    """Step 2: the due name at the last position, by a trained reader and by the lens."""
+    rng = np.random.default_rng(0)
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.3), sharey=True)
+    for ax, seed in zip(axes, SEEDS):
+        run, pick = probe_run(seed)
+        reader, lens_acc = 100 * pick("new", "due", "end"), 100 * np.array(run["new"]["lens"])
+        depth = reader.shape[2]
+        for v, version in enumerate(VERSIONS[:2]):
+            color = COLOR[version][0]
+            for d in range(depth):
+                dots(ax, d + rng.uniform(-0.12, 0.12, reader.shape[0]), reader[:, v, d], color, size=3.2)
+            ax.plot(range(depth), reader[:, v].mean(0), color=color, linewidth=1.6, label=f"reader, {version} prompts")
+            ax.plot(range(depth), lens_acc[:, v].mean(0), color=color, linewidth=1.3, linestyle=(0, (4, 2)), label=f"lens, {version} prompts")
+        percent(ax, len(run["names"]))
+        depth_axis(ax, depth)
+        ax.set_title(seed)
+    axes[0].set_ylabel("due name right, percent of test prompts")
+    handles, names = axes[0].get_legend_handles_labels()
+    handles.append(plt.Line2D([], [], marker="o", linestyle="", markersize=3.5, color=MUTED[0]))
+    names.append("one held-out pattern")
+    fig.legend(handles, names, loc="lower center", ncol=5, bbox_to_anchor=(0.5, -0.1), columnspacing=1.2, handlelength=1.8)
+    fig.tight_layout()
+    save(fig, "probe-end")
+
+
+def probe_where():
+    """Step 2: where the due name can be read: depth by position, the worse of the two versions."""
+    fig, axes = plt.subplots(1, 2, figsize=(9.2, 3.5))
+    for ax, seed in zip(axes, SEEDS):
+        run, pick = probe_run(seed)
+        roles = run["roles"]
+        grid = np.stack([100 * pick("new", "due", r).mean(0).min(0) for r in roles], axis=1)  # (depth, roles)
+        for d in range(grid.shape[0]):
+            for c in range(grid.shape[1]):
+                ax.add_patch(Rectangle((c - 0.5, d - 0.5), 1, 1, facecolor=BLUE[0], alpha=0.85 * grid[d, c] / 100, edgecolor="none"))
+                ax.text(c, d, f"{grid[d, c]:.0f}", ha="center", va="center", fontsize=8, color=INK[0])
+        ax.set_xlim(-0.5, len(roles) - 0.5)
+        ax.set_ylim(grid.shape[0] - 0.5, -0.5)
+        ax.set_xticks(range(len(roles)), [ROLE_NAMES[r] for r in roles], fontsize=8)
+        ax.set_yticks(range(grid.shape[0]), ["emb"] + [str(i) for i in range(1, grid.shape[0])])
+        ax.set_ylabel("stream after block")
+        ax.tick_params(length=0)
+        for side in ("left", "bottom"):
+            ax.spines[side].set_visible(False)
+        ax.set_title(f"{seed}: due name right, percent, the worse version")
+    fig.tight_layout(w_pad=2.5)
+    save(fig, "probe-where")
+
+
+def probe_controls():
+    """Step 2: what a reader scores on pairs it trained on, for the due name and for a made-up label."""
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 5.6), sharey=True)
+    for row, seed in zip(axes, SEEDS):
+        run, pick = probe_run(seed)
+        depth = len(run["new"]["lens"][0][0])
+        ax = row[0]
+        for rule, style, says in (("seen", "-", "tested on pairs it trained on"), ("new", (0, (4, 2)), "tested on new pairs")):
+            ax.plot(range(depth), 100 * pick(rule, "due", "S").mean(0).min(0), color=BLUE[0], linewidth=1.6, linestyle=style, marker="o", markersize=3, label=says)
+        ax.set_title(f"{seed}: the due name at the acting name")
+        ax = row[1]
+        for role, color in (("B", RED[0]), ("S", BLUE[0]), ("end", GREEN[0])):
+            ax.plot(range(depth), 100 * pick("seen", "control", role).mean((0, 1)), color=color, linewidth=1.6, marker="o", markersize=3,
+                    label=f"at the {ROLE_NAMES[role].replace(chr(10), ' ')}, pairs it trained on")
+        ax.plot(range(depth), 100 * pick("new", "control", "B").mean((0, 1)), color=RED[0], linewidth=1.3, linestyle=(0, (4, 2)), label="at the second name, new pairs")
+        ax.set_title(f"{seed}: a made-up label, a random name per pair")
+        for ax in row:
+            percent(ax, len(run["names"]))
+            depth_axis(ax, depth)
+        row[0].set_ylabel("right, percent of test prompts")
+    axes[0][0].legend(loc="upper left")
+    axes[0][1].legend(loc="upper right", fontsize=7.5)
+    fig.tight_layout(h_pad=1.6)
+    save(fig, "probe-controls")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
     attribution()
     versions()
+    probe_end()
+    probe_where()
+    probe_controls()
