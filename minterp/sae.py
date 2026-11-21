@@ -89,6 +89,11 @@ def train(vectors, width, k, steps=4000, batch=4096, lr=4e-4, seed=0, device="cp
     return sae.eval().requires_grad_(False)
 
 
+def path(model, block, tag=""):
+    """Where a dictionary for one model and depth is kept. A tag names another dictionary for the same place."""
+    return f"out/sae/{model}-b{block}{'-' + tag if tag else ''}.pt"
+
+
 @torch.no_grad()
 def unexplained(sae, vectors, batch=8192):
     """The share of the vectors' variance that the rebuilt vectors miss: 0 is perfect, 1 is no better than the mean."""
