@@ -33,7 +33,7 @@ is read from. Steps without a link are not written yet.
 |---|---|---|---|
 | 1 | [Read](docs/01-read.md) | The answer is visible here | The task and its measure, hooks that record the stream, the stream decoded after every block, and the final answer split into what each head and MLP wrote |
 | 2 | [Probe](docs/02-probe.md) | The answer can be read out here | Linear readers trained for every depth at the positions of the names and the last one, and controls that show what a reader's score does not mean |
-| 3 | Patch | The model needs this part | The activations of one run placed into another: blocks and positions, then heads, and what the choice of the other run changes |
+| 3 | [Patch](docs/03-patch.md) | The model needs this part | The activations of one run placed into another: blocks and positions, then heads, and what the choice of the other run changes |
 | 4 | Circuit | These parts do it, in this way | What the heads found in step 3 attend to and write, the paths between them, and two tests: the circuit alone and the model without it, against random sets of heads |
 | 5 | Features | These are the units | A sparse autoencoder on the stream: what it reconstructs, what it costs the model, and what its latents fire on |
 | 6 | Feature circuit | The mechanism in those units | The answer attributed to latents by gradients, checked by ablation, and set beside the heads of step 4 |
