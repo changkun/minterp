@@ -30,6 +30,10 @@ sees the replacement:
 
 Blocks are counted from 1, as in the notes. The hooks are removed when the
 `with` block ends, and the model is as it was.
+
+What is recorded is detached from the computation by default. With
+`detach=False` it stays attached, so that a gradient can flow from the
+answer back through a recorded piece (step 6).
 """
 
 import torch
@@ -38,8 +42,8 @@ KINDS = ("resid", "attn", "mlp", "heads")
 
 
 class Tap:
-    def __init__(self, model, edit=None, keep=KINDS):
-        self.model, self.edit, self.keep = model, dict(edit or {}), set(keep)
+    def __init__(self, model, edit=None, keep=KINDS, detach=True):
+        self.model, self.edit, self.keep, self.detach = model, dict(edit or {}), set(keep), detach
         self.store, self.handles = {}, []
         for key in self.edit:
             assert key[0] in KINDS and 0 <= key[1] <= model.cfg.n_layers, key
@@ -55,7 +59,7 @@ class Tap:
                 if key in self.edit:
                     out = self.edit[key](out)
                 if key[0] in self.keep:
-                    self.store[key] = out.detach()
+                    self.store[key] = out.detach() if self.detach else out
                 return out
             return hook
 
@@ -67,7 +71,7 @@ class Tap:
                 if key in self.edit:
                     x = self.edit[key](x)
                 if key[0] in self.keep:
-                    self.store[key] = x.detach()
+                    self.store[key] = x.detach() if self.detach else x
                 return (x.flatten(-2),)
             return hook
 
