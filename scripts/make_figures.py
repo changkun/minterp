@@ -627,6 +627,84 @@ def steer_kind():
     save(fig, "steer-kind")
 
 
+THREE = (("seed0", BLUE, "seed0, 8 blocks"), ("seed1", RED, "seed1, 8 blocks"), ("qwen", INK, "the open model, 24 blocks"))
+
+
+def limits_models():
+    """Step 8: where who acts is, by depth, and the pair direction by dose, in the two story models and the open model."""
+    fig, axes = plt.subplots(1, 3, figsize=(9.2, 3.0))
+    for name, color, says in THREE:
+        travel = read(f"patch/patch-{name}")
+        at = {g: np.array([np.array(t["travel"]["carry"])[:, travel["travel groups"].index(g)] for t in travel["templates"]]) for g in ("S", "end")}  # (patterns, depths)
+        depth = np.linspace(0, 1, at["S"].shape[1])
+        for group, style in (("S", "-"), ("end", (0, (4, 2)))):
+            axes[0].fill_between(depth, at[group].min(0), at[group].max(0), color=color[0], alpha=0.13, linewidth=0)
+            axes[0].plot(depth, at[group].mean(0), color=color[0], linewidth=1.5, linestyle=style, label=says if group == "S" else None)
+        steered = read(f"open/steer-{name}") if name == "qwen" else read(f"steer/steer-{name}")
+        T = steered["templates"] if name == "qwen" else steered["who acts"]["templates"]
+        doses = np.array(steered["doses"])
+        for ax, measure in zip(axes[1:], ("share", "turned")):
+            by = np.array([t["steered"]["pair"][measure] for t in T])
+            ax.fill_between(doses, by.min(0), by.max(0), color=color[0], alpha=0.13, linewidth=0)
+            ax.plot(doses, by.mean(0), color=color[0], linewidth=1.5)
+    for ax in axes:
+        zero(ax)
+    axes[0].set_xlabel("depth, as a share of the model's blocks")
+    axes[0].set_ylabel("share of the gap that comes along")
+    axes[0].set_title("who acts, moved at one position")
+    axes[0].set_xticks([0, 0.25, 0.5, 0.75, 1])
+    for ax, title, label in zip(axes[1:], ("the pair direction, at half depth", ""), ("share of the way to the flipped answer", "share of prompts with A above B")):
+        ax.axvline(0, color=RULE[0], linewidth=0.8, zorder=0)
+        ax.set_xticks([-2, -1, 0, 1, 2])
+        ax.set_xlabel("dose")
+        ax.set_ylabel(label)
+        ax.set_title(title)
+    handles, labels = axes[0].get_legend_handles_labels()
+    handles += [plt.Line2D([], [], color=MUTED[0], linewidth=1.5), plt.Line2D([], [], color=MUTED[0], linewidth=1.5, linestyle=(0, (4, 2))), Rectangle((0, 0), 1, 1, color=MUTED[0], alpha=0.25, linewidth=0)]
+    labels += ["left: at the acting name", "left: at the last position", "the range over the five sentence patterns"]
+    fig.tight_layout(w_pad=1.6)
+    fig.legend(handles, labels, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.2))
+    save(fig, "limits-models")
+
+
+def limits_dictionaries():
+    """Step 8: two results of steps 6 and 7 with the first dictionary and with a second one trained from another seed."""
+    rng = np.random.default_rng(0)
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 5.2), sharex="col", sharey="col")
+    for row, seed in enumerate(SEEDS):
+        for tag, color, says in (("", BLUE, "the first dictionary"), ("-s1", RED, "a second, trained from another seed")):
+            run = read(f"features/features-{seed}{tag}")
+            counts = run["counts"]
+            by = np.array([t["by count"]["real"] for t in run["templates"]])  # (patterns, counts)
+            for i in range(len(counts)):
+                dots(axes[row, 0], i + rng.uniform(-0.08, 0.08, by.shape[0]), by[:, i], color[0], size=3.0)
+            axes[row, 0].plot(np.arange(len(counts)), by.mean(0), color=color[0], linewidth=1.6, label=says)
+            steered = read(f"steer/steer-{seed}{tag}")
+            doses, K = np.array(steered["doses"]), steered["kind"]
+            he = [i for i, p in enumerate(K["order"]) if p not in steered["names that go on with She"]]
+            lines = np.array([t["steered"]["latent"]["gap by name"] for t in K["templates"]])[:, he].reshape(-1, len(doses))
+            for line in lines:
+                axes[row, 1].plot(doses, line, color=color[0], linewidth=0.5, alpha=0.25)
+            axes[row, 1].plot(doses, lines.mean(0), color=color[0], linewidth=1.8)
+        zero(axes[row, 0])
+        zero(axes[row, 1])
+        axes[row, 1].axvline(0, color=RULE[0], linewidth=0.8, zorder=0)
+        axes[row, 0].set_ylabel(f"{seed}\nshare of the gap that comes along")
+        axes[row, 1].set_ylabel("logit of She minus logit of He")
+    axes[0, 0].set_title("who acts: the highest-ranked latents, moved for real")
+    axes[0, 1].set_title("the shared latent added at a He name")
+    axes[1, 0].set_xticks(np.arange(len(counts)), [str(c) for c in counts])
+    axes[1, 0].set_xlabel("latents moved, highest-ranked first")
+    axes[1, 1].set_xticks([-2, -1, 0, 1, 2])
+    axes[1, 1].set_xlabel("dose: 1 is the latent's mean value on She names")
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    handles += [plt.Line2D([], [], marker="o", linestyle="", markersize=3.5, color=MUTED[0]), plt.Line2D([], [], color=MUTED[0], linewidth=0.6)]
+    labels += ["left: one sentence pattern", "right: one name in one sentence"]
+    fig.tight_layout(w_pad=2.0, h_pad=1.0)
+    fig.legend(handles, labels, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.06))
+    save(fig, "limits-dictionaries")
+
+
 if __name__ == "__main__":
     behavior()
     lens()
@@ -647,3 +725,5 @@ if __name__ == "__main__":
     features_count()
     steer_who()
     steer_kind()
+    limits_models()
+    limits_dictionaries()
