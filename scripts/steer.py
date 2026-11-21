@@ -90,16 +90,21 @@ from minterp.tap import Tap
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
 parser.add_argument("--block", type=int, default=4)
+parser.add_argument("--dict", default="", help="another dictionary of the same place, by the name scripts/sae.py gave it (step 8)")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
 device = next(model.parameters()).device
-sae = S.load(f"out/sae/{meta['name']}-b{args.block}.pt", device)
+sae = S.load(S.path(meta["name"], args.block, args.dict), device)
+tag = f"-{args.dict}" if args.dict else ""  # the records of another dictionary are kept beside the first
 key = ("resid", args.block)
-with open(f"runs/features/features-{meta['name']}.json") as f:
+with open(f"runs/features/features-{meta['name']}{tag}.json") as f:
     step6 = json.load(f)
 head_latent = {x["name"]: x["the head's latent"] for x in step6["names"]}
-shared = step6["one latent for the six"][0]
+# The latent the veto head rests on most for the "She" names: one for all six in the first dictionary. Another dictionary
+# may give one name a latent of its own, so it is the one most of them share.
+theirs = [head_latent[q] for q in step6["names that go on with She"]]
+shared = max(sorted(set(theirs)), key=theirs.count)
 people = tasks.names(tok)
 k = len(people)
 name_ids = torch.tensor([tok.encode_ordinary(" " + p)[0] for p in people], device=device)
@@ -107,7 +112,7 @@ she = torch.tensor([p in step6["names that go on with She"] for p in people], de
 DOSES = (-2.0, -1.0, -0.5, 0.0, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0)
 generator = torch.Generator().manual_seed(0)  # the two controls called `random`
 more = torch.Generator().manual_seed(1)  # the other random controls, so that adding one does not move the first
-result = {"model": meta, "block": args.block, "doses": DOSES, "names that go on with She": step6["names that go on with She"]}
+result = {"model": meta, "block": args.block, "dictionary": args.dict or "first", "doses": DOSES, "names that go on with She": step6["names that go on with She"]}
 series = lambda values: rounded(torch.tensor(values))
 cosine = lambda a, b: torch.nn.functional.cosine_similarity(a, b, dim=1)
 
@@ -119,36 +124,20 @@ def stream_at(tokens, position):
     return tap[key][:, position].float(), logits[:, -1].float()
 
 
-def against(names, target, pool):
-    """A name's logit minus the mean over a pool of names, per prompt."""
-    rows = torch.arange(names.shape[0], device=names.device)
-    return names[rows, target] - (names * pool).sum(1) / pool.sum(1)
-
-
 # ---------------------------------------------------------------- who acts
 batches = tasks.batches(tok, device, people=people)
 A, B, C = (torch.tensor([people.index(t[i]) for t in batches[0].names], device=device) for i in range(3))
 rows = torch.arange(len(A), device=device)
 acts = torch.stack([A, B])  # (versions, prompts): who acts on the clean and on the flipped prompt
 # Two names that are not in the prompt, of the same kinds as B and A: what `means` does when it is about other people.
-D, E = [], []
-for i, (a, b, c) in enumerate(zip(A.tolist(), B.tolist(), C.tolist())):
-    pool = [j for j in range(k) if she[j] == she[b] and j not in (a, b, c)]
-    D.append(pool[i % len(pool)])
-    pool = [j for j in range(k) if she[j] == she[a] and j not in (a, b, c, D[-1])]
-    E.append(pool[i % len(pool)])
-D, E = torch.tensor(D, device=device), torch.tensor(E, device=device)
+D, E = steer.stand_ins(A, B, C, she)
 # The yardstick for a name: the names of its kind that are in no version of the prompt and are not the control's stand-ins.
 apart = torch.ones(len(A), k, dtype=torch.bool, device=device)
 for names in (A, B, C, D, E):
     apart[rows, names] = False
 own_kind = {"A": apart & (she[None] == she[A][:, None]), "B": apart & (she[None] == she[B][:, None])}
 # A term for the first-mentioned name, a term for the second, and a constant: the projection that keeps only those.
-Z = torch.cat([torch.ones(len(A), 1), torch.nn.functional.one_hot(A.cpu(), k), torch.nn.functional.one_hot(B.cpu(), k)], dim=1).double()
-additive = (Z @ torch.linalg.pinv(Z)).float().to(device)  # (prompts, prompts)
-toward = (she[B].float() - she[A].float())[:, None]  # +1 where B is a "She" name and A a "He" name, -1 the other way, 0 for one kind
-others_she = she[None] & (torch.arange(k, device=device)[None] != A[:, None]) & (torch.arange(k, device=device)[None] != B[:, None])
-others_he = ~she[None] & (torch.arange(k, device=device)[None] != A[:, None]) & (torch.arange(k, device=device)[None] != B[:, None])
+additive = steer.term_per_name(A, B, k)  # (prompts, prompts)
 
 at_name, plain, third = [], [], []
 for batch in batches:
@@ -194,7 +183,7 @@ for p, batch in enumerate(batches):
     mirror = (only @ sae.dec.detach()) * sae.scale
     apart_ = la != lb  # where the two names share a latent there is nothing to compare
     # the controls
-    directions["kind"] = toward * ((others_she.float() @ mean_when) / others_she.sum(1, keepdim=True) - (others_he.float() @ mean_when) / others_he.sum(1, keepdim=True))
+    directions["kind"] = steer.kind_only(mean_when, A, B, she)
     directions["other names"] = mean_when[D] - mean_when[E]
     directions["random"] = steer.like(means, generator)
     directions["random, long"] = steer.like(pair, more)
@@ -205,7 +194,7 @@ for p, batch in enumerate(batches):
     clean, flipped = ld(plain[p, 0]), ld(plain[p, 1])
     gap = (clean - flipped).mean()
     names_out = torch.stack([batch.right, batch.wrong], dim=1)
-    own = {n: lambda logits, n=n, t=t: against(logits[:, name_ids], t, own_kind[n]) for n, t in (("A", A), ("B", B))}
+    own = {n: lambda logits, n=n, t=t: steer.against(logits[:, name_ids], t, own_kind[n]) for n, t in (("A", A), ("B", B))}
     between = steer.elsewhere(plain[p, 1], plain[p, 0], names_out)
     entry = {"template": batch.template, "gap": gap.item(), "stream size at the acting name": at_name[p, 0].norm(dim=1).mean().item(),
              "pairs": {n: {"gap": (clean - flipped)[m].mean().item()} for n, m in kinds.items()},
@@ -274,7 +263,7 @@ with torch.no_grad():
 same = she[:, None] == she[None, :]
 unlike = ~torch.eye(k, dtype=torch.bool, device=device)
 KIND = ("means", "rebuilt", "missed", "rebuilt, without the shared latent", "latent", "random", "latents higher on He names", "latents higher on She names, without the shared one")
-kind = {"directions": KIND, "sentences": SENTENCES, "the shared latent": shared, "names per kind": int(she.sum()), "order": people, "pronoun forms left out": forms,
+kind = {"directions": KIND, "sentences": SENTENCES, "the shared latent": shared, "names that share it": [q for q in step6["names that go on with She"] if head_latent[q] == shared], "names per kind": int(she.sum()), "order": people, "pronoun forms left out": forms,
         "the latent fires on": {"She names": (codes[:, she] > 0).float().mean().item(), "He names": (codes[:, ~she] > 0).float().mean().item()},
         "the latent on She names": {"mean": codes[:, she].mean().item(), "largest": codes[:, she].max().item()},
         # Why the dictionary reads back less than was written: its encoder's reading of one unit of the latent's own direction,
@@ -384,4 +373,4 @@ print("  length: " + ", ".join(f"{name} {mean(K_T, lambda t, name=name: t['lengt
       + f"; the stream's size at the name {mean(K_T, lambda t: t['stream size at the name']):.1f}; the latent on She names {kind['the latent on She names']}; "
       f"latents that differ by more than half a unit {mean(K_T, lambda t: t['latents that differ by more than half a unit between the kinds']):.0f}; pronoun forms left out {len(forms)}")
 
-save(f"runs/steer/steer-{meta['name']}.json", result)
+save(f"runs/steer/steer-{meta['name']}{tag}.json", result)

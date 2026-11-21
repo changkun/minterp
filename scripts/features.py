@@ -41,14 +41,16 @@ from minterp.tap import Tap, head_writes
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
 parser.add_argument("--block", type=int, default=4)
+parser.add_argument("--dict", default="", help="another dictionary of the same place, by the name scripts/sae.py gave it (step 8)")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
 device = next(model.parameters()).device
 n = model.cfg.n_layers
-sae = S.load(f"out/sae/{meta['name']}-b{args.block}.pt", device)
+sae = S.load(S.path(meta["name"], args.block, args.dict), device)
+tag = f"-{args.dict}" if args.dict else ""  # the records of another dictionary are kept beside the first
 key = ("resid", args.block)
-with open(f"runs/sae/sae-{meta['name']}.json") as f:
+with open(f"runs/sae/sae-{meta['name']}{tag}.json") as f:
     step5 = json.load(f)["task"]
 name_latent = {row["name"]: row["latent"] for row in step5["names"]["acts"]}  # step 5's latent for each name as the one that acts
 with open(f"runs/circuit/circuit-{meta['name']}.json") as f:
@@ -58,7 +60,7 @@ name_ids = torch.tensor([tok.encode_ordinary(" " + p)[0] for p in people], devic
 she = torch.tensor([p in step5["names that go on with She"] for p in people], device=device)  # the kind of every name
 COUNTS = (1, 2, 4, 8, 16, 32)
 batches = tasks.batches(tok, device, people=people)
-result = {"model": meta, "block": args.block, "counts": COUNTS, "veto head": f"block {veto['block']} head {veto['head']}",
+result = {"model": meta, "block": args.block, "dictionary": args.dict or "first", "counts": COUNTS, "veto head": f"block {veto['block']} head {veto['head']}",
           "names that go on with She": step5["names that go on with She"], "templates": []}
 
 
@@ -130,6 +132,11 @@ for i, name in enumerate(people):
     })
 she_latents = {head_latent[p] for p in step5["names that go on with She"]}
 result["one latent for the six"] = sorted(she_latents)
+# One for all six in the first dictionary. Another dictionary may give a name a latent of its own: the shared one is then
+# the one most of the six have, and it alone is switched off below.
+theirs = [head_latent[p] for p in step5["names that go on with She"]]
+the_shared = max(sorted(she_latents), key=theirs.count)
+result["the shared latent"] = the_shared
 
 for batch in batches:
     s = batch.pos["S"]
@@ -234,7 +241,7 @@ for batch in batches:
     one_hot = lambda j: torch.zeros_like(z[:, s], dtype=torch.bool).scatter_(1, j[:, None], True)
     everything = torch.ones_like(z[:, s], dtype=torch.bool)
     shared = torch.zeros_like(z[:, s], dtype=torch.bool)
-    shared[:, sorted(she_latents)] = True
+    shared[:, the_shared] = True
     acts_she = she[A]
     kind_gap = lambda names: (names * own).sum(1) / own.sum(1) - (names * other_kind).sum(1) / other_kind.sum(1)
     head = {"by kind of the acting name": {}}
@@ -249,7 +256,7 @@ for batch in batches:
     m = acts_she
     head["the shared latent switched off, where a She name acts"] = {
         "the acting name against the nine": (against(cut, A, nine) - against(plain, A, nine))[m].mean().item(),
-        "estimated": -rest_on[:, sorted(she_latents)].sum(1)[m].mean().item(),
+        "estimated": -rest_on[:, the_shared][m].mean().item(),
         "the acting name against its own kind": (against(cut, A, own) - against(plain, A, own))[m].mean().item(),
         "its own kind against the other": (kind_gap(cut) - kind_gap(plain))[m].mean().item(),
     }
@@ -313,4 +320,4 @@ print("  really lost when switched off: " + show({k: mean(lambda t, k=k: t['head
       + f"; its highest latent is the head's latent for the name in {100 * mean(lambda t: t['head']['its highest latent is the head' + chr(39) + 's latent for the name']):.0f}%")
 print("  the other name: " + show({k: mean(lambda t, k=k: t['head']['the other name'][k]) for k in T[0]['head']['the other name']}))
 
-save(f"runs/features/features-{meta['name']}.json", result)
+save(f"runs/features/features-{meta['name']}{tag}.json", result)
