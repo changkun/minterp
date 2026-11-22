@@ -43,7 +43,7 @@ from minterp.common import MINLLM, eot, load, rounded, save
 from minterp.tap import Tap, head_writes
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
+parser.add_argument("--model", default="seed0", help="seed0, seed1 or seed2: the steps before must have run on it")
 parser.add_argument("--block", type=int, default=4, help="the stream after this block")
 parser.add_argument("--width", type=int, default=4096)
 parser.add_argument("--k", type=int, default=32)

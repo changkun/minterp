@@ -88,7 +88,7 @@ from minterp.common import eot, load, rounded, save
 from minterp.tap import Tap
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
+parser.add_argument("--model", default="seed0", help="seed0, seed1 or seed2: the steps before must have run on it")
 parser.add_argument("--block", type=int, default=4)
 parser.add_argument("--dict", default="", help="another dictionary of the same place, by the name scripts/sae.py gave it (step 8)")
 args = parser.parse_args()

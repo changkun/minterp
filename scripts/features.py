@@ -26,6 +26,8 @@ names       for each name, two latents: the one step 5 picked by how often
 
     uv run scripts/features.py
     uv run scripts/features.py --model seed1
+    uv run scripts/features.py --dict s1                  # step 8: another dictionary
+    uv run scripts/features.py --model seed2 --head 6.5   # step 8: another head than the one with the largest share
 """
 
 import argparse
@@ -39,9 +41,10 @@ from minterp.common import load, rounded, save
 from minterp.tap import Tap, head_writes
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
+parser.add_argument("--model", default="seed0", help="seed0, seed1 or seed2: the steps before must have run on it")
 parser.add_argument("--block", type=int, default=4)
 parser.add_argument("--dict", default="", help="another dictionary of the same place, by the name scripts/sae.py gave it (step 8)")
+parser.add_argument("--head", default="", help="another head read at the last position, as block.head, in place of the one with the largest share (step 8)")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
@@ -55,6 +58,8 @@ with open(f"runs/sae/sae-{meta['name']}{tag}.json") as f:
 name_latent = {row["name"]: row["latent"] for row in step5["names"]["acts"]}  # step 5's latent for each name as the one that acts
 with open(f"runs/circuit/circuit-{meta['name']}.json") as f:
     veto = max((h for h in json.load(f)["heads"] if h["acts at"] == "end"), key=lambda h: h["carry"])
+if args.head:  # the record of another head is kept beside the first, as that of another dictionary is
+    veto = dict(zip(("block", "head"), map(int, args.head.split("."))))
 people = tasks.names(tok)
 name_ids = torch.tensor([tok.encode_ordinary(" " + p)[0] for p in people], device=device)
 she = torch.tensor([p in step5["names that go on with She"] for p in people], device=device)  # the kind of every name
@@ -132,8 +137,8 @@ for i, name in enumerate(people):
     })
 she_latents = {head_latent[p] for p in step5["names that go on with She"]}
 result["one latent for the six"] = sorted(she_latents)
-# One for all six in the first dictionary. Another dictionary may give a name a latent of its own: the shared one is then
-# the one most of the six have, and it alone is switched off below.
+# One for all six in the first dictionaries of seed0 and seed1. Another dictionary or another model may give a name a
+# latent of its own: the shared one is then the one most of the six have, and it alone is switched off below.
 theirs = [head_latent[p] for p in step5["names that go on with She"]]
 the_shared = max(sorted(she_latents), key=theirs.count)
 result["the shared latent"] = the_shared
@@ -320,4 +325,4 @@ print("  really lost when switched off: " + show({k: mean(lambda t, k=k: t['head
       + f"; its highest latent is the head's latent for the name in {100 * mean(lambda t: t['head']['its highest latent is the head' + chr(39) + 's latent for the name']):.0f}%")
 print("  the other name: " + show({k: mean(lambda t, k=k: t['head']['the other name'][k]) for k in T[0]['head']['the other name']}))
 
-save(f"runs/features/features-{meta['name']}{tag}.json", result)
+save(f"runs/features/features-{meta['name']}{tag}{'-h' + args.head if args.head else ''}.json", result)

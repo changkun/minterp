@@ -44,7 +44,7 @@ from minterp.common import eot, load, save
 from minterp.tap import Tap, head_writes
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="qwen", help="qwen, seed0 or seed1: scripts/patch.py must have run on it, with its parts")
+parser.add_argument("--model", default="qwen", help="qwen, seed0, seed1 or seed2: scripts/patch.py must have run on it, with its parts")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)

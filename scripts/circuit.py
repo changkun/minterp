@@ -36,7 +36,7 @@ from minterp.common import load, rounded, save
 from minterp.tap import Tap, head_writes
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--model", default="seed0", help="seed0 or seed1: the steps before must have run on it")
+parser.add_argument("--model", default="seed0", help="seed0, seed1 or seed2: the steps before must have run on it")
 parser.add_argument("--random-sets", type=int, default=200)
 args = parser.parse_args()
 
