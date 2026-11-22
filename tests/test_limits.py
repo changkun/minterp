@@ -55,9 +55,16 @@ def test_the_table_of_the_models():
     assert len([r for r in m["rows"] if r["values"][2] is not None]) == 12
 
 
-def test_the_depth_row_depends_on_the_line_in_the_open_model_only():
+def test_the_depth_row_depends_on_the_line_in_the_open_model_and_in_the_third_story_model():
     lines = {k: [round(x, 2) for x in v] for k, v in limits()["models"]["the depth row with another line"].items()}
     assert lines == {"0.9": [0.75, 0.88, 0.58], "0.5": [0.75, 0.88, 0.62], "0.25": [0.75, 0.88, 0.83], "0.1": [0.75, 0.88, 0.92]}
+    # Seed0 and seed1 move who acts off the acting name in one block; the third story model in two, so its row moves with the line.
+    t = limits()["models"]["a third seed"]
+    assert {k: round(v, 3) for k, v in t["the depth row with another line"].items()} == {"0.9": 0.625, "0.5": 0.75, "0.25": 0.75, "0.1": 0.75}
+    by_block = {s: [round(x, 2) for x in v] for s, v in t["looks after the check"]["the acting name's position moved alone, by block"].items()}
+    assert by_block["seed2"][5:8] == [1.04, 0.56, -0.02] and by_block["seed0"][6:8] == [0.94, -0.05] and by_block["seed1"][7:] == [0.92, 0.0]
+    same = lambda a, b: abs(a - b) <= max(0.2 * max(abs(a), abs(b)), 0.05)
+    assert same(0.75, 0.625) and not same(0.875, 0.625)
 
 
 def test_the_shared_vector_by_depth():
@@ -146,6 +153,254 @@ def test_what_the_second_dictionary_changes_in_steps_6_and_7():
     # Step 7's read-back: in seed0's second dictionary the reading on a "He" name starts just above zero.
     k = read("steer/steer-seed0-s1")["kind"]
     assert round(k["the reading before the cut on He names, against the usual value"], 2) == 0.02
+
+
+ALL = True
+THIRD_MODEL = [  # seed2's value, and what it is the same as: all three, or which of seed0 and seed1
+    (0.99, ALL), (0.84, ALL), (0.74, S1), (0.88, ALL), (0.82, BOTH), (0.75, ALL), ("7.3", NEITHER), (1.08, ALL),
+    (0.08, ALL), (0.04, ALL), (1.02, ALL), (0.28, S1), (2, NEITHER), (-0.76, NEITHER), (1.06, ALL), (1.07, ALL),
+    (0.85, ALL), (0.79, S1), (0.06, S1), (0.31, NEITHER), (0.44, NEITHER), (0.30, S0), (72, ALL), (27, NEITHER),
+]
+THIRD_DICTIONARY = [  # the third dictionary's value in seed0 and in seed1, and whether each is the same as the first and as the second
+    (0.08, 0.08, ALL, ALL), (0.03, 0.04, ALL, ALL), (0.88, 1.00, ALL, ALL), (0.26, 0.31, S1, ALL), (0.75, 0.83, ALL, ALL), (0.86, 0.98, ALL, ALL),
+    (0.94, 0.98, ALL, ALL), (0.31, 0.43, S1, ALL), (6, 6, ALL, S0), (3, 6, NEITHER, S0), (0.84, 0.90, ALL, S0), (-0.05, -0.03, ALL, ALL),
+    (0.26, 0.43, S1, ALL), (7.53, 7.19, ALL, S1), (32, 22, NEITHER, NEITHER), (18, 16, NEITHER, NEITHER), (14, 6, NEITHER, NEITHER), (72, 72, ALL, S1),
+    (72, 72, ALL, ALL), (0, 0, ALL, ALL), (0.29, 0.16, NEITHER, S0), (0.84, 0.84, ALL, ALL), (0.87, 0.94, ALL, ALL), (-0.03, -0.09, NEITHER, NEITHER),
+    (29.17, 25.17, ALL, S1),
+]
+verdict = lambda v: ALL if v["the same in all three"] else v["agrees with"]
+
+
+def test_the_script_states_the_rule_for_three():
+    """The script says how three columns are read, and where the third model's dictionary goes, in the words the note uses.
+    That it said so before the runs is a matter of commit and file times, which no test here can check."""
+    with open("scripts/limits.py") as f:
+        doc = f.read().split('"""')[1]
+    for words in ("applied to each of the three pairs", "written here before either had been run", "largest share of the gap moved at that position alone",
+                  "no row is run again", "One look was added after the rows had been read"):
+        assert words in " ".join(doc.split())
+    same = lambda a, b: abs(a - b) <= max(0.2 * max(abs(a), abs(b)), 0.05)
+    # The rule does not carry over: 0.82 is the same as 0.90 and as 0.71, which differ.
+    assert same(0.90, 0.82) and same(0.82, 0.71) and not same(0.90, 0.71)
+
+
+def test_a_third_model():
+    m = limits()["models"]
+    t = m["a third seed"]
+    assert [(shown(r["value"]), verdict(r)) for r in t["rows"]] == THIRD_MODEL
+    assert [(r["step"], r["what"]) for r in t["rows"]] == [(r["step"], r["what"]) for r in m["rows"]]
+    # Twelve of the 24 in all three; the pairs agree on 15, 14 and 17; of the 15 seen twice, 12 a third time.
+    assert t["tally"] == {
+        "rows": 24, "the same in all three": 12, "by pair": {"the first and the second": 15, "the first and the third": 14, "the second and the third": 17},
+        "of the rows the first two agreed on": {"rows": 15, "the third is the same as both": 12},
+        "of the rows they differed on": {"rows": 9, "the first only": 1, "the second only": 3, "both": 1, "neither": 4},
+    }
+    # The same names, seven heads, and the dictionary where the rule puts it: no record of the third model at another block.
+    block = t["the block of the head with the largest share at the acting name"]
+    assert (block, t["the same block for the first two"], t["heads of the circuit"]) == (4, [4, 4], [7, 7, 7])
+    assert all(read(f"{step}/{step}-seed2")["block"] == block for step in ("sae", "features", "steer")) and read("open/steer-seed2")["block"] == block
+    assert t["names that go on with She"] == read("features/features-seed0")["names that go on with She"] == read("features/features-seed1")["names that go on with She"]
+    assert [round(read(f"read/behavior-{s}")["model"]["val_loss"], 3) for s in ("seed0", "seed1", "seed2")] == [1.465, 1.461, 1.460]
+    one, three = read("read/behavior-seed1")["model"], read("read/behavior-seed2")["model"]
+    assert one["config"] == three["config"] and one["step"] == three["step"] == 6000
+    # A value per sentence pattern for the rows that are means over the patterns: the dots of the figure.
+    assert sum(r["by pattern"][2] is not None for r in t["rows"]) == 14 and all(len(x) == 5 for r in t["rows"] for x in r["by pattern"] if x is not None)
+    assert sum(r["kind"] == "number" for r in t["rows"]) == 20  # the rows of the figure
+    assert all(abs(np.mean(r["by pattern"][2]) - r["value"]) < 1e-9 for r in t["rows"] if r["by pattern"][2] is not None)
+
+
+def test_what_did_not_hold_in_the_third_model():
+    # Where the answer is written: head 5 of block 6 writes 0.16 of the clean logit difference; in the first two the largest head of block 6 writes 0.01.
+    def block_six(seed):
+        a = read(f"read/lens-{seed}")["attribution"]["clean"]
+        heads = np.array(a["heads"]["mean"])
+        return heads[5] / (heads.sum() + np.sum(a["mlp"]["mean"]) + a["embed"]["mean"])
+    assert round(block_six("seed2")[5], 2) == 0.16 and block_six("seed2").argmax() == 5
+    assert [round(float(np.abs(block_six(s)).max()), 2) for s in ("seed0", "seed1")] == [0.01, 0.01]
+    # That row sits on the line: 0.94 against 0.74 misses by 0.196 where the rule allows 0.188.
+    rows = {r["what"]: r for r in limits()["models"]["rows"]}
+    third = {r["what"]: r for r in limits()["models"]["a third seed"]["rows"]}
+    late = "share of the clean logit difference written by the last quarter of the blocks"
+    assert (round(rows[late]["values"][0] - third[late]["value"], 3), round(0.2 * rows[late]["values"][0], 3)) == (0.196, 0.188)
+    # The rule ignores the spread over the patterns: a random direction, and the first probe row.
+    spread = lambda what, i: (round(min(third[what]["by pattern"][i]), 2), round(max(third[what]["by pattern"][i]), 2))
+    random = "a random direction as long as the pair direction"
+    assert (spread(random, 0), spread(random, 2)) == ((0.14, 0.35), (0.22, 0.41)) and third[random]["agrees with"] == NEITHER and not rows[random]["the two story models agree"]
+    probe = "the due name read at the acting name at half depth, on new pairs, clean prompts, share right"
+    assert spread(probe, 1)[0] == spread(probe, 2)[0] == 0.48 and third[probe]["the same in all three"]
+    # Step 6's head, 7.3: one latent for Mia and Lucy, four others for the other four names.
+    f, k = read("features/features-seed2"), read("steer/steer-seed2")["kind"]
+    latent = {x["name"]: x["the head's latent"] for x in f["names"]}
+    she = f["names that go on with She"]
+    assert f["veto head"] == "block 7 head 3" and latent["Mia"] == latent["Lucy"] == f["the shared latent"] and len({latent[p] for p in she}) == 5
+    # The dictionary has the latent: it fires in all 36 sentences with a "She" name and in 2 of the 36 with a "He" name.
+    assert k["names that share it"] == ["Mia", "Lucy"] and k["the latent fires on"]["She names"] == 1.0 and round(36 * k["the latent fires on"]["He names"]) == 2
+    assert len(k["sentences"]) * k["names per kind"] == 36
+    # An acting name against its own kind: "He" 1.12, 1.16 and 1.29; "She" 0.26, 0.23 and 0.76.
+    def own(seed, kind):
+        return round(float(np.mean([t["head"]["by kind of the acting name"][kind]["against its own kind"] for t in read(f"features/features-{seed}")["templates"]])), 2)
+    assert [own(s, "He") for s in ("seed0", "seed1", "seed2")] == [-1.12, -1.16, -1.29] and [own(s, "She") for s in ("seed0", "seed1", "seed2")] == [-0.26, -0.23, -0.76]
+    assert 0.195 < own("seed1", "She") / own("seed1", "He") < own("seed0", "She") / own("seed0", "He") < 0.25
+
+
+def test_the_look_added_after_the_rows():
+    t = limits()["models"]["a third seed"]["the heads at the last position, by kind"]
+    by = lambda seed: {h["head"]: h for h in t[seed]}
+    share = lambda seed, head: round(by(seed)[head]["carry"], 2)
+    she = lambda seed, head: round(by(seed)[head]["adds to an acting name against its own kind"]["She"], 2)
+    # Two heads that read the acting name and lower it in seed2, one far above the next in the first two.
+    assert (share("seed2", "7.3"), share("seed2", "6.5")) == (0.62, 0.45)
+    assert (share("seed0", "7.0"), share("seed0", "7.1"), share("seed1", "8.0"), share("seed1", "8.1")) == (0.87, 0.13, 0.69, 0.14)
+    assert all(by(s)[h]["reads the acting name with"] > 0.65 for s, h in (("seed2", "7.3"), ("seed2", "6.5"), ("seed0", "7.0"), ("seed0", "7.1"), ("seed1", "8.0"), ("seed1", "8.1")))
+    writes = read("circuit/circuit-seed2")["templates"]
+    for head in ("block 7 head 3", "block 6 head 5"):
+        assert all(t_["writes"][head]["clean"]["A"] < -0.4 and t_["writes"][head]["flipped"]["B"] < -0.4 for t_ in writes)
+    # The smaller adds -0.26 to an acting "She" name against its own kind, the same as -0.26 and -0.23; the larger -0.76.
+    assert (she("seed2", "6.5"), she("seed2", "7.3"), she("seed0", "7.0"), she("seed1", "8.0")) == (-0.26, -0.76, -0.26, -0.23)
+    beside = "an acting She name, beside the first two models' veto heads"
+    assert by("seed2")["6.5"][beside]["the same in all three"] and by("seed2")["7.3"][beside]["agrees with"] == NEITHER
+    # The heads script gives step 6's number for the head step 6 studies.
+    step6 = np.mean([x["head"]["by kind of the acting name"]["She"]["against its own kind"] for x in read("features/features-seed2")["templates"]])
+    assert abs(by("seed2")["7.3"]["adds to an acting name against its own kind"]["She"] - step6) < 2e-4
+
+
+def test_the_looks_made_after_the_check():
+    a = limits()["models"]["a third seed"]["looks after the check"]
+    kinds = lambda h: [round(h["adds where a name of each kind acts"][k][m], 2) for k in ("She", "He") for m in ("against the nine", "against its own kind", "its own kind against the other")]
+    first = a["by dictionary"]["first"]
+    # The table of the note: the first two models' veto heads and the third model's two.
+    assert [h["head"] for h in a["the first two models' veto heads"].values()] == ["block 7 head 0", "block 8 head 0"]
+    assert [kinds(h) for h in a["the first two models' veto heads"].values()] == [[-1.01, -0.26, -1.40, -1.75, -1.12, -1.19], [-1.20, -0.23, -1.80, -1.72, -1.16, -1.07]]
+    assert (first["the head step 6 picks"]["head"], kinds(first["the head step 6 picks"])) == ("block 7 head 3", [-1.18, -0.76, -0.79, -1.60, -1.29, -0.57])
+    assert (first["the second head"]["head"], kinds(first["the second head"])) == ("block 6 head 5", [-0.67, -0.26, -0.76, -0.61, -0.51, -0.20])
+    # About half the first two models' effect on the kind; on a "He" name against its own kind not theirs by the rule.
+    same = lambda x, y: abs(x - y) <= max(0.2 * max(abs(x), abs(y)), 0.05)
+    assert 0.4 < 0.76 / 1.80 < 0.76 / 1.40 < 0.56 and not same(-0.51, -1.12) and not same(-0.51, -1.16)
+    # A write does not pass through a dictionary: the same numbers with each of the three.
+    assert all(kinds(d[which]) == kinds(first[which]) for d in a["by dictionary"].values() for which in ("the head step 6 picks", "the second head"))
+    # The count does: two, five and five of the six "She" names for the head step 6 picks, six in each for the second head.
+    count = lambda which: [d[which]["She names that share its first choice"] for d in a["by dictionary"].values()]
+    assert list(a["by dictionary"]) == ["first", "second", "third"] and count("the head step 6 picks") == [2, 5, 5] and count("the second head") == [6, 6, 6]
+    for tag in ("s1", "s2"):  # Anna on a latent of her own, as in seed1's second dictionary
+        f = read(f"features/features-seed2-{tag}")
+        latent = {x["name"]: x["the head's latent"] for x in f["names"]}
+        assert {p for p in f["names that go on with She"] if latent[p] != f["the shared latent"]} == {"Anna"}
+        one, other = read("sae/sae-seed2"), read(f"sae/sae-seed2-{tag}")
+        assert (other["seed"], other["width"], other["k"], other["steps"], other["block"]) == (int(tag[1]), one["width"], one["k"], one["steps"], one["block"])
+    f = read("features/features-seed1-s1")
+    assert {x["name"] for x in f["names"] if x["name"] in f["names that go on with She"] and x["the head's latent"] != f["the shared latent"]} == {"Anna"}
+    # The two largest heads that read the acting name, together, against its own kind.
+    two = a["the two largest heads that read the acting name, together, against its own kind"]
+    assert {s: (d["heads"], round(d["She"], 2), round(d["He"], 2)) for s, d in two.items()} == {
+        "seed0": (["7.0", "7.1"], -0.29, -1.27), "seed1": (["8.0", "8.1"], -0.28, -1.39), "seed2": (["7.3", "6.5"], -1.02, -1.80)}
+
+
+def test_the_tables_of_the_third_section_are_the_record():
+    """The cells of the note's three tables on a third model and a third dictionary, read from the note and set against the record."""
+    with open("docs/08-limits.md") as f:
+        note = f.read()
+    def table(header):
+        lines = note[note.index(header):].split("\n\n")[0].split("\n")[2:]
+        return [[c.strip().replace("**", "").replace("−", "-") for c in line.strip("|").split("|")] for line in lines]
+    cell = lambda v: str(v) if isinstance(v, int) else v if isinstance(v, str) else f"{v:.1f}" if abs(v) > 20 else f"{v:.2f}"
+    m, t = limits()["models"], limits()["models"]["a third seed"]
+    says = lambda r: "both" if r["the same in all three"] else {(True, True): "each, though they differ", (True, False): "seed0 only", (False, True): "seed1 only", (False, False): "neither"}[tuple(r["agrees with"])]
+    rows = table("| Step | Number | seed0 | seed1 | seed2 | seed2 is the same as |")
+    assert len(rows) == 24
+    for cells, old, new in zip(rows, m["rows"], t["rows"]):
+        want = [cell(v) for v in (*old["values"][:2], new["value"])]
+        if old["kind"] == "name":
+            want = [f"block {v.split('.')[0]}, head {v.split('.')[1]}" for v in want]
+        assert [cells[0], *cells[2:]] == [str(old["step"]), *want, says(new)], cells
+    d, third = limits()["dictionaries"], limits()["dictionaries"]["a third dictionary"]
+    with open("docs/08-limits.md") as f:
+        bold = {line.split("|")[2].strip(): [i for i, c in enumerate(line.strip().strip("|").split("|")) if "**" in c] for line in f if line.startswith("| ")}
+    rows = table("| Step | With the dictionary | seed0: first | second | third | seed1: first | second | third |")
+    shown_rows = [(old, new) for old, new in zip(d["rows"], third["rows"]) if not all(v["agrees with"] == BOTH for v in new["by model"])]
+    assert len(rows) == len(shown_rows) == 14
+    for cells, (old, new) in zip(rows, shown_rows):
+        v = old["values"]
+        assert cells[2:] == [cell(x) for x in (v[0], v[1], new["values"][0], v[2], v[3], new["values"][1])], cells
+        # Bold marks a third value that differs from the first's or the second's.
+        assert bold[cells[1]] == [i for i, x in zip((4, 7), new["by model"]) if x["agrees with"] != BOTH], cells
+    a = t["looks after the check"]
+    heads = [*a["the first two models' veto heads"].values(), a["by dictionary"]["first"]["the head step 6 picks"], a["by dictionary"]["first"]["the second head"]]
+    rows = table('| Head | "She": against the nine | its own kind | kind against the other | "He": against the nine | its own kind | kind against the other |')
+    assert len(rows) == 4
+    for cells, seed, h in zip(rows, ("seed0", "seed1", "seed2", "seed2"), heads):
+        block, head = h["head"].split()[1], h["head"].split()[3]
+        assert cells[0] == f"{seed}, block {block}, head {head}"
+        assert cells[1:] == [cell(h["adds where a name of each kind acts"][k][x]) for k in ("She", "He") for x in ("against the nine", "against its own kind", "its own kind against the other")]
+
+
+def test_what_the_three_circuits_share():
+    for seed, head, clean, flipped in (("seed0", "block 4 head 2", 0.91, 0.78), ("seed1", "block 4 head 4", 0.85, 0.79), ("seed2", "block 4 head 2", 0.81, 0.70)):
+        c = read(f"circuit/circuit-{seed}")
+        at = [h for h in c["heads"] if h["acts at"] == "S"]
+        assert len(at) == 1 and f"block {at[0]['block']} head {at[0]['head']}" == head
+        # At the acting name it reads the other name: the second on clean prompts, the first on flipped ones.
+        assert round(float(np.mean([t["attention"][head]["clean"]["B"] for t in c["templates"]])), 2) == clean
+        assert round(float(np.mean([t["attention"][head]["flipped"]["A"] for t in c["templates"]])), 2) == flipped
+    # The pair direction added at the acting name after block 6.
+    d = limits()["models"]["by depth"]
+    assert [round(d[s]["pair"][d[s]["depths"].index(6)], 2) for s in ("seed0", "seed1", "seed2")] == [0.95, 0.92, 0.59]
+    # Step 4's hold in the third model: of the fetching head's 0.26, 0.12 and 0.13 come along with one or the other veto head held.
+    T = read("circuit/circuit-seed2")["templates"]
+    hold = lambda receiver, key: round(float(np.mean([next(h for h in t["holds"] if (h["sender"], h["receiver"]) == ("block 4 head 2", receiver))[key] for t in T])), 2)
+    assert [(hold(r, "alone"), hold(r, "held")) for r in ("block 6 head 5", "block 7 head 3")] == [(0.26, 0.12), (0.26, 0.13)]
+
+
+def test_a_third_dictionary():
+    d = limits()["dictionaries"]
+    t = d["a third dictionary"]
+    assert [(*(shown(v) for v in r["values"]), *(verdict(v) for v in r["by model"])) for r in t["rows"]] == THIRD_DICTIONARY
+    # 16 and 14 of the 25 in all three; of the 20 and 18 the first two agreed on, the third joins 16 and 14.
+    tally = lambda seed: (t["tally"][seed]["the same in all three"], t["tally"][seed]["of the rows the first two agreed on"], t["tally"][seed]["by pair"])
+    assert tally("seed0") == (16, {"rows": 20, "the third is the same as both": 16}, {"the first and the second": 20, "the first and the third": 16, "the second and the third": 19})
+    assert tally("seed1") == (14, {"rows": 18, "the third is the same as both": 14}, {"the first and the second": 18, "the first and the third": 18, "the second and the third": 17})
+    # Fourteen rows have a third value that differs from the first's or the second's in one model; the note's table holds those.
+    differs = [r["what"] for r in t["rows"] if not all(v["agrees with"] == BOTH for v in r["by model"])]
+    assert len(differs) == 14 and not any(w.startswith(("variance", "the loss", "who acts", "by the eight", "by the 32", "the gradient")) for w in differs)
+    # Trained as the first, from seed 2.
+    for seed in ("seed0", "seed1"):
+        one, three = read(f"sae/sae-{seed}"), read(f"sae/sae-{seed}-s2")
+        assert (three["seed"], three["width"], three["k"], three["steps"], three["block"]) == (2, one["width"], one["k"], one["steps"], one["block"])
+    # Pronouns the shared latent turns: between 9 and 59 of 72 over nine dictionaries, three per model.
+    turned = [r for r in d["rows"] if r["what"] == "pronouns it turns, of 72"][0]["values"] + [r for r in t["rows"] if r["what"] == "pronouns it turns, of 72"][0]["values"]
+    seed2 = [x["pronouns the shared latent turns, of 72"] for x in limits()["models"]["a third seed"]["looks after the check"]["by dictionary"].values()]
+    assert seed2 == [27, 52, 59] and seed2[0] == [r for r in limits()["models"]["a third seed"]["rows"] if r["what"].startswith("pronouns turned by the shared latent")][0]["value"]
+    assert sorted(turned + seed2) == [9, 14, 15, 18, 22, 27, 32, 52, 59]
+    # Two aggregates the second dictionaries kept and a third did not, in one model each.
+    row = lambda what, seed: [shown(v) for v in next(r for r in d["rows"] if r["what"].startswith(what))["values"][2 * seed:2 * seed + 2]] + [shown(next(r for r in t["rows"] if r["what"].startswith(what))["values"][seed])]
+    assert row("carried by the highest-ranked latent", 0) == [0.17, 0.21, 0.26] and row("the shared latent at its mean value moves", 1) == [5.52, 6.13, 7.19]
+
+
+@pytest.mark.parametrize("seed, in_third, in_both, shared, he", [
+    ("seed0", (3, 9, 31, 0.41), (6, 28, 0.74), (0.78, 0.80), 3),
+    ("seed1", (4, 14, 40, 0.45), (9, 39, 0.69), (0.91, 0.76), 6),
+])
+def test_which_latents_come_back_a_third_time(seed, in_third, in_both, shared, he):
+    m = limits()["matches"][seed]
+    a = m["a third dictionary"]
+    pct = lambda d: (round(100 * d["at a cosine of 0.9 or more"]), round(100 * d["at 0.7 or more"]), round(100 * d["at 0.5 or more"]), round(d["median cosine"], 2))
+    assert pct(a["the first dictionary's latents with a counterpart in the third"]) == in_third
+    both = a["latents of the first with a counterpart at 0.7 or more in the second and in the third"]
+    assert (round(100 * both), round(100 * a["of those that fire on more than 1% of story tokens"]), round(both / m["with a counterpart in the second dictionary"]["at 0.7 or more"], 2)) == in_both
+    s = a["the shared latent"]
+    assert (round(s["cosine of the first's best counterpart"], 2), round(s["cosine of the second's best counterpart"], 2)) == shared
+    assert s["which is the third's shared latent"] and s["which is the third's shared latent, from the second"]
+    # The veto head's first choice in the third dictionary: one latent for the six "She" names, and so many for the six "He" names.
+    f = read(f"features/features-{seed}-s2")
+    latent = {x["name"]: x["the head's latent"] for x in f["names"]}
+    she = f["names that go on with She"]
+    assert {latent[p] for p in she} == {f["the shared latent"]} == {s["third"]} and len({latent[p] for p in latent if p not in she}) == he
+    if seed == "seed0":
+        assert latent["Tom"] == latent["Tim"] == latent["Ben"] == latent["Jack"]
+    # The reading on a "He" name, and what the dictionary reads back, over the three dictionaries.
+    start = [round(read(f"steer/steer-{seed}{tag}")["kind"]["the reading before the cut on He names, against the usual value"] + 0.0, 2) for tag in ("", "-s1", "-s2")]
+    back = [shown(r["values"][2 * ("seed0", "seed1").index(seed) + i]) for r in limits()["dictionaries"]["rows"] if r["what"].startswith("the dictionary reads the latent back") for i in (0, 1)]
+    back += [shown(r["values"][("seed0", "seed1").index(seed)]) for r in limits()["dictionaries"]["a third dictionary"]["rows"] if r["what"].startswith("the dictionary reads the latent back")]
+    assert (start, back) == {"seed0": ([-0.17, 0.02, -0.03], [0.71, 0.89, 0.84]), "seed1": ([-0.18, -0.17, -0.09], [0.71, 0.74, 0.84])}[seed]
 
 
 def test_the_open_model_by_depth():
@@ -349,7 +604,7 @@ def test_what_the_open_models_heads_read_and_write():
 
 def test_the_heads_script_gives_step_4s_numbers_on_the_story_models():
     """scripts/heads.py repeats two measures of scripts/circuit.py on another choice of heads."""
-    for model in ("seed0", "seed1"):
+    for model in ("seed0", "seed1", "seed2"):
         mine = looks(model)["templates"]
         with open(f"runs/circuit/circuit-{model}.json") as f:
             theirs = json.load(f)["templates"]

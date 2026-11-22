@@ -20,6 +20,9 @@ the three a little.
 - **Another model.** Parts of steps 1, 3, 4 and 7 on a published model of 0.5
   billion parameters, 35 times the story model.
 
+A later section sets a third model and a third dictionary beside the first
+two of each, read by a rule for three that was fixed before they were run.
+
 The rule: two numbers are called the same when they differ by at most a
 fifth of the larger, or by 0.05 in the row's own unit. A count or a name
 is the same when it is equal. A fifth is arbitrary. The rule is lenient
@@ -103,7 +106,9 @@ the family of circuits, and across seeds the precise circuits a given
 network learned were arbitrary.
 
 Two models are not a distribution. A row that is the same here has been
-seen twice.
+seen twice. [A third model](#a-third-model-a-third-dictionary) below joins
+the two on twelve of the fifteen. One it does not join them on is how the
+veto treats the six "She" names.
 
 ## A second dictionary
 
@@ -224,6 +229,269 @@ The second dictionary changes two statements of step 6 and one of step 7.
   second dictionary it starts at +0.02 of the latent's mean value, and the
   dictionary reads back 0.89 of what was written.
 
+## A third model, a third dictionary
+
+The two sections above saw each thing twice. This one adds a third of
+each: a third story model, seed2, trained by the same command with seed 2,
+and a third dictionary for each of the first two models, also with seed 2.
+
+How three columns are read was written into `scripts/limits.py` and
+published before any script here had run on the third model and before a
+third dictionary was trained. The rule for two is applied to each of
+the three pairs, because it does not carry over: a can be the same as b
+and b as c without a being the same as c. A row is the same in all three
+story models when all three pairs are. The third model's dictionary is
+trained after the block of its head with the largest share at the acting
+name. That reading of "its head at the acting name" was written down when
+steps 1 to 3 had run on the third model and step 4 had not. Nothing hung
+on it: each model has one head with 0.05 or more there, in block 4.
+
+```sh
+# in minllm: uv run scripts/train.py --seed 2 --out out/base-seed2
+export MINTERP_RUNS=runs                        # as above
+for s in behavior lens probe patch circuit sae features steer; do
+  uv run scripts/$s.py --model seed2            # steps 1 to 7 on the third model
+done
+uv run scripts/open.py --model seed2 --block 4
+
+for m in seed0 seed1; do                        # a third dictionary for each of the first two
+  uv run scripts/sae.py --model $m --seed 2 --dict s2
+  uv run scripts/features.py --model $m --dict s2
+  uv run scripts/steer.py --model $m --dict s2
+done
+
+uv run scripts/heads.py --model seed2           # for the looks added afterwards
+uv run scripts/features.py --model seed2 --head 6.5
+for n in 1 2; do                                # two more dictionaries for the third model
+  uv run scripts/sae.py --model seed2 --seed $n --dict s$n
+  uv run scripts/features.py --model seed2 --dict s$n
+  uv run scripts/steer.py --model seed2 --dict s$n
+  uv run scripts/features.py --model seed2 --dict s$n --head 6.5
+done
+
+uv run scripts/limits.py
+```
+
+The third model ends its training at a loss of 1.460 on held-out stories,
+against 1.465 and 1.461. It sorts the twelve names into the same six and
+six, and step 4's selection gives it seven heads, as it gave the first
+two.
+
+| Step | Number | seed0 | seed1 | seed2 | seed2 is the same as |
+|---|---|---|---|---|---|
+| 1 | clean prompts with B above A, share | 1.00 | 0.95 | 0.99 | both |
+| 1 | flipped prompts with A above B, share | 0.85 | 0.76 | 0.84 | both |
+| 1 | share of the clean logit difference written by the last quarter of the blocks | 0.94 | 0.90 | 0.74 | seed1 only |
+| 2 | the due name read at the acting name at half depth, on new pairs, clean prompts | 0.95 | 0.80 | 0.88 | both |
+| 2 | the same on flipped prompts | 0.90 | 0.71 | 0.82 | each, though they differ |
+| 3 | the last depth at which the acting name alone carries half of the gap, as a share of the depth | 0.75 | 0.88 | 0.75 | both |
+| 4 | the head that carries most at the last position | block 7, head 0 | block 8, head 0 | block 7, head 3 | neither |
+| 4 | the seven heads of the circuit together carry, share of the gap | 1.07 | 0.97 | 1.08 | both |
+| 5 | variance the dictionary misses on stories, share | 0.08 | 0.08 | 0.08 | both |
+| 5 | the loss rises by, as a share of the loss | 0.03 | 0.04 | 0.04 | both |
+| 6 | who acts carried by what the dictionary rebuilds, share of the gap | 0.94 | 1.00 | 1.02 | both |
+| 6 | carried by the highest-ranked latent | 0.17 | 0.27 | 0.28 | seed1 only |
+| 6 | of the six "She" names, how many share the veto head's latent | 6 | 6 | 2 | neither |
+| 6 | the veto head's write to an acting "She" name against its own kind, logits | −0.26 | −0.23 | −0.76 | neither |
+| 7 | the pair direction at dose 1, share of the way | 0.95 | 1.04 | 1.06 | both |
+| 7 | its part with a term per name | 0.96 | 1.04 | 1.07 | both |
+| 7 | the names' means with the vector every flipped prompt shares | 0.81 | 0.85 | 0.85 | both |
+| 7 | the names' means alone | 0.38 | 0.81 | 0.79 | seed1 only |
+| 7 | the shared vector alone | 0.40 | 0.07 | 0.06 | seed1 only |
+| 7 | a random direction as long as the pair direction | 0.23 | 0.14 | 0.31 | neither |
+| 7 | the kind alone, on pairs of two kinds, share of their gap | 0.33 | 0.57 | 0.44 | neither |
+| 7 | the gap between two "She" names against the gap between names of two kinds | 0.32 | 0.10 | 0.30 | seed0 only |
+| 7 | pronouns turned by the difference of means at dose 1, of 72 | 72 | 72 | 72 | both |
+| 7 | pronouns turned by the shared latent at its mean value, of 72 | 15 | 9 | 27 | neither |
+
+Where seed2 is the same as both, the first two are the same as each other,
+so the row is the same in all three. The one exception is marked: 0.82
+passes the rule against 0.90 and against 0.71, which do not pass against
+each other.
+
+![The twenty rows of the table that are numbers, for the three story models: a tick at each model's value and, where the row is a mean over the five sentence patterns, a dot per pattern; beside each row, which of the first two models the third is the same as by the rule](figures/limits-seeds.svg)
+
+**Twelve of the 24 rows are the same in all three story models.** The
+first two agreed on 15. Seed2 agrees with seed0 on 14 and with seed1 on
+17. Of the 15 rows seen twice, 12 were seen a third time. Of the nine rows
+the first two differed on, seed2 is the same as seed1 on three (what the
+highest-ranked latent carries, and how the steering divides between the
+names' means and the shared vector), as seed0 on one (how far apart two
+"She" names are held), as each on one, and as neither on four.
+
+The rule compares one number per model and ignores the spread over the
+sentence patterns, which the figure shows. A random direction's cost
+counts as different in all three pairs, with seed0's patterns between 0.14
+and 0.35 and seed2's between 0.22 and 0.41. The first probe row counts as
+the same in all three, with one pattern at 0.48 in seed1 and in seed2.
+
+**Three rows that had been the same did not hold.** The first is where the
+answer is written, and it sits on the rule's line. The last quarter of the
+blocks writes 0.74 of the clean logit difference in seed2, which passes
+against seed1's 0.90 and differs from seed0's 0.94 by 0.196 where the rule
+allows 0.188. Head 5 of block 6 writes 0.16 of it there. In the first
+two models no head of block 6 writes more than 0.01 of it in either
+direction, to two decimals.
+
+One row that held would not with another line. Seed2 takes who acts off
+the acting name in two blocks: moving that position alone carries 1.04 of
+the gap after block 5, 0.56 after block 6 and nothing after block 7, where
+seed0 and seed1 lose it in one block. At a line of nine tenths in place of
+a half, seed2's depth row reads 0.62, which passes against seed0's 0.75
+and not against seed1's 0.88.
+
+The other two are step 6's, and they are not equally firm.
+
+The write needs no dictionary. Seed2's head with the largest share
+at the last position, head 3 of block 7, lowers an acting "She" name by
+0.76 logits against the other names of its kind, where the first two
+models' heads lower it by 0.26 and 0.23. Step 6 found a veto head that
+lowers a "He" name against its own kind by 1.12 and 1.16 logits and a
+"She" name by a fifth to a quarter of that. In seed2 the two figures are
+1.29 and 0.76.
+
+The count is the dictionary's as much as the model's. In seed2's first
+dictionary that head has one latent as its first choice for two of the six
+"She" names, Mia and Lucy, and four other latents for the other four. The
+dictionary does have a latent for the kind: the one Mia and Lucy share
+fires in all 36 of step 7's sentences with a "She" name and in two of the
+36 with a "He" name.
+
+**Three looks were added after the rows had been read**, and none is a
+row. Two are about a second head. Step 4's record for seed2 has two heads at
+the last position that read the acting name and lower it: head 3 of block
+7 with a share of 0.62, and head 5 of block 6 with 0.45. In the first two
+models one such head stands far above the next: 0.87 against 0.13, and
+0.69 against 0.14. Step 6 studies the largest, so in seed2 its two rows
+are about one of two heads.
+
+The first look had its comparison written into `scripts/limits.py` before
+`scripts/heads.py` was run on seed2: what head 5 of block 6 adds to an
+acting "She" name against its own kind, beside −0.26 and −0.23, by the
+rule. It adds −0.26, which is the same.
+
+The other two come from an independent check of this section and had no
+comparison written first. One runs step 6 on that second head
+(`--head 6.5`). The table gives what a head adds where a name of each kind
+acts, in logits: to the acting name against the nine uninvolved names, to
+it against the uninvolved names of its own kind, and to its kind against
+the other kind.
+
+| Head | "She": against the nine | its own kind | kind against the other | "He": against the nine | its own kind | kind against the other |
+|---|---|---|---|---|---|---|
+| seed0, block 7, head 0 | −1.01 | −0.26 | −1.40 | −1.75 | −1.12 | −1.19 |
+| seed1, block 8, head 0 | −1.20 | −0.23 | −1.80 | −1.72 | −1.16 | −1.07 |
+| seed2, block 7, head 3 | −1.18 | −0.76 | −0.79 | −1.60 | −1.29 | −0.57 |
+| seed2, block 6, head 5 | −0.67 | −0.26 | −0.76 | −0.61 | −0.51 | −0.20 |
+
+Where a "She" name acts, head 5 of block 6 does what the first two models'
+heads do, with about half their effect on the kind: it lowers the kind by
+0.76 and the name within it by 0.26, and its first choice is one latent
+for all six "She" names. Where a "He"
+name acts it does not: 0.51 against its own kind is not 1.12 or 1.16 by
+the rule. Head 3 of block 7 lowers both the name and the kind where a
+"She" name acts. The direct writes of two heads add. Together seed2's two
+lower an acting "She" name by 1.02 logits against the names of its kind
+and a "He" name by 1.80. The two largest such heads of seed0 lower them by
+0.29 and 1.27, and those of seed1 by 0.28 and 1.39. So the row's −0.76 is
+not made by which head the script picks. By direct write, in logits,
+seed2's veto tells the "She" names apart, and that of the first two models
+mostly does not.
+
+The last look trains a second and a third dictionary for seed2 and runs
+steps 6 and 7 on them. Head 3 of block 7 then has one latent as its first
+choice for five of the six "She" names in both, with Anna on a latent of
+her own, as in seed1's second dictionary. Head 5 of block 6 has one latent
+for all six in each of the three. By the rule five is not six, so against
+the first two models' first dictionaries the row would still read
+"neither". But "two of six" described one
+dictionary, and the difference between the models that this row was meant
+to show is in the write.
+
+**What the three circuits share is the roles of their heads.** The head
+row cannot be the same unless two models put the head at the same place.
+In all three, a head of block 4 at the acting name reads the other name,
+with 0.91 and 0.78 of its attention on clean and flipped prompts in seed0,
+0.85 and 0.79 in seed1, and 0.81 and 0.70 in seed2. In all three, heads at
+the last position read the acting name and lower it, other heads read a
+name and raise it, and seven heads together carry the gap: 1.07, 0.97 and
+1.08. Where the veto sits differs each time: block 7, block 8, and blocks
+6 and 7. Step 4's hold shows the two in seed2 as two routes: of the 0.26
+its fetching head carries, 0.12 comes along with head 5 of block 6 held at
+the flipped run's output, and 0.13 with head 3 of block 7 held. And a
+direction added after block 6 comes too late for a head of block 6: step
+7's pair direction, added there at the acting name, moves 0.59 of the way
+in seed2, against 0.95 and 0.92.
+
+The third dictionaries, with the rows on which one of them differs from
+the first or the second of its model:
+
+| Step | With the dictionary | seed0: first | second | third | seed1: first | second | third |
+|---|---|---|---|---|---|---|---|
+| 6 | carried by the highest-ranked latent | 0.17 | 0.21 | **0.26** | 0.27 | 0.28 | 0.31 |
+| 6 | the two names' latents moved for real | 0.23 | 0.28 | **0.31** | 0.43 | 0.45 | 0.43 |
+| 6 | of the six "She" names, how many share the veto head's latent | 6 | 6 | 6 | 6 | 5 | **6** |
+| 6 | different latents among the six "He" names | 6 | 5 | **3** | 6 | 4 | **6** |
+| 6 | the shared latent off: the acting "She" name against the nine, logits | 0.68 | 0.76 | 0.84 | 0.77 | 0.67 | **0.90** |
+| 7 | the two names' latents steered | 0.19 | 0.22 | **0.26** | 0.43 | 0.45 | 0.43 |
+| 7 | the shared latent at its mean value moves the pronoun measure after a "He" name by, logits | 6.59 | 6.80 | 7.53 | 5.52 | 6.13 | **7.19** |
+| 7 | pronouns it turns, of 72 | 15 | 18 | **32** | 9 | 14 | **22** |
+| 7 | of them after the 36 "He" names | 12 | 12 | **18** | 9 | 10 | **16** |
+| 7 | and after the 36 "She" names | 3 | 6 | **14** | 0 | 4 | **6** |
+| 7 | at twice that value, of 72 | 72 | 72 | 72 | 71 | 72 | **72** |
+| 7 | the missed part moves the measure by, logits (the larger of the two groups' means) | 0.38 | 0.51 | **0.29** | 0.19 | 0.07 | **0.16** |
+| 7 | where that reading starts on a "He" name, share of the latent's mean value | −0.17 | 0.02 | **−0.03** | −0.18 | −0.17 | **−0.09** |
+| 7 | latents that differ by more than 0.5 between the kinds, mean of six sentences | 29.5 | 28.7 | 29.2 | 31.8 | 31.0 | **25.2** |
+
+Bold marks a third value that differs by the rule from the first
+dictionary's or from the second's. The other eleven rows of the section
+above are the same in all three dictionaries, in both models. In seed0 16
+of the 25 rows are the same in all three, and in seed1 14. The first two
+dictionaries agreed on 20 and 18, and the third joins them on 16 and 14 of
+those.
+
+**Most of the aggregate numbers held a third time. The pronoun count did
+not.** How much a dictionary misses, how much of who acts it rebuilds,
+what the eight and the 32 highest latents carry and how well the gradient
+ranks latents are among the eleven. Two that the section above counted as
+holding did not hold in one model each: the highest-ranked latent carries
+0.17, 0.21 and 0.26 in seed0's three dictionaries, and the shared latent
+moves the pronoun measure by 5.52, 6.13 and 7.19 logits in seed1's. The
+shared latent at its mean value turns 15, 18 and 32 of 72 pronouns in
+seed0's three dictionaries, 9, 14 and 22 in seed1's, and 27, 52 and 59 in
+seed2's. Nine dictionaries give between 9 and 59. Step 7 gave this count
+for one dictionary per model.
+
+**Which latent is which, as before.** Of the first dictionary's latents,
+3%, 9% and 31% have a counterpart in the third at a cosine of 0.9, 0.7 and
+0.5 or more in seed0, and 4%, 14% and 40% in seed1. The second gave 3%,
+9% and 30%, and 3%, 13% and 39%. A counterpart at 0.7 or more in both
+other dictionaries is found for 6% and 9% of the latents, and for 28% and
+39% of those that fire on more than 1% of story tokens. So about seven in
+ten of the latents with a counterpart in the second dictionary have one in
+the third as well.
+
+**The shared latent came back a third time.** Its best counterpart in the
+third dictionary has a cosine of 0.78 and 0.91 and is that dictionary's
+own shared latent, and the same holds starting from the second
+dictionary, at 0.80 and 0.76. Of the three statements the second
+dictionary changed, none is settled by a third. In seed1 the head rests on
+the shared latent for all six "She" names again. The six "He" names have
+6, 5 and 3 different latents in seed0's three dictionaries, where Tom,
+Tim, Ben and Jack share one in the third, and 6, 4 and 6 in seed1's. The
+reading on a "He" name starts at −0.17, +0.02 and −0.03 of the latent's
+mean value in seed0 and at −0.18, −0.17 and −0.09 in seed1, and the
+dictionary reads back 0.71, 0.89 and 0.84 of what was written, and 0.71,
+0.74 and 0.84.
+
+Three are not a distribution either. What the third of each adds is a
+count. Of 15 rows the first two models agreed on, three did not hold in
+the third. One of them sits on the rule's line. The other two are the two
+halves of what step 6 said about the "She" names: the write did not hold
+in the third model, and the count of names depends on the dictionary as
+well as on the model. Of the 20 and 18 rows two dictionaries agreed on,
+four and four did not hold in a third.
+
 ## Another model
 
 The open model is Qwen2.5-0.5B-Instruct: 24 blocks, 14 heads per block,
@@ -269,10 +537,11 @@ of the clean logit difference. Moving the acting name's position alone
 still carries 0.98 of the gap after block 14. Then who acts goes to the
 last position in two stages: about half of it at blocks 15 and 16, on
 average over the patterns and more in one of the five, and the rest at
-blocks 21 to 23. The story models move it in one block, seed1 in its last. So the
-depth row depends on the line drawn in the open model and not in the story
-models: 0.58 of the depth for nine tenths of the gap, 0.62 for half, 0.83
-for a quarter.
+blocks 21 to 23. Seed0 and seed1 move it in one block, seed1 in its last. So the
+depth row depends on the line drawn in the open model and not in those two:
+0.58 of the depth for nine tenths of the gap, 0.62 for half, 0.83 for a
+quarter. The third story model moves it in two neighboring blocks, and its row
+depends on the line too, as the section above says.
 
 **The pair direction works there as it did.** Built on four sentence
 patterns and added in the fifth, it takes the answer 1.00 of the way and
@@ -542,8 +811,19 @@ pattern.
 
 ## What this does not show
 
-- **A distribution.** Two seeds of the model, two seeds of the dictionary
-  and one other model. "The same" means seen two or three times.
+- **A distribution.** Three seeds of the model, three seeds of the
+  dictionary for each, and one other model. "The same" means seen two or
+  three times, and three of fifteen is a count from one draw, not a rate.
+- **The third model's rows with another dictionary.** Six of seed2's 24
+  rows pass through its first dictionary. Its second and third were read
+  for two numbers only: the names that share a first choice, and the
+  pronouns turned.
+- **The third model's two veto heads as one mechanism.** Their direct
+  writes were added. What each does through later heads was not measured
+  beyond step 4's hold.
+- **Looks that were planned.** Of the three looks added to the third
+  model, one had its comparison written first. The other two were chosen
+  by a checker who had read the section.
 - **That the scorecard is neutral.** The 24 rows were picked after the
   results were known, hold only what can be put as one number, and are not
   independent. With the second dictionaries in place of the first,
@@ -583,7 +863,8 @@ pattern.
   answer moves in a step between a quarter and three quarters of the dose,
   so a partial direction's share means something else there. The controls
   and the dose curve were run at one depth.
-- **Other dictionaries.** The second differs in its seed. Another width,
+- **Other dictionaries.** The second and the third differ from the first
+  in their seed. Another width,
   another number of active latents, longer training or another place were
   not tried, and the share of latents with a counterpart may depend on all
   of them.
@@ -598,12 +879,11 @@ Step 9 maps each piece of this repository to a library that exists for it.
 
 ## Exercises
 
-1. Train a third dictionary for both models (`--seed 2 --dict s2`, and
-   again with `--model seed1`; with `MINTERP_RUNS=runs` so that the next
-   script finds its record) and run steps 6 and 7 on it.
-   Does the shared latent have a counterpart there as well, and do the
-   three agree on the "He" names? `scripts/limits.py` compares the first
-   with `s1`; change `TAG` to compare another.
+1. `runs/features/features-seed2-h6.5.json` is step 6's record for the
+   third model's second veto head, and holds more than this note reports.
+   Read "the shared latent switched off, where a She name acts" in it and
+   in `features-seed0.json`. With the latent off, does the head's effect
+   on the kind go and its effect on the name stay, in both?
 2. Train a dictionary twice as wide, under a name of its own so that it
    does not replace the first (`--width 8192 --dict wide`). Does the
    shared latent split, and by what?
