@@ -36,6 +36,20 @@ with the first, the second, both or neither. The third model's dictionary
 is trained after the block of its own head at the acting name, which is
 how block 4 was chosen for the first two.
 
+Settled after the third model's steps 1 to 3 had run and before their
+records were read: "its own head at the acting name" is the head with the
+largest share of the gap moved at that position alone (step 3's parts),
+whether or not one head or several pass 0.05 there. That gives block 4
+for the first two. If it gives another block for the third, the rows of
+steps 5 to 7 compare the models at different places, and no run is added
+to tell the seed from the place. The third model sorts the twelve names
+into the same six and six as the first two, so every count has the base
+its row names; the number of heads its circuit has is recorded beside the
+row on what they carry together. The agreement of each pair is counted
+too, since the rows the same in all three can only be fewer than the rows
+the first two agreed on. One model and one dictionary are added to it,
+and one dictionary to each of the first two; no row is run again.
+
     uv run scripts/limits.py
 """
 
@@ -90,6 +104,8 @@ def tally(rows, first_two, verdict):
     agreed, differed = [r for r in rows if first_two(r)], [r for r in rows if not first_two(r)]
     sides = lambda r: {(True, True): "both", (True, False): "the first only", (False, True): "the second only", (False, False): "neither"}[tuple(verdict(r)["agrees with"])]
     return {"rows": len(rows), "the same in all three": sum(verdict(r)["the same in all three"] for r in rows),
+            "by pair": {"the first and the second": len(agreed), "the first and the third": sum(verdict(r)["agrees with"][0] for r in rows),
+                        "the second and the third": sum(verdict(r)["agrees with"][1] for r in rows)},
             "of the rows the first two agreed on": {"rows": len(agreed), "the third is the same as both": sum(verdict(r)["the same in all three"] for r in agreed)},
             "of the rows they differed on": {"rows": len(differed), **{k: sum(sides(r) == k for r in differed) for k in ("the first only", "the second only", "both", "neither")}}}
 
@@ -127,6 +143,12 @@ def leaves_at(name, tag, line=0.5):
     r = record("patch", "patch", name)
     at = np.mean([t["travel"]["carry"] for t in r["templates"]], 0)[:, r["travel groups"].index("S")]
     return float(max(d for d, v in enumerate(at) if v >= line) / (len(at) - 1))
+
+
+def block_at_name(name):
+    """The block of the head with the largest share of the gap at the acting name: where a model's dictionary is trained."""
+    at = np.mean([t["parts"]["carry"]["S"] for t in record("patch", "patch", name)["templates"]], 0)[:, :-1]  # (blocks, heads), without the MLPs
+    return int(np.unravel_index(at.argmax(), at.shape)[0]) + 1
 
 
 def veto_head(name, tag):
@@ -304,7 +326,9 @@ if all(record(folder, file, THIRD) is not None for folder, file in needed):
         rows.append({"step": step, "what": what, "kind": kind, "value": v, **third(row["values"][0], row["values"][1], v, kind)})
     paired = list(zip(result["models"]["rows"], rows))
     result["models"]["a third seed"] = {
-        "name": THIRD, "the block of its dictionary": record("sae", "sae", THIRD)["block"], "names that go on with She": record("features", "features", THIRD)["names that go on with She"],
+        "name": THIRD, "the block of its dictionary": record("sae", "sae", THIRD)["block"], "the block of the head with the largest share at the acting name": block_at_name(THIRD),
+        "the same block for the first two": [block_at_name(s) for s in SEEDS], "heads of the circuit": [len(record("circuit", "circuit", s)["heads"]) for s in (*SEEDS, THIRD)],
+        "names that go on with She": record("features", "features", THIRD)["names that go on with She"],
         "rows": rows, "tally": tally(paired, lambda p: p[0]["the two story models agree"], lambda p: p[1]),
         "the depth row with another line": {str(line): leaves_at(THIRD, "", line) for line in (0.9, 0.5, 0.25, 0.1)},
     }
@@ -411,6 +435,22 @@ for seed in SEEDS:
                               "share of the She prompts on which each fires": [(z1[acting] > 0).float().mean().item(), (z2[acting] > 0).float().mean().item()], "prompts": len(acting)},
         "the veto head's latents": by_latent(head1, head2), "step 5's latents": by_latent(step5_1, step5_2),
     }
+    # A third dictionary, where one was trained: counterparts of the first and of the second in it, and latents of the first found in both others.
+    f3 = record("features", "features", seed, TAG3)
+    if f3 is not None and os.path.exists(S.path(seed, 4, TAG3)):
+        three = S.load(S.path(seed, 4, TAG3), "cpu")
+        in_third, second_in_third = (d.dec.detach() @ three.dec.detach().T for d in (one, two))
+        b13, b23 = in_third.max(1), second_in_third.max(1)
+        shared3 = f3["the shared latent"]
+        result["matches"][seed]["a third dictionary"] = {
+            "the first dictionary's latents with a counterpart in the third": shares(b13.values),
+            "the second dictionary's latents with a counterpart in the third": shares(b23.values),
+            "latents of the first with a counterpart at 0.7 or more in the second and in the third": ((best.values >= 0.7) & (b13.values >= 0.7)).float().mean().item(),
+            "of those that fire on more than 1% of story tokens": ((best.values >= 0.7) & (b13.values >= 0.7))[rate > 1e-2].float().mean().item(),
+            "the shared latent": {"third": shared3,
+                                  "cosine of the first's best counterpart": b13.values[shared1].item(), "which is the third's shared latent": bool(b13.indices[shared1].item() == shared3),
+                                  "cosine of the second's best counterpart": b23.values[shared2].item(), "which is the third's shared latent, from the second": bool(b23.indices[shared2].item() == shared3)},
+        }
 
 # ---------------------------------------------------------------- print
 def show(v):
@@ -448,5 +488,27 @@ for seed, m in result["matches"].items():
         rows_ = m[table]
         print(f"  {table}: {len(rows_)} latents; the counterpart is the second's for the same names for {sum(x[hit] for x in rows_)}; at a cosine of 0.7 or more {sum(x['cosine of the best counterpart'] >= 0.7 for x in rows_)}; "
               + " ".join(f"{'+'.join(x['names'])[:14]} {x['cosine of the best counterpart']:.2f}{'*' if x[hit] else ''}" for x in rows_))
+
+sides = lambda v: "" if v is None else "same in all three" if v["the same in all three"] else {(True, True): "as each, which differ", (True, False): "as the first only", (False, True): "as the second only", (False, False): "as neither"}[tuple(v["agrees with"])]
+t3 = result["models"].get("a third seed")
+if t3:
+    print(f"\na third seed ({t3['name']}, dictionary after block {t3['the block of its dictionary']}; She names: {', '.join(t3['names that go on with She'])})")
+    for row, new in zip(result["models"]["rows"], t3["rows"]):
+        print(f"{row['step']:>2}  {row['what'][:98]:98} " + " ".join(show(v) for v in (*row["values"][:2], new["value"])) + f"   {sides(new)}")
+    print("  ", t3["tally"])
+    print("   the depth row with another line:", {k: round(v, 2) for k, v in t3["the depth row with another line"].items()})
+d3 = result["dictionaries"].get("a third dictionary")
+if d3:
+    print(f"\na third dictionary\n{'':4}{'':90} {'seed0':>20} {'seed1':>20}")
+    for row, new in zip(result["dictionaries"]["rows"], d3["rows"]):
+        v = row["values"]
+        print(f"{row['step']:>2}  {row['what'][:90]:90} " + " ".join(show(x) for x in (v[0], v[1], new["values"][0], v[2], v[3], new["values"][1])) + "   " + " / ".join(sides(x) for x in new["by model"]))
+    for seed, t in d3["tally"].items():
+        print(f"   {seed}:", t)
+    for seed, m in result["matches"].items():
+        if "a third dictionary" in m:
+            a = m["a third dictionary"]
+            print(f"   {seed}: the first in the third: {pct(a['the first dictionary' + chr(39) + 's latents with a counterpart in the third'])}; the second in the third: {pct(a['the second dictionary' + chr(39) + 's latents with a counterpart in the third'])}; "
+                  f"of the first, in both others at 0.7 or more: {100 * a['latents of the first with a counterpart at 0.7 or more in the second and in the third']:.0f}%; the shared latent: {a['the shared latent']}")
 
 save("runs/limits/limits.json", result)
