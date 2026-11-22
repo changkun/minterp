@@ -92,6 +92,15 @@ uv run pytest
 Scripts write their results to `out/runs/`. The files under `runs/` are the
 record the notes quote; `MINTERP_RUNS=runs` writes there.
 
+## Website
+
+The notes, this page and the code they link are also a website:
+[changkun.de/minterp](https://changkun.de/minterp/). It is built from this
+repository as it is, with nothing written for the site but
+[`book.config.ts`](book.config.ts). The engine, bookkit, also builds the
+author's books and is not public yet, so `make site` needs a checkout of it
+beside this one.
+
 ## License
 
 MIT, see [LICENSE](LICENSE).
