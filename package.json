@@ -1,0 +1,16 @@
+{
+  "name": "minterp-site",
+  "private": true,
+  "type": "module",
+  "description": "The website of minterp: the notes of the repository, built by bookkit",
+  "engines": {
+    "node": ">=24.2"
+  },
+  "scripts": {
+    "build": "bookkit build",
+    "dev": "bookkit dev"
+  },
+  "dependencies": {
+    "bookkit": "file:../bookkit"
+  }
+}

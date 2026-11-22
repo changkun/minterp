@@ -1,5 +1,8 @@
 /out/
 .venv/
+node_modules/
+_site/
+.cache/
 __pycache__/
 *.egg-info/
 .pytest_cache/
