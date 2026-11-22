@@ -28,7 +28,8 @@ choice   Every head and MLP of the clean run replaced in four ways: by the
 
     uv run scripts/patch.py
     uv run scripts/patch.py --model seed1
-    uv run scripts/patch.py --model qwen --stream-only   # step 8
+    uv run scripts/patch.py --model qwen --stream-only   # step 8: travel and name only, minutes
+    uv run scripts/patch.py --model qwen                 # step 8: with parts and choice, hours
 """
 
 import argparse

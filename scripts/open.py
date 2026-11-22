@@ -8,7 +8,8 @@ steps 1 and 3 run on it as they are:
 
     uv run scripts/behavior.py --model qwen
     uv run scripts/lens.py --model qwen
-    uv run scripts/patch.py --model qwen --stream-only
+    uv run scripts/patch.py --model qwen --stream-only   # minutes; without the flag every part is moved, in hours
+    uv run scripts/heads.py                              # what the heads found by the full run read and write
 
 This script repeats the first experiment of step 7 there, without a
 dictionary, at the acting name's position.
