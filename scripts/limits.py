@@ -50,6 +50,17 @@ too, since the rows the same in all three can only be fewer than the rows
 the first two agreed on. One model and one dictionary are added to it,
 and one dictionary to each of the first two; no row is run again.
 
+One look was added after the rows had been read, and is no row. Step 4's
+record of the third model has two heads at the last position that read
+the acting name and lower it, with shares of 0.62 and 0.45, where the
+first two models have one large one (0.87 against 0.13, 0.69 against
+0.14). Step 6's two rows are about the larger. Written here before
+scripts/heads.py had been run on the third model: what the smaller, head
+5 of block 6, adds to an acting "She" name against the other names of its
+kind on clean prompts is set beside the first two models' -0.26 and -0.23
+by the same rule, and reported whichever way it falls. The 24 rows and
+their tally stay as they are.
+
     uv run scripts/limits.py
 """
 
@@ -149,6 +160,17 @@ def block_at_name(name):
     """The block of the head with the largest share of the gap at the acting name: where a model's dictionary is trained."""
     at = np.mean([t["parts"]["carry"]["S"] for t in record("patch", "patch", name)["templates"]], 0)[:, :-1]  # (blocks, heads), without the MLPs
     return int(np.unravel_index(at.argmax(), at.shape)[0]) + 1
+
+
+def at_end_by_kind(name):
+    """Every head scripts/heads.py read at the last position: its share, and what it adds to an acting name against the uninvolved names of its kind, on clean prompts."""
+    r = record("open", "heads", name)
+    if r is None:
+        return None
+    key = lambda h: f"block {h['block']} head {h['head']}"
+    return [{"head": f"{h['block']}.{h['head']}", "carry": h["carry"],
+             "adds to an acting name against its own kind": {k: over(r, lambda t: t["by kind"][key(h)]["clean"]["acts"][k]) for k in ("She", "He")},
+             "reads the acting name with": over(r, lambda t: t["attention"][key(h)]["clean"]["S"])} for h in r["heads"] if h["acts at"] == "end"]
 
 
 def veto_head(name, tag):
@@ -332,6 +354,12 @@ if all(record(folder, file, THIRD) is not None for folder, file in needed):
         "rows": rows, "tally": tally(paired, lambda p: p[0]["the two story models agree"], lambda p: p[1]),
         "the depth row with another line": {str(line): leaves_at(THIRD, "", line) for line in (0.9, 0.5, 0.25, 0.1)},
     }
+    # The look added after the rows were read: every head at the last position by kind, where scripts/heads.py has run.
+    she_row = features(lambda r: over(r, lambda t: t["head"]["by kind of the acting name"]["She"]["against its own kind"]))
+    at_end = {s: at_end_by_kind(s) for s in (*SEEDS, THIRD)}
+    for h in at_end[THIRD] or []:
+        h["an acting She name, beside the first two models' veto heads"] = third(she_row(SEEDS[0], ""), she_row(SEEDS[1], ""), h["adds to an acting name against its own kind"]["She"], "number")
+    result["models"]["a third seed"]["the heads at the last position, by kind"] = at_end
     r = record("open", "steer", THIRD)
     if r is not None:
         result["models"]["by depth"][THIRD] = {"depths": r["depths"], **{d: np.mean([t["depth"][d]["share"] for t in r["templates"]], 0).tolist() for d in ("pair", "means", "order", "means + order")}}
@@ -497,6 +525,11 @@ if t3:
         print(f"{row['step']:>2}  {row['what'][:98]:98} " + " ".join(show(v) for v in (*row["values"][:2], new["value"])) + f"   {sides(new)}")
     print("  ", t3["tally"])
     print("   the depth row with another line:", {k: round(v, 2) for k, v in t3["the depth row with another line"].items()})
+    for s, heads_ in t3["the heads at the last position, by kind"].items():
+        for h in heads_ or []:
+            k = h["adds to an acting name against its own kind"]
+            print(f"   {s} head {h['head']}: share {h['carry']:.2f}, reads the acting name with {h['reads the acting name with']:.2f}, adds to an acting name against its own kind: She {k['She']:.2f}, He {k['He']:.2f}"
+                  + (f"   {sides(h[chr(34)[:0] + 'an acting She name, beside the first two models' + chr(39) + ' veto heads'])}" if s == THIRD else ""))
 d3 = result["dictionaries"].get("a third dictionary")
 if d3:
     print(f"\na third dictionary\n{'':4}{'':90} {'seed0':>20} {'seed1':>20}")
