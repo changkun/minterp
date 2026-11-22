@@ -698,6 +698,58 @@ def limits_parts():
     save(fig, "limits-parts")
 
 
+def limits_seeds():
+    """Step 8: every row of the seeds' table that is a number, for three story models, with a dot per sentence pattern where a row is a mean over them."""
+    run = read("limits/limits")
+    third = run["models"]["a third seed"]
+    short = {
+        "clean prompts with B above A, share": "clean prompts with B above A",
+        "flipped prompts with A above B, share": "flipped prompts with A above B",
+        "share of the clean logit difference written by the last quarter of the blocks": "written by the last quarter of the blocks",
+        "the due name read at the acting name at half depth, on new pairs, clean prompts, share right": "the due name read at half depth, clean",
+        "the same on flipped prompts": "the same, flipped",
+        "the last depth at which the acting name alone carries half of the gap, as a share of the depth": "depth to which the acting name carries half",
+        "the seven heads of the circuit together carry, share of the gap": "the seven heads together",
+        "variance the dictionary misses on stories, share": "variance the dictionary misses",
+        "the loss rises by, share": "the loss rises by",
+        "who acts carried by what the dictionary rebuilds, share of the gap": "carried by what the dictionary rebuilds",
+        "carried by the highest-ranked latent": "carried by the highest-ranked latent",
+        "the veto head's write to an acting She name against its own kind, logits": "the veto head's write to a She name\nagainst its own kind, in logits",
+        "the pair direction at dose 1, share of the way": "the pair direction at dose 1",
+        "its part with a term per name": "its part with a term per name",
+        "the names' means with the vector every flipped prompt shares": "the names' means with the shared vector",
+        "the names' means alone": "the names' means alone",
+        "the shared vector alone": "the shared vector alone",
+        "a random direction as long as the pair direction": "a random direction of the same length",
+        "the kind alone, on pairs of two kinds, share of their gap": "the kind alone, on pairs of two kinds",
+        "the gap between two She names against the gap between names of two kinds": "gap between two She names\nagainst that between two kinds",
+    }
+    rows = [(old, new) for old, new in zip(run["models"]["rows"], third["rows"]) if old["kind"] == "number"]
+    says = lambda new: "both" if new["the same in all three"] else {(True, True): "each, though\nthey differ", (True, False): "seed0 only", (False, True): "seed1 only", (False, False): "neither"}[tuple(new["agrees with"])]
+    fig, ax = plt.subplots(figsize=(9.2, 7.4))
+    for i, (old, new) in enumerate(rows):
+        if i % 2 == 0:
+            ax.axhspan(i - 0.5, i + 0.5, color=RULE[0], alpha=0.25, linewidth=0, zorder=0)
+        for k, (color, label, value) in enumerate(zip((BLUE[0], RED[0], GREEN[0]), ("seed0", "seed1", "seed2, the third"), (*old["values"][:2], new["value"]))):
+            y = i + (k - 1) * 0.27
+            if new["by pattern"][k] is not None:
+                dots(ax, np.array(new["by pattern"][k]), np.full(len(new["by pattern"][k]), y), color, size=3.0)
+            ax.plot([value], [y], marker="|", markersize=7.5, markeredgewidth=1.7, color=color, linestyle="", label=label if i == 0 else None)
+        same = new["the same in all three"]
+        ax.text(1.012, i, says(new), transform=ax.get_yaxis_transform(), va="center", fontsize=8, color=MUTED[0] if same else INK[0], fontweight="normal" if same else "bold")
+    zero(ax, horizontal=False)
+    ax.axvline(1, color=RULE[0], linewidth=0.8, zorder=0)
+    ax.set_yticks(range(len(rows)), [f"{old['step']} · {short[old['what']]}" for old, _ in rows], fontsize=8)
+    ax.set_ylim(len(rows) - 0.5, -0.5)
+    ax.tick_params(axis="y", length=0)
+    ax.set_xlabel("the row's value: a share, or logits where the row says so")
+    ax.set_title("the rows that are numbers, for three story models: a tick at the row's value,\na dot per sentence pattern where the row is a mean over the patterns")
+    ax.text(1.012, -0.95, "seed2 is\nthe same as", transform=ax.get_yaxis_transform(), va="center", fontsize=8, color=MUTED[0])
+    ax.legend(loc="lower center", bbox_to_anchor=(0.5, -0.115), ncol=3)
+    fig.tight_layout()
+    save(fig, "limits-seeds")
+
+
 def limits_dictionaries():
     """Step 8: two results of steps 6 and 7 with the first dictionary and with a second one trained from another seed."""
     rng = np.random.default_rng(0)
@@ -758,4 +810,5 @@ if __name__ == "__main__":
     steer_kind()
     limits_models()
     limits_parts()
+    limits_seeds()
     limits_dictionaries()
