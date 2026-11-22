@@ -7,7 +7,7 @@
 import { defineBook } from "bookkit/config.ts";
 
 export default defineBook({
-  bookkit: "8539231e47122897fbe6c747eb6ca770f5baa220",
+  bookkit: "542a388e2214db5d35c5e9fba8883818cb483484",
   title: "minterp",
   subtitle: "Interpretability by hand, on a model you can train",
   author: "Changkun Ou",
