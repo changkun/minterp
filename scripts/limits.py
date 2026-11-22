@@ -23,6 +23,19 @@ Two columns are called the same by one rule, applied to every row: a
 number when the two differ by at most a fifth of the larger (or by 0.05),
 a count or a name when they are equal.
 
+A third seed of the story model (seed2) and a third dictionary for the
+first two models (--seed 2 --dict s2) are read by the same rule, which was
+written here before either had been run. For three columns the rule is
+applied to each of the three pairs, since it does not carry over: a can
+be the same as b and b as c without a being the same as c. A row is the
+same in all three when all three pairs are. Otherwise the record says
+which of the first two the third agrees with. Reported per table: the
+rows the same in all three; of the rows the first two agreed on, how many
+the third joins; of the rows they differed on, whether the third sides
+with the first, the second, both or neither. The third model's dictionary
+is trained after the block of its own head at the acting name, which is
+how block 4 was chosen for the first two.
+
     uv run scripts/limits.py
 """
 
@@ -39,6 +52,7 @@ from minterp.common import MINLLM, load, save
 from minterp.tap import Tap
 
 SEEDS, OPEN, TAG = ("seed0", "seed1"), "qwen", "s1"
+THIRD, TAG3 = "seed2", "s2"  # a third seed of the model, and a third dictionary for the first two
 KINDS = ("both She", "both He", "one of each")
 
 
@@ -60,6 +74,24 @@ def same(a, b, kind):
     if kind != "number":
         return a == b
     return abs(a - b) <= max(0.2 * max(abs(a), abs(b)), 0.05)
+
+
+def third(a, b, c, kind):
+    """The rule for three: every pair by the rule for two, with c the newcomer."""
+    if c is None:
+        return None
+    with_a, with_b = bool(same(a, c, kind)), bool(same(b, c, kind))
+    return {"agrees with": [with_a, with_b], "the same in all three": bool(same(a, b, kind)) and with_a and with_b}
+
+
+def tally(rows, first_two, verdict):
+    """Over the rows that have a third value: how the third sits with the first two."""
+    rows = [r for r in rows if verdict(r) is not None]
+    agreed, differed = [r for r in rows if first_two(r)], [r for r in rows if not first_two(r)]
+    sides = lambda r: {(True, True): "both", (True, False): "the first only", (False, True): "the second only", (False, False): "neither"}[tuple(verdict(r)["agrees with"])]
+    return {"rows": len(rows), "the same in all three": sum(verdict(r)["the same in all three"] for r in rows),
+            "of the rows the first two agreed on": {"rows": len(agreed), "the third is the same as both": sum(verdict(r)["the same in all three"] for r in agreed)},
+            "of the rows they differed on": {"rows": len(differed), **{k: sum(sides(r) == k for r in differed) for k in ("the first only", "the second only", "both", "neither")}}}
 
 
 # ---------------------------------------------------------------- one number per step, per model
@@ -261,6 +293,36 @@ for step, what, kind, value in DICTIONARIES:
     values = [value(name, tag) for name in SEEDS for tag in ("", TAG)]
     result["dictionaries"]["rows"].append({"step": step, "what": what, "kind": kind, "values": values,
                                            "the two dictionaries agree": [same(values[0], values[1], kind), same(values[2], values[3], kind)]})
+
+# ---------------------------------------------------------------- a third seed, and a third dictionary
+# The third model's records, where every step has run on it: the same 24 rows, by the rule for three.
+needed = (("read", "behavior"), ("read", "lens"), ("probe", "probe"), ("patch", "patch"), ("circuit", "circuit"), ("sae", "sae"), ("features", "features"), ("steer", "steer"))
+if all(record(folder, file, THIRD) is not None for folder, file in needed):
+    rows = []
+    for (step, what, kind, value), row in zip(MODELS, result["models"]["rows"]):
+        v = value(THIRD, "")
+        rows.append({"step": step, "what": what, "kind": kind, "value": v, **third(row["values"][0], row["values"][1], v, kind)})
+    paired = list(zip(result["models"]["rows"], rows))
+    result["models"]["a third seed"] = {
+        "name": THIRD, "the block of its dictionary": record("sae", "sae", THIRD)["block"], "names that go on with She": record("features", "features", THIRD)["names that go on with She"],
+        "rows": rows, "tally": tally(paired, lambda p: p[0]["the two story models agree"], lambda p: p[1]),
+        "the depth row with another line": {str(line): leaves_at(THIRD, "", line) for line in (0.9, 0.5, 0.25, 0.1)},
+    }
+    r = record("open", "steer", THIRD)
+    if r is not None:
+        result["models"]["by depth"][THIRD] = {"depths": r["depths"], **{d: np.mean([t["depth"][d]["share"] for t in r["templates"]], 0).tolist() for d in ("pair", "means", "order", "means + order")}}
+# A third dictionary for each of the first two models: the same 25 rows, by the rule for three.
+if all(record(step, step, seed, TAG3) is not None for seed in SEEDS for step in ("sae", "features", "steer")):
+    rows = []
+    for (step, what, kind, value), row in zip(DICTIONARIES, result["dictionaries"]["rows"]):
+        values = [value(seed, TAG3) for seed in SEEDS]
+        rows.append({"step": step, "what": what, "kind": kind, "values": values,
+                     "by model": [third(row["values"][2 * i], row["values"][2 * i + 1], values[i], kind) for i in range(len(SEEDS))]})
+    paired = list(zip(result["dictionaries"]["rows"], rows))
+    result["dictionaries"]["a third dictionary"] = {
+        "columns": [f"{s}, third" for s in SEEDS], "rows": rows,
+        "tally": {seed: tally(paired, lambda p, i=i: p[0]["the two dictionaries agree"][i], lambda p, i=i: p[1]["by model"][i]) for i, seed in enumerate(SEEDS)},
+    }
 
 # ---------------------------------------------------------------- which latents have a counterpart
 def one_to_one(c, floor=0.7):
