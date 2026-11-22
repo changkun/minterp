@@ -50,6 +50,7 @@ parser.add_argument("--k", type=int, default=32)
 parser.add_argument("--steps", type=int, default=4000)
 parser.add_argument("--seed", type=int, default=0)
 parser.add_argument("--dict", default="", help="a name for another dictionary of the same place, kept beside the first (step 8)")
+parser.add_argument("--across-batch", action="store_true", help="a batch top-k dictionary: the k largest latents per vector on average over a batch, a threshold at use")
 args = parser.parse_args()
 
 model, tok, meta = load(args.model)
@@ -77,13 +78,13 @@ held, held_tokens = collect("valid", 300, seed=2)  # (windows, seq, dim), (windo
 dim = train_vectors.shape[-1]
 flat_train, flat = train_vectors.reshape(-1, dim), held.reshape(-1, dim)
 print(f"{flat_train.shape[0]:,} training vectors, {flat.shape[0]:,} held out")
-sae = S.train(flat_train, args.width, args.k, steps=args.steps, seed=args.seed, device=device,
+sae = S.train(flat_train, args.width, args.k, steps=args.steps, seed=args.seed, device=device, across_batch=args.across_batch,
               log=lambda step, loss: print(f"  step {step:5d}  loss {loss:.3f}"))
 os.makedirs("out/sae", exist_ok=True)
 S.save(sae, S.path(meta["name"], args.block, args.dict))
 rebuild = lambda x: sae(x.float())[0].to(x.dtype)
 
-result = {"model": meta, "block": args.block, "width": args.width, "k": args.k, "steps": args.steps, "seed": args.seed,
+result = {"model": meta, "block": args.block, "width": args.width, "k": args.k, "steps": args.steps, "seed": args.seed, "across batch": args.across_batch,
           "training vectors": flat_train.shape[0], "held-out vectors": flat.shape[0]}
 
 # rebuilds

@@ -21,6 +21,14 @@ older way is a penalty on the size of the latents, which has to be tuned
 against the reconstruction; with top-k the number of active latents is set
 directly.
 
+A newer variant, the batch top-k dictionary of Bussmann et al. (2024),
+takes the largest values over a whole batch of vectors while it trains: of
+n vectors, the n * k largest latents stay, wherever they are, so that one
+vector may use more than k and another fewer. When it is used there is no
+batch to rank against, so it keeps what exceeds one threshold, estimated
+after training as the mean over many batches of the smallest value that
+was kept. `across_batch=True` trains that variant.
+
 Nothing here knows what the model is. The input is vectors, the output is
 vectors, and whether a direction means anything is a question for the
 experiments.
@@ -31,9 +39,11 @@ from torch import nn
 
 
 class SAE(nn.Module):
-    def __init__(self, dim, width, k):
+    def __init__(self, dim, width, k, across_batch=False):
         super().__init__()
-        self.k = k
+        self.k, self.across_batch = k, across_batch
+        if across_batch:  # at use, a latent is on where it exceeds this
+            self.register_buffer("threshold", torch.zeros(()))
         directions = torch.randn(width, dim)
         directions = directions / directions.norm(dim=1, keepdim=True)
         self.dec = nn.Parameter(directions.clone())  # (width, dim): one unit direction per latent
@@ -49,10 +59,27 @@ class SAE(nn.Module):
         return self.dec.shape[0]
 
     def encode(self, x):
-        """Stream vectors (..., dim) -> latents (..., width), at most k of them non-zero."""
+        """
+        Stream vectors (..., dim) -> latents (..., width). At most k of them
+        are non-zero; in a batch top-k dictionary, those above its
+        threshold, about k on average. A vector gets the same latents alone
+        and beside others.
+        """
         pre = (x / self.scale - self.b) @ self.enc + self.b_enc
+        if self.across_batch:
+            return torch.where(pre > self.threshold, pre, torch.zeros_like(pre))
         top = pre.topk(self.k, dim=-1)
         return torch.zeros_like(pre).scatter_(-1, top.indices, top.values.relu())
+
+    def across(self, x):
+        """
+        Training only, for a batch top-k dictionary: of a batch of n vectors
+        the n * k largest latents stay, wherever they are. Returns them and
+        the smallest value that stayed.
+        """
+        pre = ((x / self.scale - self.b) @ self.enc + self.b_enc).relu()
+        cut = pre.flatten().topk(self.k * pre.shape[0]).values[-1]
+        return torch.where(pre >= cut, pre, torch.zeros_like(pre)), cut
 
     def decode(self, z):
         return (z @ self.dec + self.b) * self.scale
@@ -62,14 +89,14 @@ class SAE(nn.Module):
         return self.decode(z), z
 
 
-def train(vectors, width, k, steps=4000, batch=4096, lr=4e-4, seed=0, device="cpu", log=None):
+def train(vectors, width, k, steps=4000, batch=4096, lr=4e-4, seed=0, device="cpu", log=None, across_batch=False):
     """
     Fit a dictionary to stream vectors (rows, dim), which stay on the CPU
     while batches of them go to the device. Returns the autoencoder.
     """
     torch.manual_seed(seed)
     dim = vectors.shape[1]
-    sae = SAE(dim, width, k)
+    sae = SAE(dim, width, k, across_batch)
     sae.scale.fill_(vectors[:100_000].norm(dim=1).mean().item() / dim ** 0.5)
     sae.b.data = vectors[:100_000].mean(0) / sae.scale
     sae = sae.to(device)
@@ -77,7 +104,7 @@ def train(vectors, width, k, steps=4000, batch=4096, lr=4e-4, seed=0, device="cp
     pick = torch.Generator().manual_seed(seed)
     for step in range(steps):
         x = vectors[torch.randint(0, vectors.shape[0], (batch,), generator=pick)].to(device)
-        rebuilt, _ = sae(x)
+        rebuilt = sae.decode(sae.across(x)[0]) if across_batch else sae(x)[0]
         loss = ((rebuilt - x) / sae.scale).pow(2).sum(-1).mean()
         opt.zero_grad()
         loss.backward()
@@ -86,6 +113,10 @@ def train(vectors, width, k, steps=4000, batch=4096, lr=4e-4, seed=0, device="cp
             sae.dec.data /= sae.dec.data.norm(dim=1, keepdim=True)
         if log and (step % 500 == 0 or step == steps - 1):
             log(step, loss.item())
+    if across_batch:  # the threshold for use: the smallest value kept in a batch, averaged over a hundred batches
+        with torch.no_grad():
+            cuts = [sae.across(vectors[torch.randint(0, vectors.shape[0], (batch,), generator=pick)].to(device))[1] for _ in range(100)]
+            sae.threshold.fill_(torch.stack(cuts).mean().item())
     return sae.eval().requires_grad_(False)
 
 
@@ -107,11 +138,11 @@ def unexplained(sae, vectors, batch=8192):
 
 
 def save(sae, path):
-    torch.save({"state": sae.state_dict(), "dim": sae.dec.shape[1], "width": sae.width, "k": sae.k}, path)
+    torch.save({"state": sae.state_dict(), "dim": sae.dec.shape[1], "width": sae.width, "k": sae.k, "across_batch": sae.across_batch}, path)
 
 
 def load(path, device="cpu"):
     blob = torch.load(path, map_location=device, weights_only=True)
-    sae = SAE(blob["dim"], blob["width"], blob["k"])
+    sae = SAE(blob["dim"], blob["width"], blob["k"], blob.get("across_batch", False))  # files written before the variant existed lack the key
     sae.load_state_dict(blob["state"])
     return sae.to(device).eval().requires_grad_(False)
