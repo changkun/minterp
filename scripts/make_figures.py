@@ -667,6 +667,37 @@ def limits_models():
     save(fig, "limits-models")
 
 
+def limits_parts():
+    """Step 8: every head and MLP of the open model moved one at a time, and the largest of them by sentence pattern."""
+    run = read("patch/patch-qwen")
+    per = {k: np.array([t["parts"][k]["all"] for t in run["templates"]]) for k in ("carry", "break")}  # (patterns, blocks, heads + 1)
+    grid = per["carry"].mean(0)
+    heads = grid.shape[1] - 1
+    fig, (left, right) = plt.subplots(1, 2, figsize=(9.2, 6.2), gridspec_kw={"width_ratios": [1.75, 1]})
+    cells(left, grid, [str(h) for h in range(heads)] + ["MLP"], [str(i + 1) for i in range(grid.shape[0])], floor=0.05, top=0.25)
+    left.axvline(heads - 0.5, color=RULE[0], linewidth=0.8)
+    left.set_xlabel("head")
+    left.set_ylabel("block")
+    left.set_title("clean part into the flipped run: share of the gap\nthat comes along, mean of the five patterns")
+    size = np.abs(grid)
+    size[0, -1] = 0  # block 1's MLP carries the token itself, 1.00 in every pattern
+    order = [(b, h) for b, h in np.dstack(np.unravel_index(np.argsort(-size, axis=None), size.shape))[0] if size[b, h] >= 0.05]
+    for i, (b, h) in enumerate(order):
+        for k, color, shift in (("carry", BLUE[0], -0.17), ("break", RED[0], 0.17)):
+            dots(right, per[k][:, b, h], np.full(per[k].shape[0], i + shift), color, size=3.0)
+            right.plot([per[k][:, b, h].mean()], [i + shift], marker="|", markersize=7, markeredgewidth=1.6, color=color, linestyle="",
+                       label={"carry": "clean part into the flipped run", "break": "flipped part into the clean run"}[k] if i == 0 else None)
+    zero(right, horizontal=False)
+    right.set_yticks(range(len(order)), [f"block {b + 1} " + ("MLP" if h == heads else f"head {h}") for b, h in order], fontsize=8)
+    right.set_ylim(len(order) - 0.5, -0.5)
+    right.tick_params(axis="y", length=0)
+    right.set_xlabel("share of the gap")
+    right.set_title("parts of 0.05 or more:\none dot per sentence pattern")
+    right.legend(loc="lower center", bbox_to_anchor=(0.5, -0.2), fontsize=8)
+    fig.tight_layout(w_pad=2.0)
+    save(fig, "limits-parts")
+
+
 def limits_dictionaries():
     """Step 8: two results of steps 6 and 7 with the first dictionary and with a second one trained from another seed."""
     rng = np.random.default_rng(0)
@@ -726,4 +757,5 @@ if __name__ == "__main__":
     steer_who()
     steer_kind()
     limits_models()
+    limits_parts()
     limits_dictionaries()
