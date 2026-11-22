@@ -1,0 +1,6123 @@
+{
+ "model": {
+  "name": "qwen",
+  "repo": "Qwen/Qwen2.5-0.5B-Instruct",
+  "config": {
+   "dim": 896,
+   "n_layers": 24,
+   "n_heads": 14,
+   "n_kv_heads": 2,
+   "vocab_size": 151936
+  }
+ },
+ "heads": [
+  {
+   "block": 14,
+   "head": 2,
+   "carry": 0.177,
+   "acts at": "S"
+  },
+  {
+   "block": 15,
+   "head": 0,
+   "carry": 0.106,
+   "acts at": "end"
+  },
+  {
+   "block": 15,
+   "head": 3,
+   "carry": 0.159,
+   "acts at": "end"
+  },
+  {
+   "block": 20,
+   "head": 6,
+   "carry": -0.118,
+   "acts at": "end"
+  },
+  {
+   "block": 20,
+   "head": 8,
+   "carry": -0.089,
+   "acts at": "end"
+  },
+  {
+   "block": 20,
+   "head": 11,
+   "carry": 0.101,
+   "acts at": "end"
+  },
+  {
+   "block": 21,
+   "head": 9,
+   "carry": 0.215,
+   "acts at": "end"
+  },
+  {
+   "block": 21,
+   "head": 12,
+   "carry": 0.094,
+   "acts at": "end"
+  },
+  {
+   "block": 22,
+   "head": 0,
+   "carry": 0.066,
+   "acts at": "end"
+  },
+  {
+   "block": 22,
+   "head": 11,
+   "carry": 0.058,
+   "acts at": "end"
+  },
+  {
+   "block": 23,
+   "head": 0,
+   "carry": 0.089,
+   "acts at": "end"
+  },
+  {
+   "block": 23,
+   "head": 6,
+   "carry": -0.064,
+   "acts at": "end"
+  },
+  {
+   "block": 24,
+   "head": 2,
+   "carry": -0.065,
+   "acts at": "end"
+  },
+  {
+   "block": 24,
+   "head": 12,
+   "carry": -0.122,
+   "acts at": "end"
+  }
+ ],
+ "versions": [
+  "clean",
+  "flipped",
+  "neutral"
+ ],
+ "places": [
+  "first token",
+  "A",
+  "B",
+  "stop",
+  "S",
+  "S+1",
+  "end"
+ ],
+ "names that go on with She": [
+  "Lily",
+  "Mia",
+  "Lucy",
+  "Anna",
+  "Sue",
+  "Sara"
+ ],
+ "templates": [
+  {
+   "template": "Once upon a time, {A} and {B} went to the park. {S} gave a toy to",
+   "attention": {
+    "block 14 head 2": {
+     "clean": {
+      "first token": 0.3628,
+      "A": 0.5122,
+      "B": 0.0165,
+      "stop": 0.0001,
+      "S": 0.0872,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.1536,
+      "A": 0.0098,
+      "B": 0.7468,
+      "stop": 0.0001,
+      "S": 0.086,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.9706,
+      "A": 0.0022,
+      "B": 0.0023,
+      "stop": 0.0,
+      "S": 0.024,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "first token": 0.3528,
+      "A": 0.0203,
+      "B": 0.0406,
+      "stop": 0.0123,
+      "S": 0.3649,
+      "S+1": 0.0324,
+      "end": 0.0451
+     },
+     "flipped": {
+      "first token": 0.3046,
+      "A": 0.0165,
+      "B": 0.0385,
+      "stop": 0.0103,
+      "S": 0.4381,
+      "S+1": 0.0325,
+      "end": 0.0437
+     },
+     "neutral": {
+      "first token": 0.3353,
+      "A": 0.0145,
+      "B": 0.0344,
+      "stop": 0.0164,
+      "S": 0.3463,
+      "S+1": 0.0552,
+      "end": 0.0478
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "first token": 0.15,
+      "A": 0.1144,
+      "B": 0.3277,
+      "stop": 0.0129,
+      "S": 0.2827,
+      "S+1": 0.0181,
+      "end": 0.0138
+     },
+     "flipped": {
+      "first token": 0.1411,
+      "A": 0.1051,
+      "B": 0.3268,
+      "stop": 0.0134,
+      "S": 0.3019,
+      "S+1": 0.0191,
+      "end": 0.0128
+     },
+     "neutral": {
+      "first token": 0.1735,
+      "A": 0.0916,
+      "B": 0.3566,
+      "stop": 0.0224,
+      "S": 0.2081,
+      "S+1": 0.0291,
+      "end": 0.0162
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "first token": 0.2921,
+      "A": 0.0484,
+      "B": 0.5386,
+      "stop": 0.0127,
+      "S": 0.0098,
+      "S+1": 0.0082,
+      "end": 0.02
+     },
+     "flipped": {
+      "first token": 0.2624,
+      "A": 0.4489,
+      "B": 0.0988,
+      "stop": 0.0093,
+      "S": 0.0444,
+      "S+1": 0.0035,
+      "end": 0.0121
+     },
+     "neutral": {
+      "first token": 0.174,
+      "A": 0.2349,
+      "B": 0.3927,
+      "stop": 0.0095,
+      "S": 0.0695,
+      "S+1": 0.0027,
+      "end": 0.015
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "first token": 0.323,
+      "A": 0.0017,
+      "B": 0.0012,
+      "stop": 0.0174,
+      "S": 0.0178,
+      "S+1": 0.0222,
+      "end": 0.5399
+     },
+     "flipped": {
+      "first token": 0.2989,
+      "A": 0.0016,
+      "B": 0.001,
+      "stop": 0.0165,
+      "S": 0.0231,
+      "S+1": 0.0207,
+      "end": 0.5744
+     },
+     "neutral": {
+      "first token": 0.2097,
+      "A": 0.0009,
+      "B": 0.0006,
+      "stop": 0.0119,
+      "S": 0.0129,
+      "S+1": 0.0179,
+      "end": 0.7082
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "first token": 0.3338,
+      "A": 0.0008,
+      "B": 0.001,
+      "stop": 0.0286,
+      "S": 0.0309,
+      "S+1": 0.0728,
+      "end": 0.339
+     },
+     "flipped": {
+      "first token": 0.2904,
+      "A": 0.0007,
+      "B": 0.001,
+      "stop": 0.0303,
+      "S": 0.0439,
+      "S+1": 0.0926,
+      "end": 0.3288
+     },
+     "neutral": {
+      "first token": 0.2695,
+      "A": 0.0005,
+      "B": 0.0007,
+      "stop": 0.024,
+      "S": 0.0406,
+      "S+1": 0.0756,
+      "end": 0.428
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "first token": 0.2598,
+      "A": 0.0508,
+      "B": 0.0917,
+      "stop": 0.0384,
+      "S": 0.3842,
+      "S+1": 0.022,
+      "end": 0.0856
+     },
+     "flipped": {
+      "first token": 0.2429,
+      "A": 0.0518,
+      "B": 0.0441,
+      "stop": 0.0349,
+      "S": 0.4434,
+      "S+1": 0.0208,
+      "end": 0.0961
+     },
+     "neutral": {
+      "first token": 0.3724,
+      "A": 0.0477,
+      "B": 0.0712,
+      "stop": 0.0416,
+      "S": 0.2816,
+      "S+1": 0.0212,
+      "end": 0.0894
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "first token": 0.1984,
+      "A": 0.1292,
+      "B": 0.4532,
+      "stop": 0.0143,
+      "S": 0.0525,
+      "S+1": 0.0038,
+      "end": 0.0315
+     },
+     "flipped": {
+      "first token": 0.1105,
+      "A": 0.6046,
+      "B": 0.0577,
+      "stop": 0.0088,
+      "S": 0.0653,
+      "S+1": 0.001,
+      "end": 0.0118
+     },
+     "neutral": {
+      "first token": 0.1711,
+      "A": 0.4214,
+      "B": 0.1539,
+      "stop": 0.0177,
+      "S": 0.0556,
+      "S+1": 0.0014,
+      "end": 0.0192
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "first token": 0.2292,
+      "A": 0.0608,
+      "B": 0.0995,
+      "stop": 0.0468,
+      "S": 0.3452,
+      "S+1": 0.0098,
+      "end": 0.0409
+     },
+     "flipped": {
+      "first token": 0.2508,
+      "A": 0.0634,
+      "B": 0.0599,
+      "stop": 0.0423,
+      "S": 0.3709,
+      "S+1": 0.0107,
+      "end": 0.0317
+     },
+     "neutral": {
+      "first token": 0.3478,
+      "A": 0.062,
+      "B": 0.0901,
+      "stop": 0.0483,
+      "S": 0.2477,
+      "S+1": 0.0078,
+      "end": 0.0328
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "first token": 0.2429,
+      "A": 0.1567,
+      "B": 0.4858,
+      "stop": 0.007,
+      "S": 0.0516,
+      "S+1": 0.0018,
+      "end": 0.0098
+     },
+     "flipped": {
+      "first token": 0.2863,
+      "A": 0.405,
+      "B": 0.1607,
+      "stop": 0.0069,
+      "S": 0.079,
+      "S+1": 0.0008,
+      "end": 0.0055
+     },
+     "neutral": {
+      "first token": 0.2322,
+      "A": 0.2889,
+      "B": 0.3037,
+      "stop": 0.0053,
+      "S": 0.1241,
+      "S+1": 0.0006,
+      "end": 0.0054
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "first token": 0.0831,
+      "A": 0.0321,
+      "B": 0.1876,
+      "stop": 0.1153,
+      "S": 0.2521,
+      "S+1": 0.0179,
+      "end": 0.0673
+     },
+     "flipped": {
+      "first token": 0.116,
+      "A": 0.0978,
+      "B": 0.0511,
+      "stop": 0.1089,
+      "S": 0.3012,
+      "S+1": 0.0224,
+      "end": 0.0603
+     },
+     "neutral": {
+      "first token": 0.1419,
+      "A": 0.0817,
+      "B": 0.1312,
+      "stop": 0.123,
+      "S": 0.1559,
+      "S+1": 0.0188,
+      "end": 0.0685
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "first token": 0.1291,
+      "A": 0.1027,
+      "B": 0.1031,
+      "stop": 0.1433,
+      "S": 0.052,
+      "S+1": 0.0143,
+      "end": 0.0755
+     },
+     "flipped": {
+      "first token": 0.2069,
+      "A": 0.0932,
+      "B": 0.1072,
+      "stop": 0.1091,
+      "S": 0.0737,
+      "S+1": 0.0087,
+      "end": 0.0472
+     },
+     "neutral": {
+      "first token": 0.1639,
+      "A": 0.1134,
+      "B": 0.1396,
+      "stop": 0.0993,
+      "S": 0.1494,
+      "S+1": 0.0063,
+      "end": 0.0442
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "first token": 0.0723,
+      "A": 0.0656,
+      "B": 0.3322,
+      "stop": 0.1492,
+      "S": 0.0564,
+      "S+1": 0.0141,
+      "end": 0.0972
+     },
+     "flipped": {
+      "first token": 0.1469,
+      "A": 0.3514,
+      "B": 0.0482,
+      "stop": 0.1222,
+      "S": 0.0586,
+      "S+1": 0.01,
+      "end": 0.0631
+     },
+     "neutral": {
+      "first token": 0.1108,
+      "A": 0.2742,
+      "B": 0.2351,
+      "stop": 0.0987,
+      "S": 0.0651,
+      "S+1": 0.0064,
+      "end": 0.0533
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "first token": 0.0193,
+      "A": 0.0466,
+      "B": 0.4283,
+      "stop": 0.1174,
+      "S": 0.0038,
+      "S+1": 0.0024,
+      "end": 0.0519
+     },
+     "flipped": {
+      "first token": 0.0789,
+      "A": 0.3433,
+      "B": 0.0685,
+      "stop": 0.1087,
+      "S": 0.0077,
+      "S+1": 0.0012,
+      "end": 0.0279
+     },
+     "neutral": {
+      "first token": 0.0607,
+      "A": 0.2391,
+      "B": 0.2876,
+      "stop": 0.0919,
+      "S": 0.0343,
+      "S+1": 0.0007,
+      "end": 0.0276
+     }
+    }
+   },
+   "elsewhere": {
+    "block 14 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0188
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0024
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0004
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "token": "toy",
+      "weight": 0.0866
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.0765
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.1044
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0262
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0266
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0362
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0499
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0965
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0769
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "token": "toy",
+      "weight": 0.0596
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.0518
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.0294
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "token": "toy",
+      "weight": 0.158
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.1738
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.1314
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0259
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0243
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0239
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.079
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.1008
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.1053
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0504
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.0476
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0427
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0147
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0185
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.0125
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0623
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0675
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0793
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.1205
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.1079
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0924
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0741
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0745
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.063
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.1101
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.1231
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0965
+     }
+    }
+   },
+   "writes": {
+    "block 15 head 0": {
+     "clean": {
+      "A": 0.0024,
+      "B": -0.0011,
+      "C": -0.0002
+     },
+     "flipped": {
+      "A": 0.0013,
+      "B": 0.0039,
+      "C": -0.0009
+     },
+     "neutral": {
+      "A": -0.0011,
+      "B": 0.001,
+      "C": 0.0004
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "A": -0.0019,
+      "B": -0.0029,
+      "C": 0.0013
+     },
+     "flipped": {
+      "A": 0.0061,
+      "B": -0.007,
+      "C": 0.0011
+     },
+     "neutral": {
+      "A": 0.0034,
+      "B": -0.0027,
+      "C": 0.0028
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "A": 0.0027,
+      "B": 0.0033,
+      "C": 0.0001
+     },
+     "flipped": {
+      "A": -0.0047,
+      "B": 0.0011,
+      "C": 0.0007
+     },
+     "neutral": {
+      "A": -0.0002,
+      "B": 0.0033,
+      "C": -0.0032
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "A": -0.0022,
+      "B": -0.014,
+      "C": -0.0007
+     },
+     "flipped": {
+      "A": -0.0051,
+      "B": -0.002,
+      "C": -0.0005
+     },
+     "neutral": {
+      "A": -0.003,
+      "B": -0.0046,
+      "C": -0.0036
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "A": 0.0029,
+      "B": 0.0122,
+      "C": 0.0003
+     },
+     "flipped": {
+      "A": 0.006,
+      "B": 0.0027,
+      "C": 0.0003
+     },
+     "neutral": {
+      "A": 0.0037,
+      "B": 0.0055,
+      "C": 0.0043
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "A": -1.9378,
+      "B": -0.3857,
+      "C": -0.0015
+     },
+     "flipped": {
+      "A": -0.3204,
+      "B": -2.1343,
+      "C": -0.0135
+     },
+     "neutral": {
+      "A": -0.3178,
+      "B": -0.3273,
+      "C": -1.3999
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "A": 0.6437,
+      "B": 1.0477,
+      "C": 0.0044
+     },
+     "flipped": {
+      "A": 1.7213,
+      "B": 0.2779,
+      "C": -0.0001
+     },
+     "neutral": {
+      "A": 1.2011,
+      "B": 0.3444,
+      "C": 0.142
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "A": -0.7173,
+      "B": -0.1929,
+      "C": -0.0007
+     },
+     "flipped": {
+      "A": -0.1445,
+      "B": -0.7694,
+      "C": -0.0036
+     },
+     "neutral": {
+      "A": -0.144,
+      "B": -0.1774,
+      "C": -0.525
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "A": 0.4878,
+      "B": 0.8879,
+      "C": 0.0045
+     },
+     "flipped": {
+      "A": 0.9051,
+      "B": 0.4432,
+      "C": 0.0041
+     },
+     "neutral": {
+      "A": 0.6586,
+      "B": 0.5628,
+      "C": 0.2667
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "A": -1.0539,
+      "B": -0.6965,
+      "C": -0.0066
+     },
+     "flipped": {
+      "A": -0.4547,
+      "B": -1.264,
+      "C": -0.0064
+     },
+     "neutral": {
+      "A": -0.4052,
+      "B": -0.4716,
+      "C": -0.6509
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "A": 0.9426,
+      "B": 0.456,
+      "C": 0.0021
+     },
+     "flipped": {
+      "A": 0.6293,
+      "B": 0.9038,
+      "C": 0.0062
+     },
+     "neutral": {
+      "A": 0.7354,
+      "B": 0.6659,
+      "C": 0.8472
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "A": -0.3091,
+      "B": -0.6285,
+      "C": -0.0038
+     },
+     "flipped": {
+      "A": -0.7142,
+      "B": -0.1941,
+      "C": -0.0006
+     },
+     "neutral": {
+      "A": -0.5799,
+      "B": -0.4411,
+      "C": -0.1406
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "A": -0.2864,
+      "B": -1.1216,
+      "C": -0.0062
+     },
+     "flipped": {
+      "A": -0.9849,
+      "B": -0.1837,
+      "C": 0.0015
+     },
+     "neutral": {
+      "A": -0.7409,
+      "B": -0.735,
+      "C": -0.0958
+     }
+    }
+   },
+   "by kind": {
+    "block 15 head 0": {
+     "clean": {
+      "acts": {
+       "She": 0.0017,
+       "He": 0.0023
+      },
+      "due": {
+       "She": 0.0015,
+       "He": -0.0004
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0018,
+       "He": 0.0028
+      },
+      "due": {
+       "She": 0.0013,
+       "He": 0.0057
+      }
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "acts": {
+       "She": -0.0046,
+       "He": 0.003
+      },
+      "due": {
+       "She": -0.002,
+       "He": -0.0017
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0033,
+       "He": -0.0013
+      },
+      "due": {
+       "She": 0.0039,
+       "He": 0.0069
+      }
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.0057,
+       "He": 0.0017
+      },
+      "due": {
+       "She": 0.0068,
+       "He": 0.0041
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0029,
+       "He": -0.0006
+      },
+      "due": {
+       "She": -0.0012,
+       "He": 0.0021
+      }
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "acts": {
+       "She": -0.0016,
+       "He": -0.0005
+      },
+      "due": {
+       "She": -0.0049,
+       "He": -0.0212
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0036,
+       "He": -0.0018
+      },
+      "due": {
+       "She": -0.003,
+       "He": -0.0073
+      }
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.0078,
+       "He": 0.0006
+      },
+      "due": {
+       "She": 0.0104,
+       "He": 0.0137
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.008,
+       "He": 0.0015
+      },
+      "due": {
+       "She": 0.0085,
+       "He": 0.0031
+      }
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "acts": {
+       "She": -1.5596,
+       "He": -1.9033
+      },
+      "due": {
+       "She": -0.3094,
+       "He": -0.4114
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.7746,
+       "He": -2.0721
+      },
+      "due": {
+       "She": -0.2364,
+       "He": -0.3467
+      }
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "acts": {
+       "She": 0.5653,
+       "He": 0.63
+      },
+      "due": {
+       "She": 0.9415,
+       "He": 1.0079
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.2628,
+       "He": 0.2624
+      },
+      "due": {
+       "She": 1.4314,
+       "He": 1.7389
+      }
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.9644,
+       "He": -0.3892
+      },
+      "due": {
+       "She": -0.255,
+       "He": -0.1047
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.0307,
+       "He": -0.4053
+      },
+      "due": {
+       "She": -0.1926,
+       "He": -0.0874
+      }
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.7214,
+       "He": 0.1745
+      },
+      "due": {
+       "She": 1.2933,
+       "He": 0.3369
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.6768,
+       "He": 0.1479
+      },
+      "due": {
+       "She": 1.3074,
+       "He": 0.3353
+      }
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "acts": {
+       "She": -1.1763,
+       "He": -0.8522
+      },
+      "due": {
+       "She": -0.788,
+       "He": -0.551
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.4785,
+       "He": -0.9451
+      },
+      "due": {
+       "She": -0.5085,
+       "He": -0.3723
+      }
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.9158,
+       "He": 0.8786
+      },
+      "due": {
+       "She": 0.3526,
+       "He": 0.4994
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.914,
+       "He": 0.8051
+      },
+      "due": {
+       "She": 0.5072,
+       "He": 0.6736
+      }
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "acts": {
+       "She": -0.3468,
+       "He": -0.245
+      },
+      "due": {
+       "She": -0.7307,
+       "He": -0.4479
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.222,
+       "He": -0.1485
+      },
+      "due": {
+       "She": -0.8555,
+       "He": -0.4735
+      }
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "acts": {
+       "She": -0.2998,
+       "He": -0.2565
+      },
+      "due": {
+       "She": -0.9993,
+       "He": -1.0864
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.1969,
+       "He": -0.1569
+      },
+      "due": {
+       "She": -0.8877,
+       "He": -0.9378
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 0",
+     "alone": 0.1768,
+     "held": 0.0502
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 3",
+     "alone": 0.1768,
+     "held": 0.0186
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 6",
+     "alone": 0.1768,
+     "held": 0.2986
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 8",
+     "alone": 0.1768,
+     "held": 0.2511
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 11",
+     "alone": 0.1768,
+     "held": 0.1277
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 9",
+     "alone": 0.1768,
+     "held": 0.2104
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 12",
+     "alone": 0.1768,
+     "held": 0.1384
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 0",
+     "alone": 0.1768,
+     "held": 0.1855
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 11",
+     "alone": 0.1768,
+     "held": 0.1464
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 0",
+     "alone": 0.1768,
+     "held": 0.2195
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 6",
+     "alone": 0.1768,
+     "held": 0.1721
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 2",
+     "alone": 0.1768,
+     "held": 0.1953
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 12",
+     "alone": 0.1768,
+     "held": 0.2197
+    }
+   ]
+  },
+  {
+   "template": "One day, {A} and {B} were playing in the garden. {S} said hello to",
+   "attention": {
+    "block 14 head 2": {
+     "clean": {
+      "first token": 0.3052,
+      "A": 0.5822,
+      "B": 0.018,
+      "stop": 0.0001,
+      "S": 0.0759,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.1366,
+      "A": 0.0141,
+      "B": 0.7601,
+      "stop": 0.0001,
+      "S": 0.0848,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.9539,
+      "A": 0.0049,
+      "B": 0.0044,
+      "stop": 0.0,
+      "S": 0.0352,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "first token": 0.2397,
+      "A": 0.0252,
+      "B": 0.0515,
+      "stop": 0.0173,
+      "S": 0.5275,
+      "S+1": 0.0251,
+      "end": 0.0079
+     },
+     "flipped": {
+      "first token": 0.2066,
+      "A": 0.0164,
+      "B": 0.0374,
+      "stop": 0.0128,
+      "S": 0.6066,
+      "S+1": 0.0201,
+      "end": 0.0084
+     },
+     "neutral": {
+      "first token": 0.2349,
+      "A": 0.0143,
+      "B": 0.0337,
+      "stop": 0.0168,
+      "S": 0.569,
+      "S+1": 0.0271,
+      "end": 0.0095
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "first token": 0.1284,
+      "A": 0.1111,
+      "B": 0.3498,
+      "stop": 0.0227,
+      "S": 0.1792,
+      "S+1": 0.0178,
+      "end": 0.0029
+     },
+     "flipped": {
+      "first token": 0.1391,
+      "A": 0.0936,
+      "B": 0.3104,
+      "stop": 0.0246,
+      "S": 0.2198,
+      "S+1": 0.0217,
+      "end": 0.0035
+     },
+     "neutral": {
+      "first token": 0.1494,
+      "A": 0.0751,
+      "B": 0.299,
+      "stop": 0.0259,
+      "S": 0.2254,
+      "S+1": 0.0315,
+      "end": 0.0035
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "first token": 0.1713,
+      "A": 0.033,
+      "B": 0.6923,
+      "stop": 0.013,
+      "S": 0.0084,
+      "S+1": 0.0009,
+      "end": 0.0127
+     },
+     "flipped": {
+      "first token": 0.1954,
+      "A": 0.4484,
+      "B": 0.0808,
+      "stop": 0.0125,
+      "S": 0.0937,
+      "S+1": 0.0027,
+      "end": 0.0076
+     },
+     "neutral": {
+      "first token": 0.1252,
+      "A": 0.2525,
+      "B": 0.3508,
+      "stop": 0.0103,
+      "S": 0.1045,
+      "S+1": 0.0029,
+      "end": 0.0072
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "first token": 0.3569,
+      "A": 0.0017,
+      "B": 0.001,
+      "stop": 0.0191,
+      "S": 0.0144,
+      "S+1": 0.0152,
+      "end": 0.5336
+     },
+     "flipped": {
+      "first token": 0.3202,
+      "A": 0.0015,
+      "B": 0.0007,
+      "stop": 0.0194,
+      "S": 0.0192,
+      "S+1": 0.019,
+      "end": 0.5678
+     },
+     "neutral": {
+      "first token": 0.2194,
+      "A": 0.0009,
+      "B": 0.0005,
+      "stop": 0.0103,
+      "S": 0.0092,
+      "S+1": 0.0151,
+      "end": 0.7077
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "first token": 0.2404,
+      "A": 0.0006,
+      "B": 0.0005,
+      "stop": 0.0199,
+      "S": 0.018,
+      "S+1": 0.0746,
+      "end": 0.3615
+     },
+     "flipped": {
+      "first token": 0.1999,
+      "A": 0.0004,
+      "B": 0.0003,
+      "stop": 0.0193,
+      "S": 0.025,
+      "S+1": 0.0923,
+      "end": 0.3439
+     },
+     "neutral": {
+      "first token": 0.211,
+      "A": 0.0002,
+      "B": 0.0002,
+      "stop": 0.014,
+      "S": 0.0262,
+      "S+1": 0.0704,
+      "end": 0.4301
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "first token": 0.2529,
+      "A": 0.042,
+      "B": 0.0815,
+      "stop": 0.0414,
+      "S": 0.3778,
+      "S+1": 0.0299,
+      "end": 0.092
+     },
+     "flipped": {
+      "first token": 0.1786,
+      "A": 0.046,
+      "B": 0.0378,
+      "stop": 0.0356,
+      "S": 0.5108,
+      "S+1": 0.0322,
+      "end": 0.084
+     },
+     "neutral": {
+      "first token": 0.3044,
+      "A": 0.0391,
+      "B": 0.0532,
+      "stop": 0.0456,
+      "S": 0.2899,
+      "S+1": 0.0677,
+      "end": 0.1011
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "first token": 0.2338,
+      "A": 0.0876,
+      "B": 0.4743,
+      "stop": 0.0273,
+      "S": 0.0678,
+      "S+1": 0.0022,
+      "end": 0.0224
+     },
+     "flipped": {
+      "first token": 0.1232,
+      "A": 0.5279,
+      "B": 0.0525,
+      "stop": 0.0175,
+      "S": 0.136,
+      "S+1": 0.0015,
+      "end": 0.0087
+     },
+     "neutral": {
+      "first token": 0.119,
+      "A": 0.3875,
+      "B": 0.1531,
+      "stop": 0.0255,
+      "S": 0.1115,
+      "S+1": 0.0038,
+      "end": 0.0123
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "first token": 0.2556,
+      "A": 0.0509,
+      "B": 0.1045,
+      "stop": 0.0427,
+      "S": 0.3797,
+      "S+1": 0.0104,
+      "end": 0.0343
+     },
+     "flipped": {
+      "first token": 0.2404,
+      "A": 0.0531,
+      "B": 0.0649,
+      "stop": 0.0341,
+      "S": 0.4688,
+      "S+1": 0.0122,
+      "end": 0.0236
+     },
+     "neutral": {
+      "first token": 0.3831,
+      "A": 0.0505,
+      "B": 0.0812,
+      "stop": 0.0396,
+      "S": 0.2799,
+      "S+1": 0.0208,
+      "end": 0.0273
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "first token": 0.3025,
+      "A": 0.1274,
+      "B": 0.4554,
+      "stop": 0.0118,
+      "S": 0.0498,
+      "S+1": 0.0012,
+      "end": 0.0101
+     },
+     "flipped": {
+      "first token": 0.3284,
+      "A": 0.3605,
+      "B": 0.1364,
+      "stop": 0.0113,
+      "S": 0.0966,
+      "S+1": 0.0012,
+      "end": 0.0071
+     },
+     "neutral": {
+      "first token": 0.2589,
+      "A": 0.2765,
+      "B": 0.255,
+      "stop": 0.0082,
+      "S": 0.1512,
+      "S+1": 0.0011,
+      "end": 0.0058
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "first token": 0.0948,
+      "A": 0.032,
+      "B": 0.1657,
+      "stop": 0.118,
+      "S": 0.3016,
+      "S+1": 0.012,
+      "end": 0.0678
+     },
+     "flipped": {
+      "first token": 0.1056,
+      "A": 0.0965,
+      "B": 0.051,
+      "stop": 0.0994,
+      "S": 0.3843,
+      "S+1": 0.0142,
+      "end": 0.0557
+     },
+     "neutral": {
+      "first token": 0.1396,
+      "A": 0.0752,
+      "B": 0.1149,
+      "stop": 0.1201,
+      "S": 0.2317,
+      "S+1": 0.0182,
+      "end": 0.0722
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "first token": 0.141,
+      "A": 0.1033,
+      "B": 0.126,
+      "stop": 0.1691,
+      "S": 0.0674,
+      "S+1": 0.0106,
+      "end": 0.06
+     },
+     "flipped": {
+      "first token": 0.1772,
+      "A": 0.1054,
+      "B": 0.1219,
+      "stop": 0.123,
+      "S": 0.1137,
+      "S+1": 0.0099,
+      "end": 0.0366
+     },
+     "neutral": {
+      "first token": 0.1419,
+      "A": 0.1236,
+      "B": 0.1535,
+      "stop": 0.0991,
+      "S": 0.1874,
+      "S+1": 0.0101,
+      "end": 0.0316
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "first token": 0.0718,
+      "A": 0.0635,
+      "B": 0.3383,
+      "stop": 0.1607,
+      "S": 0.0621,
+      "S+1": 0.0134,
+      "end": 0.0853
+     },
+     "flipped": {
+      "first token": 0.1083,
+      "A": 0.4015,
+      "B": 0.0457,
+      "stop": 0.1212,
+      "S": 0.0656,
+      "S+1": 0.0125,
+      "end": 0.0567
+     },
+     "neutral": {
+      "first token": 0.1031,
+      "A": 0.2945,
+      "B": 0.2097,
+      "stop": 0.0928,
+      "S": 0.0938,
+      "S+1": 0.0101,
+      "end": 0.0453
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "first token": 0.0294,
+      "A": 0.0469,
+      "B": 0.455,
+      "stop": 0.1724,
+      "S": 0.0047,
+      "S+1": 0.0009,
+      "end": 0.0338
+     },
+     "flipped": {
+      "first token": 0.0796,
+      "A": 0.3571,
+      "B": 0.0594,
+      "stop": 0.1507,
+      "S": 0.011,
+      "S+1": 0.0012,
+      "end": 0.0205
+     },
+     "neutral": {
+      "first token": 0.0537,
+      "A": 0.2786,
+      "B": 0.2798,
+      "stop": 0.1063,
+      "S": 0.0571,
+      "S+1": 0.0007,
+      "end": 0.0163
+     }
+    }
+   },
+   "elsewhere": {
+    "block 14 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0165
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0025
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0008
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.0458
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.0451
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.0464
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0541
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0484
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0545
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0428
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0939
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.1001
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.0462
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.0446
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.0326
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.2769
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.3131
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.2446
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.0328
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.0312
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.046
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0388
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0637
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0882
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0543
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0436
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.048
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0118
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0172
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.014
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0709
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0679
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0858
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.1103
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0976
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0886
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0735
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.071
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0589
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.1094
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.1225
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0983
+     }
+    }
+   },
+   "writes": {
+    "block 15 head 0": {
+     "clean": {
+      "A": 0.006,
+      "B": -0.0029,
+      "C": 0.0008
+     },
+     "flipped": {
+      "A": -0.0004,
+      "B": 0.0019,
+      "C": -0.0012
+     },
+     "neutral": {
+      "A": -0.0039,
+      "B": -0.0002,
+      "C": -0.0016
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "A": 0.0027,
+      "B": -0.004,
+      "C": 0.0007
+     },
+     "flipped": {
+      "A": 0.0037,
+      "B": -0.0064,
+      "C": 0.0008
+     },
+     "neutral": {
+      "A": 0.0036,
+      "B": -0.0026,
+      "C": 0.0041
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "A": 0.0045,
+      "B": 0.0046,
+      "C": 0.0016
+     },
+     "flipped": {
+      "A": -0.0072,
+      "B": -0.0006,
+      "C": 0.0005
+     },
+     "neutral": {
+      "A": -0.0032,
+      "B": 0.0024,
+      "C": -0.001
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "A": -0.005,
+      "B": -0.008,
+      "C": -0.0007
+     },
+     "flipped": {
+      "A": -0.0071,
+      "B": -0.0031,
+      "C": -0.0007
+     },
+     "neutral": {
+      "A": -0.0057,
+      "B": -0.0015,
+      "C": -0.0029
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "A": 0.0029,
+      "B": 0.0065,
+      "C": 0.0006
+     },
+     "flipped": {
+      "A": 0.0038,
+      "B": 0.0031,
+      "C": 0.0006
+     },
+     "neutral": {
+      "A": 0.0035,
+      "B": 0.0028,
+      "C": 0.0035
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "A": -1.8644,
+      "B": -0.3532,
+      "C": -0.0018
+     },
+     "flipped": {
+      "A": -0.2711,
+      "B": -2.4051,
+      "C": -0.0157
+     },
+     "neutral": {
+      "A": -0.27,
+      "B": -0.2692,
+      "C": -1.4766
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "A": 0.5249,
+      "B": 1.1085,
+      "C": 0.0038
+     },
+     "flipped": {
+      "A": 1.4985,
+      "B": 0.4269,
+      "C": 0.0013
+     },
+     "neutral": {
+      "A": 1.1116,
+      "B": 0.3525,
+      "C": 0.2805
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "A": -0.7278,
+      "B": -0.202,
+      "C": 0.0
+     },
+     "flipped": {
+      "A": -0.1244,
+      "B": -0.9175,
+      "C": -0.0038
+     },
+     "neutral": {
+      "A": -0.118,
+      "B": -0.1624,
+      "C": -0.563
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "A": 0.397,
+      "B": 0.8364,
+      "C": 0.0065
+     },
+     "flipped": {
+      "A": 0.7958,
+      "B": 0.4163,
+      "C": 0.0045
+     },
+     "neutral": {
+      "A": 0.6152,
+      "B": 0.4829,
+      "C": 0.3082
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "A": -1.1784,
+      "B": -0.6145,
+      "C": -0.0044
+     },
+     "flipped": {
+      "A": -0.448,
+      "B": -1.5135,
+      "C": -0.0045
+     },
+     "neutral": {
+      "A": -0.3794,
+      "B": -0.4185,
+      "C": -0.9432
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "A": 0.9718,
+      "B": 0.58,
+      "C": 0.0044
+     },
+     "flipped": {
+      "A": 0.6677,
+      "B": 1.1593,
+      "C": 0.0086
+     },
+     "neutral": {
+      "A": 0.7808,
+      "B": 0.7483,
+      "C": 1.0416
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "A": -0.2994,
+      "B": -0.6496,
+      "C": -0.0061
+     },
+     "flipped": {
+      "A": -0.8134,
+      "B": -0.203,
+      "C": -0.0023
+     },
+     "neutral": {
+      "A": -0.6165,
+      "B": -0.4062,
+      "C": -0.1979
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "A": -0.2636,
+      "B": -1.2072,
+      "C": -0.0095
+     },
+     "flipped": {
+      "A": -1.0307,
+      "B": -0.1643,
+      "C": -0.0004
+     },
+     "neutral": {
+      "A": -0.8456,
+      "B": -0.7294,
+      "C": -0.1592
+     }
+    }
+   },
+   "by kind": {
+    "block 15 head 0": {
+     "clean": {
+      "acts": {
+       "She": 0.0034,
+       "He": -0.0012
+      },
+      "due": {
+       "She": 0.0014,
+       "He": -0.0025
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.004,
+       "He": -0.0022
+      },
+      "due": {
+       "She": -0.0048,
+       "He": 0.0093
+      }
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "acts": {
+       "She": 0.0015,
+       "He": 0.0059
+      },
+      "due": {
+       "She": -0.0019,
+       "He": -0.0039
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0031,
+       "He": -0.0028
+      },
+      "due": {
+       "She": 0.0019,
+       "He": 0.0059
+      }
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.0056,
+       "He": 0.0058
+      },
+      "due": {
+       "She": 0.0151,
+       "He": 0.0043
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0029,
+       "He": -0.0013
+      },
+      "due": {
+       "She": -0.0,
+       "He": -0.0015
+      }
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "acts": {
+       "She": -0.0068,
+       "He": -0.0022
+      },
+      "due": {
+       "She": -0.0035,
+       "He": -0.0081
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0057,
+       "He": 0.0
+      },
+      "due": {
+       "She": -0.0072,
+       "He": -0.0079
+      }
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.0098,
+       "He": 0.0023
+      },
+      "due": {
+       "She": 0.0058,
+       "He": 0.0075
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0069,
+       "He": 0.0034
+      },
+      "due": {
+       "She": 0.008,
+       "He": 0.0033
+      }
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "acts": {
+       "She": -1.4146,
+       "He": -1.872
+      },
+      "due": {
+       "She": -0.2812,
+       "He": -0.3794
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.9447,
+       "He": -2.3636
+      },
+      "due": {
+       "She": -0.1961,
+       "He": -0.2977
+      }
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "acts": {
+       "She": 0.4289,
+       "He": 0.531
+      },
+      "due": {
+       "She": 0.9435,
+       "He": 1.1099
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.3737,
+       "He": 0.4132
+      },
+      "due": {
+       "She": 1.2005,
+       "He": 1.5464
+      }
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.9805,
+       "He": -0.393
+      },
+      "due": {
+       "She": -0.2736,
+       "He": -0.1029
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.2393,
+       "He": -0.465
+      },
+      "due": {
+       "She": -0.171,
+       "He": -0.0743
+      }
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.5846,
+       "He": 0.1493
+      },
+      "due": {
+       "She": 1.2066,
+       "He": 0.3179
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.6242,
+       "He": 0.149
+      },
+      "due": {
+       "She": 1.1631,
+       "He": 0.2811
+      }
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "acts": {
+       "She": -1.2877,
+       "He": -0.9842
+      },
+      "due": {
+       "She": -0.6819,
+       "He": -0.495
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.7297,
+       "He": -1.1781
+      },
+      "due": {
+       "She": -0.495,
+       "He": -0.3727
+      }
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.9201,
+       "He": 0.9279
+      },
+      "due": {
+       "She": 0.4617,
+       "He": 0.6269
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 1.1648,
+       "He": 1.0343
+      },
+      "due": {
+       "She": 0.549,
+       "He": 0.7123
+      }
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "acts": {
+       "She": -0.3359,
+       "He": -0.237
+      },
+      "due": {
+       "She": -0.79,
+       "He": -0.4296
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2448,
+       "He": -0.1399
+      },
+      "due": {
+       "She": -0.9924,
+       "He": -0.5349
+      }
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "acts": {
+       "She": -0.2823,
+       "He": -0.2285
+      },
+      "due": {
+       "She": -1.0342,
+       "He": -1.2087
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.17,
+       "He": -0.1447
+      },
+      "due": {
+       "She": -0.902,
+       "He": -1.0079
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 0",
+     "alone": 0.2973,
+     "held": 0.1126
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 3",
+     "alone": 0.2973,
+     "held": 0.1675
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 6",
+     "alone": 0.2973,
+     "held": 0.4637
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 8",
+     "alone": 0.2973,
+     "held": 0.3976
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 11",
+     "alone": 0.2973,
+     "held": 0.21
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 9",
+     "alone": 0.2973,
+     "held": 0.3206
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 12",
+     "alone": 0.2973,
+     "held": 0.2299
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 0",
+     "alone": 0.2973,
+     "held": 0.3034
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 11",
+     "alone": 0.2973,
+     "held": 0.2565
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 0",
+     "alone": 0.2973,
+     "held": 0.3444
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 6",
+     "alone": 0.2973,
+     "held": 0.2932
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 2",
+     "alone": 0.2973,
+     "held": 0.3322
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 12",
+     "alone": 0.2973,
+     "held": 0.362
+    }
+   ]
+  },
+  {
+   "template": "Once there were two friends, {A} and {B}. One day, {S} gave a big hug to",
+   "attention": {
+    "block 14 head 2": {
+     "clean": {
+      "first token": 0.2002,
+      "A": 0.6432,
+      "B": 0.0171,
+      "stop": 0.0003,
+      "S": 0.1206,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0792,
+      "A": 0.0113,
+      "B": 0.8063,
+      "stop": 0.0001,
+      "S": 0.0977,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.9552,
+      "A": 0.0028,
+      "B": 0.0054,
+      "stop": 0.0001,
+      "S": 0.0347,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "first token": 0.1761,
+      "A": 0.0231,
+      "B": 0.0401,
+      "stop": 0.0117,
+      "S": 0.5984,
+      "S+1": 0.0176,
+      "end": 0.0061
+     },
+     "flipped": {
+      "first token": 0.1558,
+      "A": 0.016,
+      "B": 0.034,
+      "stop": 0.0093,
+      "S": 0.6561,
+      "S+1": 0.0153,
+      "end": 0.0056
+     },
+     "neutral": {
+      "first token": 0.3009,
+      "A": 0.0082,
+      "B": 0.0299,
+      "stop": 0.0161,
+      "S": 0.452,
+      "S+1": 0.0391,
+      "end": 0.0144
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "first token": 0.089,
+      "A": 0.0762,
+      "B": 0.1517,
+      "stop": 0.0254,
+      "S": 0.3605,
+      "S+1": 0.0177,
+      "end": 0.006
+     },
+     "flipped": {
+      "first token": 0.0769,
+      "A": 0.0633,
+      "B": 0.1417,
+      "stop": 0.0235,
+      "S": 0.4247,
+      "S+1": 0.0188,
+      "end": 0.0062
+     },
+     "neutral": {
+      "first token": 0.1412,
+      "A": 0.0289,
+      "B": 0.1498,
+      "stop": 0.0497,
+      "S": 0.2028,
+      "S+1": 0.0303,
+      "end": 0.0159
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "first token": 0.2844,
+      "A": 0.0318,
+      "B": 0.5653,
+      "stop": 0.0117,
+      "S": 0.0048,
+      "S+1": 0.0058,
+      "end": 0.0223
+     },
+     "flipped": {
+      "first token": 0.3611,
+      "A": 0.2856,
+      "B": 0.0375,
+      "stop": 0.0161,
+      "S": 0.0729,
+      "S+1": 0.0095,
+      "end": 0.017
+     },
+     "neutral": {
+      "first token": 0.1418,
+      "A": 0.276,
+      "B": 0.2845,
+      "stop": 0.0145,
+      "S": 0.0586,
+      "S+1": 0.0041,
+      "end": 0.0102
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "first token": 0.3834,
+      "A": 0.0019,
+      "B": 0.0006,
+      "stop": 0.0047,
+      "S": 0.0231,
+      "S+1": 0.0246,
+      "end": 0.4775
+     },
+     "flipped": {
+      "first token": 0.385,
+      "A": 0.0017,
+      "B": 0.0005,
+      "stop": 0.005,
+      "S": 0.0308,
+      "S+1": 0.0271,
+      "end": 0.455
+     },
+     "neutral": {
+      "first token": 0.2388,
+      "A": 0.001,
+      "B": 0.0002,
+      "stop": 0.0046,
+      "S": 0.0135,
+      "S+1": 0.0222,
+      "end": 0.6657
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "first token": 0.2136,
+      "A": 0.0005,
+      "B": 0.0001,
+      "stop": 0.0062,
+      "S": 0.0191,
+      "S+1": 0.0366,
+      "end": 0.2925
+     },
+     "flipped": {
+      "first token": 0.1845,
+      "A": 0.0003,
+      "B": 0.0001,
+      "stop": 0.005,
+      "S": 0.0228,
+      "S+1": 0.0416,
+      "end": 0.2986
+     },
+     "neutral": {
+      "first token": 0.1964,
+      "A": 0.0002,
+      "B": 0.0001,
+      "stop": 0.0069,
+      "S": 0.024,
+      "S+1": 0.0428,
+      "end": 0.354
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "first token": 0.1995,
+      "A": 0.0391,
+      "B": 0.0504,
+      "stop": 0.0174,
+      "S": 0.4604,
+      "S+1": 0.0323,
+      "end": 0.079
+     },
+     "flipped": {
+      "first token": 0.1894,
+      "A": 0.0556,
+      "B": 0.0265,
+      "stop": 0.0148,
+      "S": 0.5356,
+      "S+1": 0.0226,
+      "end": 0.0532
+     },
+     "neutral": {
+      "first token": 0.4568,
+      "A": 0.0413,
+      "B": 0.0439,
+      "stop": 0.0288,
+      "S": 0.1818,
+      "S+1": 0.028,
+      "end": 0.062
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "first token": 0.0476,
+      "A": 0.1611,
+      "B": 0.5688,
+      "stop": 0.0053,
+      "S": 0.053,
+      "S+1": 0.0025,
+      "end": 0.0138
+     },
+     "flipped": {
+      "first token": 0.0257,
+      "A": 0.5898,
+      "B": 0.0231,
+      "stop": 0.0038,
+      "S": 0.0973,
+      "S+1": 0.0009,
+      "end": 0.0042
+     },
+     "neutral": {
+      "first token": 0.0509,
+      "A": 0.4817,
+      "B": 0.0874,
+      "stop": 0.0106,
+      "S": 0.0555,
+      "S+1": 0.0012,
+      "end": 0.0058
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "first token": 0.2347,
+      "A": 0.0529,
+      "B": 0.068,
+      "stop": 0.0248,
+      "S": 0.4124,
+      "S+1": 0.0095,
+      "end": 0.0231
+     },
+     "flipped": {
+      "first token": 0.2585,
+      "A": 0.0608,
+      "B": 0.0394,
+      "stop": 0.0243,
+      "S": 0.4157,
+      "S+1": 0.0085,
+      "end": 0.0151
+     },
+     "neutral": {
+      "first token": 0.4772,
+      "A": 0.0496,
+      "B": 0.0538,
+      "stop": 0.0285,
+      "S": 0.1726,
+      "S+1": 0.0064,
+      "end": 0.015
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "first token": 0.2498,
+      "A": 0.1734,
+      "B": 0.4691,
+      "stop": 0.0052,
+      "S": 0.0321,
+      "S+1": 0.0018,
+      "end": 0.0092
+     },
+     "flipped": {
+      "first token": 0.2901,
+      "A": 0.4114,
+      "B": 0.0947,
+      "stop": 0.0056,
+      "S": 0.1029,
+      "S+1": 0.001,
+      "end": 0.006
+     },
+     "neutral": {
+      "first token": 0.2339,
+      "A": 0.3181,
+      "B": 0.2586,
+      "stop": 0.0038,
+      "S": 0.1285,
+      "S+1": 0.0008,
+      "end": 0.0043
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "first token": 0.0528,
+      "A": 0.0229,
+      "B": 0.1378,
+      "stop": 0.0668,
+      "S": 0.3264,
+      "S+1": 0.0206,
+      "end": 0.042
+     },
+     "flipped": {
+      "first token": 0.0813,
+      "A": 0.094,
+      "B": 0.0262,
+      "stop": 0.0637,
+      "S": 0.3165,
+      "S+1": 0.0248,
+      "end": 0.0367
+     },
+     "neutral": {
+      "first token": 0.1073,
+      "A": 0.0726,
+      "B": 0.0765,
+      "stop": 0.0722,
+      "S": 0.1862,
+      "S+1": 0.0242,
+      "end": 0.0498
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "first token": 0.0742,
+      "A": 0.1411,
+      "B": 0.115,
+      "stop": 0.0886,
+      "S": 0.0467,
+      "S+1": 0.0119,
+      "end": 0.0492
+     },
+     "flipped": {
+      "first token": 0.0945,
+      "A": 0.1002,
+      "B": 0.1154,
+      "stop": 0.0684,
+      "S": 0.1017,
+      "S+1": 0.0071,
+      "end": 0.0289
+     },
+     "neutral": {
+      "first token": 0.0781,
+      "A": 0.158,
+      "B": 0.1879,
+      "stop": 0.0491,
+      "S": 0.1786,
+      "S+1": 0.0058,
+      "end": 0.0207
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "first token": 0.0696,
+      "A": 0.0292,
+      "B": 0.3793,
+      "stop": 0.0979,
+      "S": 0.0294,
+      "S+1": 0.0125,
+      "end": 0.0649
+     },
+     "flipped": {
+      "first token": 0.0987,
+      "A": 0.3243,
+      "B": 0.04,
+      "stop": 0.0866,
+      "S": 0.0518,
+      "S+1": 0.0115,
+      "end": 0.0571
+     },
+     "neutral": {
+      "first token": 0.0988,
+      "A": 0.2502,
+      "B": 0.2575,
+      "stop": 0.0615,
+      "S": 0.0537,
+      "S+1": 0.0053,
+      "end": 0.0278
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "first token": 0.0071,
+      "A": 0.0366,
+      "B": 0.5222,
+      "stop": 0.046,
+      "S": 0.0016,
+      "S+1": 0.0014,
+      "end": 0.024
+     },
+     "flipped": {
+      "first token": 0.0237,
+      "A": 0.3561,
+      "B": 0.0569,
+      "stop": 0.0467,
+      "S": 0.0052,
+      "S+1": 0.0009,
+      "end": 0.0163
+     },
+     "neutral": {
+      "first token": 0.0124,
+      "A": 0.3063,
+      "B": 0.3205,
+      "stop": 0.0296,
+      "S": 0.0368,
+      "S+1": 0.0005,
+      "end": 0.011
+     }
+    }
+   },
+   "elsewhere": {
+    "block 14 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0156
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0036
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0008
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "token": "One",
+      "weight": 0.0353
+     },
+     "flipped": {
+      "token": "hug",
+      "weight": 0.031
+     },
+     "neutral": {
+      "token": "hug",
+      "weight": 0.0456
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "token": "friends",
+      "weight": 0.0878
+     },
+     "flipped": {
+      "token": "friends",
+      "weight": 0.0799
+     },
+     "neutral": {
+      "token": "friends",
+      "weight": 0.1351
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0482
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0721
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0838
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "token": "hug",
+      "weight": 0.051
+     },
+     "flipped": {
+      "token": "hug",
+      "weight": 0.0591
+     },
+     "neutral": {
+      "token": "hug",
+      "weight": 0.0265
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "token": "hug",
+      "weight": 0.3813
+     },
+     "flipped": {
+      "token": "hug",
+      "weight": 0.4013
+     },
+     "neutral": {
+      "token": "hug",
+      "weight": 0.3282
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "token": ",",
+      "weight": 0.0213
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0182
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0333
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0907
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.091
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.1055
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "token": ",",
+      "weight": 0.0499
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.0543
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0704
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0183
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0208
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0147
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "token": ",",
+      "weight": 0.1116
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1095
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.1336
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "token": ",",
+      "weight": 0.1535
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1513
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0909
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "token": ",",
+      "weight": 0.0988
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.0915
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0717
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "token": ",",
+      "weight": 0.1574
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.2071
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.1114
+     }
+    }
+   },
+   "writes": {
+    "block 15 head 0": {
+     "clean": {
+      "A": 0.0016,
+      "B": 0.0018,
+      "C": 0.0
+     },
+     "flipped": {
+      "A": 0.001,
+      "B": 0.0031,
+      "C": -0.0001
+     },
+     "neutral": {
+      "A": 0.0019,
+      "B": 0.0018,
+      "C": 0.0032
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "A": -0.0002,
+      "B": -0.002,
+      "C": 0.0003
+     },
+     "flipped": {
+      "A": 0.003,
+      "B": -0.0066,
+      "C": 0.0009
+     },
+     "neutral": {
+      "A": 0.0018,
+      "B": -0.0009,
+      "C": 0.0016
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "A": 0.0051,
+      "B": 0.0044,
+      "C": 0.0002
+     },
+     "flipped": {
+      "A": -0.002,
+      "B": -0.0003,
+      "C": -0.0002
+     },
+     "neutral": {
+      "A": 0.0,
+      "B": 0.0011,
+      "C": -0.0008
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "A": -0.0045,
+      "B": -0.0185,
+      "C": -0.0004
+     },
+     "flipped": {
+      "A": -0.0103,
+      "B": -0.0059,
+      "C": -0.0001
+     },
+     "neutral": {
+      "A": -0.0041,
+      "B": -0.0026,
+      "C": -0.003
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "A": 0.0026,
+      "B": 0.0124,
+      "C": -0.0001
+     },
+     "flipped": {
+      "A": 0.0058,
+      "B": 0.0037,
+      "C": 0.0001
+     },
+     "neutral": {
+      "A": 0.002,
+      "B": 0.0032,
+      "C": 0.003
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "A": -2.0059,
+      "B": -0.2103,
+      "C": -0.0018
+     },
+     "flipped": {
+      "A": -0.29,
+      "B": -2.3828,
+      "C": -0.015
+     },
+     "neutral": {
+      "A": -0.2387,
+      "B": -0.2054,
+      "C": -0.8673
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "A": 0.7228,
+      "B": 1.3577,
+      "C": 0.008
+     },
+     "flipped": {
+      "A": 1.5624,
+      "B": 0.2674,
+      "C": 0.0002
+     },
+     "neutral": {
+      "A": 1.2359,
+      "B": 0.2046,
+      "C": 0.1336
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "A": -0.712,
+      "B": -0.1322,
+      "C": -0.0009
+     },
+     "flipped": {
+      "A": -0.1285,
+      "B": -0.7693,
+      "C": -0.0035
+     },
+     "neutral": {
+      "A": -0.1001,
+      "B": -0.1058,
+      "C": -0.3293
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "A": 0.4333,
+      "B": 0.8527,
+      "C": 0.0099
+     },
+     "flipped": {
+      "A": 0.8273,
+      "B": 0.344,
+      "C": 0.005
+     },
+     "neutral": {
+      "A": 0.6331,
+      "B": 0.489,
+      "C": 0.2482
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "A": -1.0928,
+      "B": -0.5293,
+      "C": -0.0086
+     },
+     "flipped": {
+      "A": -0.4127,
+      "B": -1.1228,
+      "C": -0.0091
+     },
+     "neutral": {
+      "A": -0.3312,
+      "B": -0.2747,
+      "C": -0.6912
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "A": 1.0542,
+      "B": 0.5345,
+      "C": 0.0028
+     },
+     "flipped": {
+      "A": 0.6369,
+      "B": 1.0787,
+      "C": 0.0074
+     },
+     "neutral": {
+      "A": 0.945,
+      "B": 0.955,
+      "C": 0.9047
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "A": -0.1951,
+      "B": -0.7258,
+      "C": -0.0075
+     },
+     "flipped": {
+      "A": -0.6567,
+      "B": -0.1687,
+      "C": -0.0004
+     },
+     "neutral": {
+      "A": -0.5373,
+      "B": -0.4974,
+      "C": -0.1136
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "A": -0.2957,
+      "B": -1.3927,
+      "C": -0.0135
+     },
+     "flipped": {
+      "A": -1.0191,
+      "B": -0.1534,
+      "C": -0.0001
+     },
+     "neutral": {
+      "A": -0.9209,
+      "B": -0.8459,
+      "C": -0.1026
+     }
+    }
+   },
+   "by kind": {
+    "block 15 head 0": {
+     "clean": {
+      "acts": {
+       "She": 0.0095,
+       "He": -0.0005
+      },
+      "due": {
+       "She": 0.0034,
+       "He": -0.002
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0044,
+       "He": -0.0001
+      },
+      "due": {
+       "She": -0.002,
+       "He": 0.0054
+      }
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "acts": {
+       "She": -0.0012,
+       "He": 0.0031
+      },
+      "due": {
+       "She": -0.0014,
+       "He": -0.0017
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.003,
+       "He": -0.0009
+      },
+      "due": {
+       "She": 0.0033,
+       "He": 0.0025
+      }
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.0086,
+       "He": 0.0009
+      },
+      "due": {
+       "She": 0.0066,
+       "He": 0.0084
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0017,
+       "He": -0.0019
+      },
+      "due": {
+       "She": -0.0028,
+       "He": 0.0065
+      }
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "acts": {
+       "She": -0.0028,
+       "He": -0.0033
+      },
+      "due": {
+       "She": -0.0071,
+       "He": -0.0236
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0069,
+       "He": -0.0045
+      },
+      "due": {
+       "She": -0.0067,
+       "He": -0.0112
+      }
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.0072,
+       "He": 0.0012
+      },
+      "due": {
+       "She": 0.0104,
+       "He": 0.0133
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0088,
+       "He": 0.0033
+      },
+      "due": {
+       "She": 0.008,
+       "He": 0.0047
+      }
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "acts": {
+       "She": -1.5903,
+       "He": -1.9616
+      },
+      "due": {
+       "She": -0.1744,
+       "He": -0.2237
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.935,
+       "He": -2.3529
+      },
+      "due": {
+       "She": -0.2156,
+       "He": -0.3109
+      }
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "acts": {
+       "She": 0.6808,
+       "He": 0.6551
+      },
+      "due": {
+       "She": 1.1822,
+       "He": 1.3195
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.2737,
+       "He": 0.2237
+      },
+      "due": {
+       "She": 1.3825,
+       "He": 1.4814
+      }
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.9806,
+       "He": -0.3679
+      },
+      "due": {
+       "She": -0.1711,
+       "He": -0.0702
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.051,
+       "He": -0.3898
+      },
+      "due": {
+       "She": -0.1688,
+       "He": -0.0758
+      }
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.6328,
+       "He": 0.1559
+      },
+      "due": {
+       "She": 1.2064,
+       "He": 0.3256
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.5155,
+       "He": 0.1218
+      },
+      "due": {
+       "She": 1.1765,
+       "He": 0.3058
+      }
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "acts": {
+       "She": -1.2409,
+       "He": -0.855
+      },
+      "due": {
+       "She": -0.6112,
+       "He": -0.4008
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.3336,
+       "He": -0.8148
+      },
+      "due": {
+       "She": -0.4596,
+       "He": -0.3317
+      }
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "acts": {
+       "She": 1.0453,
+       "He": 0.9526
+      },
+      "due": {
+       "She": 0.39,
+       "He": 0.6105
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 1.1041,
+       "He": 0.9385
+      },
+      "due": {
+       "She": 0.4977,
+       "He": 0.7055
+      }
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "acts": {
+       "She": -0.228,
+       "He": -0.1496
+      },
+      "due": {
+       "She": -0.8395,
+       "He": -0.5257
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2023,
+       "He": -0.1227
+      },
+      "due": {
+       "She": -0.8292,
+       "He": -0.4029
+      }
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "acts": {
+       "She": -0.3287,
+       "He": -0.246
+      },
+      "due": {
+       "She": -1.2724,
+       "He": -1.3074
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.1739,
+       "He": -0.1243
+      },
+      "due": {
+       "She": -0.8846,
+       "He": -1.0012
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 0",
+     "alone": 0.1586,
+     "held": 0.008
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 3",
+     "alone": 0.1586,
+     "held": -0.0265
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 6",
+     "alone": 0.1586,
+     "held": 0.2532
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 8",
+     "alone": 0.1586,
+     "held": 0.2245
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 11",
+     "alone": 0.1586,
+     "held": 0.0961
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 9",
+     "alone": 0.1586,
+     "held": 0.2131
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 12",
+     "alone": 0.1586,
+     "held": 0.1241
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 0",
+     "alone": 0.1586,
+     "held": 0.175
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 11",
+     "alone": 0.1586,
+     "held": 0.1302
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 0",
+     "alone": 0.1586,
+     "held": 0.2212
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 6",
+     "alone": 0.1586,
+     "held": 0.1439
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 2",
+     "alone": 0.1586,
+     "held": 0.1718
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 12",
+     "alone": 0.1586,
+     "held": 0.2005
+    }
+   ]
+  },
+  {
+   "template": "One sunny day, {A} and {B} had a red ball. {S} threw the ball to",
+   "attention": {
+    "block 14 head 2": {
+     "clean": {
+      "first token": 0.3277,
+      "A": 0.5491,
+      "B": 0.0188,
+      "stop": 0.0005,
+      "S": 0.0868,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.1881,
+      "A": 0.0112,
+      "B": 0.7105,
+      "stop": 0.0003,
+      "S": 0.0845,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.9634,
+      "A": 0.0026,
+      "B": 0.0025,
+      "stop": 0.0001,
+      "S": 0.0301,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "first token": 0.1817,
+      "A": 0.0216,
+      "B": 0.0431,
+      "stop": 0.0125,
+      "S": 0.5647,
+      "S+1": 0.0392,
+      "end": 0.0224
+     },
+     "flipped": {
+      "first token": 0.1745,
+      "A": 0.0176,
+      "B": 0.0403,
+      "stop": 0.0105,
+      "S": 0.5891,
+      "S+1": 0.0361,
+      "end": 0.0233
+     },
+     "neutral": {
+      "first token": 0.2206,
+      "A": 0.0138,
+      "B": 0.0333,
+      "stop": 0.0124,
+      "S": 0.4537,
+      "S+1": 0.0668,
+      "end": 0.0295
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "first token": 0.0763,
+      "A": 0.1067,
+      "B": 0.2215,
+      "stop": 0.0105,
+      "S": 0.5114,
+      "S+1": 0.0101,
+      "end": 0.0021
+     },
+     "flipped": {
+      "first token": 0.0704,
+      "A": 0.0902,
+      "B": 0.2141,
+      "stop": 0.0095,
+      "S": 0.5419,
+      "S+1": 0.0134,
+      "end": 0.0025
+     },
+     "neutral": {
+      "first token": 0.1074,
+      "A": 0.0651,
+      "B": 0.2153,
+      "stop": 0.0136,
+      "S": 0.4847,
+      "S+1": 0.0287,
+      "end": 0.0055
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "first token": 0.1951,
+      "A": 0.0367,
+      "B": 0.6589,
+      "stop": 0.0101,
+      "S": 0.0131,
+      "S+1": 0.0038,
+      "end": 0.0216
+     },
+     "flipped": {
+      "first token": 0.2269,
+      "A": 0.4261,
+      "B": 0.1541,
+      "stop": 0.0091,
+      "S": 0.0344,
+      "S+1": 0.0022,
+      "end": 0.0063
+     },
+     "neutral": {
+      "first token": 0.1544,
+      "A": 0.268,
+      "B": 0.3647,
+      "stop": 0.0098,
+      "S": 0.0704,
+      "S+1": 0.003,
+      "end": 0.012
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "first token": 0.3053,
+      "A": 0.0011,
+      "B": 0.0006,
+      "stop": 0.0126,
+      "S": 0.0127,
+      "S+1": 0.0153,
+      "end": 0.5455
+     },
+     "flipped": {
+      "first token": 0.3003,
+      "A": 0.0014,
+      "B": 0.0007,
+      "stop": 0.0148,
+      "S": 0.0207,
+      "S+1": 0.0162,
+      "end": 0.5512
+     },
+     "neutral": {
+      "first token": 0.2267,
+      "A": 0.0007,
+      "B": 0.0004,
+      "stop": 0.0118,
+      "S": 0.0112,
+      "S+1": 0.0175,
+      "end": 0.6612
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "first token": 0.2312,
+      "A": 0.0004,
+      "B": 0.0004,
+      "stop": 0.0272,
+      "S": 0.0275,
+      "S+1": 0.0444,
+      "end": 0.415
+     },
+     "flipped": {
+      "first token": 0.2329,
+      "A": 0.0003,
+      "B": 0.0004,
+      "stop": 0.0297,
+      "S": 0.0425,
+      "S+1": 0.0668,
+      "end": 0.3765
+     },
+     "neutral": {
+      "first token": 0.204,
+      "A": 0.0002,
+      "B": 0.0003,
+      "stop": 0.0247,
+      "S": 0.0298,
+      "S+1": 0.0747,
+      "end": 0.4432
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "first token": 0.127,
+      "A": 0.0346,
+      "B": 0.0622,
+      "stop": 0.0248,
+      "S": 0.5823,
+      "S+1": 0.0296,
+      "end": 0.054
+     },
+     "flipped": {
+      "first token": 0.1259,
+      "A": 0.0536,
+      "B": 0.0511,
+      "stop": 0.0266,
+      "S": 0.6153,
+      "S+1": 0.0194,
+      "end": 0.036
+     },
+     "neutral": {
+      "first token": 0.2134,
+      "A": 0.0612,
+      "B": 0.0888,
+      "stop": 0.0372,
+      "S": 0.3855,
+      "S+1": 0.0272,
+      "end": 0.0597
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "first token": 0.1395,
+      "A": 0.0963,
+      "B": 0.5668,
+      "stop": 0.0067,
+      "S": 0.0733,
+      "S+1": 0.0049,
+      "end": 0.023
+     },
+     "flipped": {
+      "first token": 0.1046,
+      "A": 0.5921,
+      "B": 0.1118,
+      "stop": 0.0049,
+      "S": 0.0465,
+      "S+1": 0.0007,
+      "end": 0.0034
+     },
+     "neutral": {
+      "first token": 0.1865,
+      "A": 0.4209,
+      "B": 0.1506,
+      "stop": 0.0113,
+      "S": 0.041,
+      "S+1": 0.0011,
+      "end": 0.0099
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "first token": 0.2087,
+      "A": 0.0416,
+      "B": 0.0818,
+      "stop": 0.0288,
+      "S": 0.3494,
+      "S+1": 0.0556,
+      "end": 0.0301
+     },
+     "flipped": {
+      "first token": 0.2245,
+      "A": 0.0572,
+      "B": 0.0654,
+      "stop": 0.0259,
+      "S": 0.3679,
+      "S+1": 0.0491,
+      "end": 0.0231
+     },
+     "neutral": {
+      "first token": 0.2944,
+      "A": 0.0528,
+      "B": 0.09,
+      "stop": 0.0285,
+      "S": 0.2752,
+      "S+1": 0.0398,
+      "end": 0.0224
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "first token": 0.2951,
+      "A": 0.1356,
+      "B": 0.4492,
+      "stop": 0.0073,
+      "S": 0.0474,
+      "S+1": 0.0137,
+      "end": 0.015
+     },
+     "flipped": {
+      "first token": 0.3119,
+      "A": 0.4045,
+      "B": 0.1751,
+      "stop": 0.0069,
+      "S": 0.0456,
+      "S+1": 0.0058,
+      "end": 0.0045
+     },
+     "neutral": {
+      "first token": 0.2798,
+      "A": 0.3159,
+      "B": 0.2539,
+      "stop": 0.0057,
+      "S": 0.099,
+      "S+1": 0.004,
+      "end": 0.0061
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "first token": 0.0887,
+      "A": 0.0215,
+      "B": 0.1876,
+      "stop": 0.1055,
+      "S": 0.1867,
+      "S+1": 0.046,
+      "end": 0.0444
+     },
+     "flipped": {
+      "first token": 0.0979,
+      "A": 0.11,
+      "B": 0.0559,
+      "stop": 0.0908,
+      "S": 0.2446,
+      "S+1": 0.0552,
+      "end": 0.0388
+     },
+     "neutral": {
+      "first token": 0.1179,
+      "A": 0.0916,
+      "B": 0.1531,
+      "stop": 0.0965,
+      "S": 0.1347,
+      "S+1": 0.0415,
+      "end": 0.047
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "first token": 0.1294,
+      "A": 0.1142,
+      "B": 0.0993,
+      "stop": 0.1243,
+      "S": 0.0561,
+      "S+1": 0.0185,
+      "end": 0.0612
+     },
+     "flipped": {
+      "first token": 0.1688,
+      "A": 0.0876,
+      "B": 0.1369,
+      "stop": 0.1012,
+      "S": 0.0631,
+      "S+1": 0.0118,
+      "end": 0.0319
+     },
+     "neutral": {
+      "first token": 0.1627,
+      "A": 0.1049,
+      "B": 0.1329,
+      "stop": 0.0941,
+      "S": 0.1317,
+      "S+1": 0.0081,
+      "end": 0.034
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "first token": 0.1133,
+      "A": 0.0518,
+      "B": 0.3026,
+      "stop": 0.1343,
+      "S": 0.0471,
+      "S+1": 0.027,
+      "end": 0.0776
+     },
+     "flipped": {
+      "first token": 0.1258,
+      "A": 0.3747,
+      "B": 0.0539,
+      "stop": 0.0986,
+      "S": 0.0547,
+      "S+1": 0.0159,
+      "end": 0.046
+     },
+     "neutral": {
+      "first token": 0.1462,
+      "A": 0.3046,
+      "B": 0.188,
+      "stop": 0.0778,
+      "S": 0.0502,
+      "S+1": 0.0085,
+      "end": 0.0454
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "first token": 0.0281,
+      "A": 0.0311,
+      "B": 0.3783,
+      "stop": 0.1288,
+      "S": 0.0019,
+      "S+1": 0.0013,
+      "end": 0.0397
+     },
+     "flipped": {
+      "first token": 0.0877,
+      "A": 0.2623,
+      "B": 0.0654,
+      "stop": 0.0922,
+      "S": 0.0028,
+      "S+1": 0.0005,
+      "end": 0.0113
+     },
+     "neutral": {
+      "first token": 0.0909,
+      "A": 0.2058,
+      "B": 0.2266,
+      "stop": 0.0906,
+      "S": 0.0171,
+      "S+1": 0.0002,
+      "end": 0.0166
+     }
+    }
+   },
+   "elsewhere": {
+    "block 14 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.013
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0024
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0004
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.0641
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0635
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.1182
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "token": "red",
+      "weight": 0.0142
+     },
+     "flipped": {
+      "token": "red",
+      "weight": 0.014
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.0171
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0507
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.109
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0932
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.0886
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0788
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.0545
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.2347
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.2301
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.2075
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "token": "the",
+      "weight": 0.0299
+     },
+     "flipped": {
+      "token": "the",
+      "weight": 0.0206
+     },
+     "neutral": {
+      "token": "the",
+      "weight": 0.0486
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0572
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.084
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0963
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.0508
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0422
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.0475
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0169
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0219
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0146
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "token": ",",
+      "weight": 0.1234
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1106
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.109
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "token": ",",
+      "weight": 0.1664
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1791
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.1386
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "token": ",",
+      "weight": 0.0988
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.0898
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0645
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "token": ",",
+      "weight": 0.2058
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.2689
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.1955
+     }
+    }
+   },
+   "writes": {
+    "block 15 head 0": {
+     "clean": {
+      "A": 0.0028,
+      "B": 0.0003,
+      "C": 0.0005
+     },
+     "flipped": {
+      "A": -0.0012,
+      "B": 0.0046,
+      "C": -0.0023
+     },
+     "neutral": {
+      "A": -0.001,
+      "B": 0.0022,
+      "C": 0.001
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "A": 0.0021,
+      "B": 0.0009,
+      "C": 0.0007
+     },
+     "flipped": {
+      "A": 0.005,
+      "B": -0.0131,
+      "C": 0.0012
+     },
+     "neutral": {
+      "A": 0.0019,
+      "B": -0.0047,
+      "C": 0.0022
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "A": 0.0031,
+      "B": 0.0031,
+      "C": 0.001
+     },
+     "flipped": {
+      "A": -0.0031,
+      "B": 0.0015,
+      "C": 0.0005
+     },
+     "neutral": {
+      "A": -0.0003,
+      "B": 0.0023,
+      "C": -0.0012
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "A": -0.0022,
+      "B": -0.015,
+      "C": -0.0002
+     },
+     "flipped": {
+      "A": -0.0034,
+      "B": -0.0028,
+      "C": 0.0004
+     },
+     "neutral": {
+      "A": -0.0026,
+      "B": -0.0036,
+      "C": -0.0024
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "A": 0.0027,
+      "B": 0.0143,
+      "C": 0.0002
+     },
+     "flipped": {
+      "A": 0.0044,
+      "B": 0.0039,
+      "C": -0.0004
+     },
+     "neutral": {
+      "A": 0.0042,
+      "B": 0.0044,
+      "C": 0.003
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "A": -2.6702,
+      "B": -0.2515,
+      "C": 0.0017
+     },
+     "flipped": {
+      "A": -0.2979,
+      "B": -2.9284,
+      "C": -0.0134
+     },
+     "neutral": {
+      "A": -0.3859,
+      "B": -0.4122,
+      "C": -1.9693
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "A": 0.562,
+      "B": 1.276,
+      "C": 0.0044
+     },
+     "flipped": {
+      "A": 1.5829,
+      "B": 0.3532,
+      "C": -0.0004
+     },
+     "neutral": {
+      "A": 1.1312,
+      "B": 0.3299,
+      "C": 0.1064
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "A": -0.6433,
+      "B": -0.141,
+      "C": -0.0001
+     },
+     "flipped": {
+      "A": -0.1152,
+      "B": -0.7423,
+      "C": -0.0048
+     },
+     "neutral": {
+      "A": -0.1129,
+      "B": -0.1627,
+      "C": -0.5754
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "A": 0.3726,
+      "B": 0.7669,
+      "C": 0.0068
+     },
+     "flipped": {
+      "A": 0.789,
+      "B": 0.3823,
+      "C": 0.0051
+     },
+     "neutral": {
+      "A": 0.6202,
+      "B": 0.4367,
+      "C": 0.2108
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "A": -0.8069,
+      "B": -0.6853,
+      "C": -0.0036
+     },
+     "flipped": {
+      "A": -0.5038,
+      "B": -1.0834,
+      "C": -0.0031
+     },
+     "neutral": {
+      "A": -0.4527,
+      "B": -0.5444,
+      "C": -0.5685
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "A": 1.0449,
+      "B": 0.4288,
+      "C": 0.0015
+     },
+     "flipped": {
+      "A": 0.5943,
+      "B": 0.991,
+      "C": 0.0063
+     },
+     "neutral": {
+      "A": 0.6774,
+      "B": 0.6224,
+      "C": 0.7666
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "A": -0.2518,
+      "B": -0.5654,
+      "C": -0.0012
+     },
+     "flipped": {
+      "A": -0.747,
+      "B": -0.201,
+      "C": -0.0023
+     },
+     "neutral": {
+      "A": -0.622,
+      "B": -0.3466,
+      "C": -0.1134
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "A": -0.21,
+      "B": -0.9719,
+      "C": -0.008
+     },
+     "flipped": {
+      "A": -0.7662,
+      "B": -0.1557,
+      "C": 0.0005
+     },
+     "neutral": {
+      "A": -0.6303,
+      "B": -0.5646,
+      "C": -0.0414
+     }
+    }
+   },
+   "by kind": {
+    "block 15 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0007,
+       "He": 0.0033
+      },
+      "due": {
+       "She": 0.0041,
+       "He": -0.0021
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0052,
+       "He": 0.0048
+      },
+      "due": {
+       "She": -0.006,
+       "He": 0.0044
+      }
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "acts": {
+       "She": -0.0,
+       "He": 0.0067
+      },
+      "due": {
+       "She": 0.006,
+       "He": -0.0014
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0102,
+       "He": -0.0036
+      },
+      "due": {
+       "She": -0.0012,
+       "He": 0.0088
+      }
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.0053,
+       "He": 0.0025
+      },
+      "due": {
+       "She": 0.0108,
+       "He": 0.0024
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0041,
+       "He": 0.0009
+      },
+      "due": {
+       "She": 0.0025,
+       "He": 0.0011
+      }
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "acts": {
+       "She": -0.0086,
+       "He": 0.0013
+      },
+      "due": {
+       "She": -0.0075,
+       "He": -0.0212
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0092,
+       "He": -0.0006
+      },
+      "due": {
+       "She": -0.0061,
+       "He": -0.005
+      }
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.0083,
+       "He": 0.0034
+      },
+      "due": {
+       "She": 0.0107,
+       "He": 0.0165
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.008,
+       "He": 0.0037
+      },
+      "due": {
+       "She": 0.007,
+       "He": 0.0046
+      }
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "acts": {
+       "She": -2.1998,
+       "He": -2.6006
+      },
+      "due": {
+       "She": -0.2027,
+       "He": -0.2752
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -2.4986,
+       "He": -2.8303
+      },
+      "due": {
+       "She": -0.2084,
+       "He": -0.3318
+      }
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "acts": {
+       "She": 0.4937,
+       "He": 0.5514
+      },
+      "due": {
+       "She": 1.1262,
+       "He": 1.2335
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.325,
+       "He": 0.3369
+      },
+      "due": {
+       "She": 1.3233,
+       "He": 1.5689
+      }
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.8417,
+       "He": -0.3578
+      },
+      "due": {
+       "She": -0.1887,
+       "He": -0.0771
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.9919,
+       "He": -0.3789
+      },
+      "due": {
+       "She": -0.1574,
+       "He": -0.0697
+      }
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.5412,
+       "He": 0.1475
+      },
+      "due": {
+       "She": 1.1266,
+       "He": 0.2789
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.5741,
+       "He": 0.1291
+      },
+      "due": {
+       "She": 1.1414,
+       "He": 0.3097
+      }
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.9101,
+       "He": -0.6429
+      },
+      "due": {
+       "She": -0.7869,
+       "He": -0.5264
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.302,
+       "He": -0.7686
+      },
+      "due": {
+       "She": -0.5807,
+       "He": -0.3951
+      }
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "acts": {
+       "She": 1.0259,
+       "He": 0.9604
+      },
+      "due": {
+       "She": 0.357,
+       "He": 0.4545
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 1.033,
+       "He": 0.8591
+      },
+      "due": {
+       "She": 0.487,
+       "He": 0.6351
+      }
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "acts": {
+       "She": -0.27,
+       "He": -0.2122
+      },
+      "due": {
+       "She": -0.6339,
+       "He": -0.4208
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2414,
+       "He": -0.1428
+      },
+      "due": {
+       "She": -0.9009,
+       "He": -0.4935
+      }
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "acts": {
+       "She": -0.1943,
+       "He": -0.218
+      },
+      "due": {
+       "She": -0.7876,
+       "He": -1.0049
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.1667,
+       "He": -0.1385
+      },
+      "due": {
+       "She": -0.5789,
+       "He": -0.8267
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 0",
+     "alone": 0.1388,
+     "held": 0.0369
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 3",
+     "alone": 0.1388,
+     "held": -0.0357
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 6",
+     "alone": 0.1388,
+     "held": 0.2772
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 8",
+     "alone": 0.1388,
+     "held": 0.2027
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 11",
+     "alone": 0.1388,
+     "held": 0.0905
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 9",
+     "alone": 0.1388,
+     "held": 0.1686
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 12",
+     "alone": 0.1388,
+     "held": 0.0964
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 0",
+     "alone": 0.1388,
+     "held": 0.1475
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 11",
+     "alone": 0.1388,
+     "held": 0.1161
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 0",
+     "alone": 0.1388,
+     "held": 0.1779
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 6",
+     "alone": 0.1388,
+     "held": 0.1381
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 2",
+     "alone": 0.1388,
+     "held": 0.1551
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 12",
+     "alone": 0.1388,
+     "held": 0.1652
+    }
+   ]
+  },
+  {
+   "template": "One morning, {A} and {B} went to the zoo. {S} showed the map to",
+   "attention": {
+    "block 14 head 2": {
+     "clean": {
+      "first token": 0.3932,
+      "A": 0.5077,
+      "B": 0.0151,
+      "stop": 0.0001,
+      "S": 0.0687,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.1807,
+      "A": 0.0103,
+      "B": 0.7219,
+      "stop": 0.0,
+      "S": 0.0835,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.9641,
+      "A": 0.0031,
+      "B": 0.0032,
+      "stop": 0.0,
+      "S": 0.0283,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "first token": 0.2485,
+      "A": 0.0129,
+      "B": 0.0207,
+      "stop": 0.0141,
+      "S": 0.4932,
+      "S+1": 0.0267,
+      "end": 0.0122
+     },
+     "flipped": {
+      "first token": 0.2331,
+      "A": 0.0101,
+      "B": 0.0173,
+      "stop": 0.0124,
+      "S": 0.4985,
+      "S+1": 0.0323,
+      "end": 0.0133
+     },
+     "neutral": {
+      "first token": 0.2362,
+      "A": 0.0079,
+      "B": 0.0146,
+      "stop": 0.0147,
+      "S": 0.4632,
+      "S+1": 0.0527,
+      "end": 0.0175
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "first token": 0.1685,
+      "A": 0.0996,
+      "B": 0.1674,
+      "stop": 0.0143,
+      "S": 0.4355,
+      "S+1": 0.0142,
+      "end": 0.0029
+     },
+     "flipped": {
+      "first token": 0.1681,
+      "A": 0.089,
+      "B": 0.1504,
+      "stop": 0.0162,
+      "S": 0.458,
+      "S+1": 0.0181,
+      "end": 0.0036
+     },
+     "neutral": {
+      "first token": 0.2122,
+      "A": 0.0847,
+      "B": 0.1535,
+      "stop": 0.0283,
+      "S": 0.3472,
+      "S+1": 0.0377,
+      "end": 0.0078
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "first token": 0.2678,
+      "A": 0.0649,
+      "B": 0.5287,
+      "stop": 0.0173,
+      "S": 0.0103,
+      "S+1": 0.0044,
+      "end": 0.0052
+     },
+     "flipped": {
+      "first token": 0.2358,
+      "A": 0.508,
+      "B": 0.0335,
+      "stop": 0.0115,
+      "S": 0.0608,
+      "S+1": 0.0071,
+      "end": 0.0105
+     },
+     "neutral": {
+      "first token": 0.2244,
+      "A": 0.3551,
+      "B": 0.1697,
+      "stop": 0.0144,
+      "S": 0.0615,
+      "S+1": 0.0066,
+      "end": 0.0088
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "first token": 0.3582,
+      "A": 0.0012,
+      "B": 0.0008,
+      "stop": 0.0127,
+      "S": 0.0122,
+      "S+1": 0.0179,
+      "end": 0.5489
+     },
+     "flipped": {
+      "first token": 0.332,
+      "A": 0.0009,
+      "B": 0.0005,
+      "stop": 0.0111,
+      "S": 0.0133,
+      "S+1": 0.0179,
+      "end": 0.5783
+     },
+     "neutral": {
+      "first token": 0.2316,
+      "A": 0.0006,
+      "B": 0.0004,
+      "stop": 0.0091,
+      "S": 0.0083,
+      "S+1": 0.0187,
+      "end": 0.6878
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "first token": 0.1858,
+      "A": 0.0004,
+      "B": 0.0009,
+      "stop": 0.0214,
+      "S": 0.0297,
+      "S+1": 0.0833,
+      "end": 0.4004
+     },
+     "flipped": {
+      "first token": 0.1507,
+      "A": 0.0002,
+      "B": 0.0006,
+      "stop": 0.0195,
+      "S": 0.033,
+      "S+1": 0.0752,
+      "end": 0.3896
+     },
+     "neutral": {
+      "first token": 0.1693,
+      "A": 0.0004,
+      "B": 0.001,
+      "stop": 0.0245,
+      "S": 0.0523,
+      "S+1": 0.0766,
+      "end": 0.3574
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "first token": 0.2194,
+      "A": 0.0294,
+      "B": 0.0365,
+      "stop": 0.0836,
+      "S": 0.2973,
+      "S+1": 0.0951,
+      "end": 0.0861
+     },
+     "flipped": {
+      "first token": 0.2504,
+      "A": 0.0293,
+      "B": 0.0131,
+      "stop": 0.0578,
+      "S": 0.2542,
+      "S+1": 0.0921,
+      "end": 0.1309
+     },
+     "neutral": {
+      "first token": 0.3638,
+      "A": 0.0294,
+      "B": 0.0256,
+      "stop": 0.0655,
+      "S": 0.156,
+      "S+1": 0.0761,
+      "end": 0.108
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "first token": 0.0627,
+      "A": 0.2137,
+      "B": 0.5666,
+      "stop": 0.0123,
+      "S": 0.0742,
+      "S+1": 0.0016,
+      "end": 0.0034
+     },
+     "flipped": {
+      "first token": 0.0536,
+      "A": 0.711,
+      "B": 0.03,
+      "stop": 0.0069,
+      "S": 0.1204,
+      "S+1": 0.0006,
+      "end": 0.0055
+     },
+     "neutral": {
+      "first token": 0.0997,
+      "A": 0.5717,
+      "B": 0.1079,
+      "stop": 0.0162,
+      "S": 0.0523,
+      "S+1": 0.0006,
+      "end": 0.0041
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "first token": 0.2816,
+      "A": 0.0478,
+      "B": 0.0679,
+      "stop": 0.0566,
+      "S": 0.2668,
+      "S+1": 0.0246,
+      "end": 0.0276
+     },
+     "flipped": {
+      "first token": 0.3602,
+      "A": 0.0446,
+      "B": 0.0371,
+      "stop": 0.0487,
+      "S": 0.257,
+      "S+1": 0.0246,
+      "end": 0.0202
+     },
+     "neutral": {
+      "first token": 0.4263,
+      "A": 0.0451,
+      "B": 0.0569,
+      "stop": 0.0544,
+      "S": 0.1633,
+      "S+1": 0.02,
+      "end": 0.0227
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "first token": 0.2312,
+      "A": 0.2242,
+      "B": 0.4129,
+      "stop": 0.0135,
+      "S": 0.049,
+      "S+1": 0.0021,
+      "end": 0.0026
+     },
+     "flipped": {
+      "first token": 0.347,
+      "A": 0.4235,
+      "B": 0.0733,
+      "stop": 0.0127,
+      "S": 0.0748,
+      "S+1": 0.001,
+      "end": 0.0026
+     },
+     "neutral": {
+      "first token": 0.3044,
+      "A": 0.3661,
+      "B": 0.172,
+      "stop": 0.0094,
+      "S": 0.0922,
+      "S+1": 0.0007,
+      "end": 0.0017
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "first token": 0.1654,
+      "A": 0.0302,
+      "B": 0.1103,
+      "stop": 0.1275,
+      "S": 0.2658,
+      "S+1": 0.0173,
+      "end": 0.0345
+     },
+     "flipped": {
+      "first token": 0.2371,
+      "A": 0.0651,
+      "B": 0.0288,
+      "stop": 0.1335,
+      "S": 0.2228,
+      "S+1": 0.0268,
+      "end": 0.0337
+     },
+     "neutral": {
+      "first token": 0.2942,
+      "A": 0.0615,
+      "B": 0.0586,
+      "stop": 0.1328,
+      "S": 0.1307,
+      "S+1": 0.022,
+      "end": 0.0425
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "first token": 0.2252,
+      "A": 0.1046,
+      "B": 0.0933,
+      "stop": 0.1452,
+      "S": 0.0449,
+      "S+1": 0.0089,
+      "end": 0.0293
+     },
+     "flipped": {
+      "first token": 0.3,
+      "A": 0.0864,
+      "B": 0.0626,
+      "stop": 0.1197,
+      "S": 0.0632,
+      "S+1": 0.0072,
+      "end": 0.0209
+     },
+     "neutral": {
+      "first token": 0.307,
+      "A": 0.0959,
+      "B": 0.0903,
+      "stop": 0.1032,
+      "S": 0.0878,
+      "S+1": 0.0047,
+      "end": 0.018
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "first token": 0.1906,
+      "A": 0.0949,
+      "B": 0.278,
+      "stop": 0.098,
+      "S": 0.0471,
+      "S+1": 0.0409,
+      "end": 0.0464
+     },
+     "flipped": {
+      "first token": 0.2671,
+      "A": 0.3547,
+      "B": 0.0269,
+      "stop": 0.0732,
+      "S": 0.0341,
+      "S+1": 0.0476,
+      "end": 0.0279
+     },
+     "neutral": {
+      "first token": 0.2636,
+      "A": 0.3067,
+      "B": 0.089,
+      "stop": 0.0591,
+      "S": 0.0637,
+      "S+1": 0.0295,
+      "end": 0.0262
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "first token": 0.0464,
+      "A": 0.0935,
+      "B": 0.3225,
+      "stop": 0.1541,
+      "S": 0.0047,
+      "S+1": 0.0017,
+      "end": 0.0256
+     },
+     "flipped": {
+      "first token": 0.1269,
+      "A": 0.3705,
+      "B": 0.0239,
+      "stop": 0.1252,
+      "S": 0.0048,
+      "S+1": 0.0015,
+      "end": 0.0187
+     },
+     "neutral": {
+      "first token": 0.1434,
+      "A": 0.3324,
+      "B": 0.1087,
+      "stop": 0.1021,
+      "S": 0.0209,
+      "S+1": 0.0006,
+      "end": 0.0132
+     }
+    }
+   },
+   "elsewhere": {
+    "block 14 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0127
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0019
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0006
+     }
+    },
+    "block 15 head 0": {
+     "clean": {
+      "token": "map",
+      "weight": 0.1302
+     },
+     "flipped": {
+      "token": "map",
+      "weight": 0.1419
+     },
+     "neutral": {
+      "token": "map",
+      "weight": 0.1516
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0336
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0306
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0326
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0496
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0627
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0826
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "token": "map",
+      "weight": 0.0259
+     },
+     "flipped": {
+      "token": "map",
+      "weight": 0.0249
+     },
+     "neutral": {
+      "token": "map",
+      "weight": 0.0204
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "token": "map",
+      "weight": 0.2505
+     },
+     "flipped": {
+      "token": "map",
+      "weight": 0.3028
+     },
+     "neutral": {
+      "token": "map",
+      "weight": 0.2908
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "token": "the",
+      "weight": 0.0696
+     },
+     "flipped": {
+      "token": "the",
+      "weight": 0.1002
+     },
+     "neutral": {
+      "token": "the",
+      "weight": 0.0986
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0327
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0285
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0739
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0612
+     },
+     "flipped": {
+      "token": "map",
+      "weight": 0.052
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0562
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "token": "zoo",
+      "weight": 0.0242
+     },
+     "flipped": {
+      "token": "zoo",
+      "weight": 0.0204
+     },
+     "neutral": {
+      "token": "zoo",
+      "weight": 0.0173
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "token": "the",
+      "weight": 0.055
+     },
+     "flipped": {
+      "token": "the",
+      "weight": 0.0585
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0602
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "token": ",",
+      "weight": 0.087
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1061
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0808
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0491
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0395
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0397
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "token": "the",
+      "weight": 0.1091
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.1377
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.1088
+     }
+    }
+   },
+   "writes": {
+    "block 15 head 0": {
+     "clean": {
+      "A": 0.0066,
+      "B": -0.0021,
+      "C": 0.0005
+     },
+     "flipped": {
+      "A": -0.0006,
+      "B": 0.0058,
+      "C": -0.0005
+     },
+     "neutral": {
+      "A": -0.0041,
+      "B": 0.0018,
+      "C": 0.0009
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "A": 0.0041,
+      "B": -0.003,
+      "C": 0.0022
+     },
+     "flipped": {
+      "A": 0.0034,
+      "B": -0.0089,
+      "C": 0.0017
+     },
+     "neutral": {
+      "A": 0.0021,
+      "B": -0.0011,
+      "C": 0.0043
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "A": -0.0005,
+      "B": 0.0037,
+      "C": 0.0006
+     },
+     "flipped": {
+      "A": -0.0061,
+      "B": -0.0006,
+      "C": -0.0002
+     },
+     "neutral": {
+      "A": -0.0039,
+      "B": 0.001,
+      "C": -0.002
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "A": -0.0006,
+      "B": -0.0115,
+      "C": -0.0008
+     },
+     "flipped": {
+      "A": -0.0025,
+      "B": -0.0006,
+      "C": -0.0006
+     },
+     "neutral": {
+      "A": -0.0032,
+      "B": 0.0,
+      "C": -0.0085
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "A": 0.0016,
+      "B": 0.0116,
+      "C": 0.0005
+     },
+     "flipped": {
+      "A": 0.0055,
+      "B": 0.0006,
+      "C": 0.0003
+     },
+     "neutral": {
+      "A": 0.0047,
+      "B": 0.0019,
+      "C": 0.0038
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "A": -1.5545,
+      "B": -0.1396,
+      "C": 0.0001
+     },
+     "flipped": {
+      "A": -0.1497,
+      "B": -1.2718,
+      "C": -0.0126
+     },
+     "neutral": {
+      "A": -0.179,
+      "B": -0.1303,
+      "C": -0.8545
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "A": 0.8854,
+      "B": 1.3721,
+      "C": 0.004
+     },
+     "flipped": {
+      "A": 1.9629,
+      "B": 0.3581,
+      "C": 0.0011
+     },
+     "neutral": {
+      "A": 1.5964,
+      "B": 0.2587,
+      "C": 0.141
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "A": -0.5453,
+      "B": -0.1268,
+      "C": -0.0001
+     },
+     "flipped": {
+      "A": -0.0948,
+      "B": -0.512,
+      "C": -0.0035
+     },
+     "neutral": {
+      "A": -0.1006,
+      "B": -0.1122,
+      "C": -0.3509
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "A": 0.5917,
+      "B": 0.7852,
+      "C": 0.0082
+     },
+     "flipped": {
+      "A": 0.9192,
+      "B": 0.2675,
+      "C": 0.0039
+     },
+     "neutral": {
+      "A": 0.7975,
+      "B": 0.3423,
+      "C": 0.2025
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "A": -1.0792,
+      "B": -0.4099,
+      "C": -0.0008
+     },
+     "flipped": {
+      "A": -0.2593,
+      "B": -0.9229,
+      "C": -0.0034
+     },
+     "neutral": {
+      "A": -0.2598,
+      "B": -0.2,
+      "C": -0.5801
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "A": 0.845,
+      "B": 0.4246,
+      "C": 0.005
+     },
+     "flipped": {
+      "A": 0.4804,
+      "B": 0.6281,
+      "C": 0.0074
+     },
+     "neutral": {
+      "A": 0.5569,
+      "B": 0.4448,
+      "C": 0.5223
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "A": -0.3235,
+      "B": -0.5572,
+      "C": -0.0067
+     },
+     "flipped": {
+      "A": -0.7333,
+      "B": -0.1069,
+      "C": -0.0011
+     },
+     "neutral": {
+      "A": -0.6322,
+      "B": -0.1766,
+      "C": -0.1368
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "A": -0.3264,
+      "B": -0.8617,
+      "C": -0.0097
+     },
+     "flipped": {
+      "A": -1.0189,
+      "B": -0.0572,
+      "C": -0.0029
+     },
+     "neutral": {
+      "A": -0.9282,
+      "B": -0.2836,
+      "C": -0.0643
+     }
+    }
+   },
+   "by kind": {
+    "block 15 head 0": {
+     "clean": {
+      "acts": {
+       "She": 0.0091,
+       "He": 0.007
+      },
+      "due": {
+       "She": 0.0039,
+       "He": -0.0028
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0017,
+       "He": 0.008
+      },
+      "due": {
+       "She": -0.0034,
+       "He": 0.0072
+      }
+     }
+    },
+    "block 15 head 3": {
+     "clean": {
+      "acts": {
+       "She": 0.0107,
+       "He": 0.0045
+      },
+      "due": {
+       "She": -0.0014,
+       "He": -0.0047
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0042,
+       "He": -0.0036
+      },
+      "due": {
+       "She": 0.0012,
+       "He": 0.0031
+      }
+     }
+    },
+    "block 20 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.0016,
+       "He": -0.001
+      },
+      "due": {
+       "She": 0.0125,
+       "He": 0.0014
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0008,
+       "He": -0.0034
+      },
+      "due": {
+       "She": 0.0017,
+       "He": -0.0041
+      }
+     }
+    },
+    "block 20 head 8": {
+     "clean": {
+      "acts": {
+       "She": -0.0033,
+       "He": 0.0006
+      },
+      "due": {
+       "She": -0.0042,
+       "He": -0.0164
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0047,
+       "He": -0.0036
+      },
+      "due": {
+       "She": -0.0036,
+       "He": -0.0034
+      }
+     }
+    },
+    "block 20 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.009,
+       "He": 0.0044
+      },
+      "due": {
+       "She": 0.01,
+       "He": 0.013
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.0087,
+       "He": 0.0047
+      },
+      "due": {
+       "She": 0.0095,
+       "He": 0.0038
+      }
+     }
+    },
+    "block 21 head 9": {
+     "clean": {
+      "acts": {
+       "She": -1.1627,
+       "He": -1.5658
+      },
+      "due": {
+       "She": -0.1111,
+       "He": -0.1472
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.9459,
+       "He": -1.2588
+      },
+      "due": {
+       "She": -0.1073,
+       "He": -0.1695
+      }
+     }
+    },
+    "block 21 head 12": {
+     "clean": {
+      "acts": {
+       "She": 0.7656,
+       "He": 0.8857
+      },
+      "due": {
+       "She": 1.1822,
+       "He": 1.3603
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.3109,
+       "He": 0.3548
+      },
+      "due": {
+       "She": 1.6663,
+       "He": 1.9591
+      }
+     }
+    },
+    "block 22 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.723,
+       "He": -0.3041
+      },
+      "due": {
+       "She": -0.1718,
+       "He": -0.0722
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.6744,
+       "He": -0.2778
+      },
+      "due": {
+       "She": -0.1299,
+       "He": -0.061
+      }
+     }
+    },
+    "block 22 head 11": {
+     "clean": {
+      "acts": {
+       "She": 0.8628,
+       "He": 0.2329
+      },
+      "due": {
+       "She": 1.1504,
+       "He": 0.2896
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.3977,
+       "He": 0.1047
+      },
+      "due": {
+       "She": 1.3352,
+       "He": 0.3386
+      }
+     }
+    },
+    "block 23 head 0": {
+     "clean": {
+      "acts": {
+       "She": -1.219,
+       "He": -0.8697
+      },
+      "due": {
+       "She": -0.4829,
+       "He": -0.3092
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -1.1007,
+       "He": -0.6767
+      },
+      "due": {
+       "She": -0.3151,
+       "He": -0.1963
+      }
+     }
+    },
+    "block 23 head 6": {
+     "clean": {
+      "acts": {
+       "She": 0.8245,
+       "He": 0.7835
+      },
+      "due": {
+       "She": 0.3468,
+       "He": 0.4486
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": 0.612,
+       "He": 0.5772
+      },
+      "due": {
+       "She": 0.394,
+       "He": 0.5064
+      }
+     }
+    },
+    "block 24 head 2": {
+     "clean": {
+      "acts": {
+       "She": -0.362,
+       "He": -0.2487
+      },
+      "due": {
+       "She": -0.6519,
+       "He": -0.3769
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.1097,
+       "He": -0.0987
+      },
+      "due": {
+       "She": -0.9221,
+       "He": -0.4218
+      }
+     }
+    },
+    "block 24 head 12": {
+     "clean": {
+      "acts": {
+       "She": -0.3495,
+       "He": -0.2752
+      },
+      "due": {
+       "She": -0.7158,
+       "He": -0.8795
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0551,
+       "He": -0.0546
+      },
+      "due": {
+       "She": -0.9611,
+       "He": -0.9323
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 0",
+     "alone": 0.1109,
+     "held": 0.0132
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 15 head 3",
+     "alone": 0.1109,
+     "held": -0.046
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 6",
+     "alone": 0.1109,
+     "held": 0.1942
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 8",
+     "alone": 0.1109,
+     "held": 0.1731
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 20 head 11",
+     "alone": 0.1109,
+     "held": 0.0668
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 9",
+     "alone": 0.1109,
+     "held": 0.1489
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 21 head 12",
+     "alone": 0.1109,
+     "held": 0.0822
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 0",
+     "alone": 0.1109,
+     "held": 0.1207
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 22 head 11",
+     "alone": 0.1109,
+     "held": 0.0895
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 0",
+     "alone": 0.1109,
+     "held": 0.1505
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 23 head 6",
+     "alone": 0.1109,
+     "held": 0.0996
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 2",
+     "alone": 0.1109,
+     "held": 0.1169
+    },
+    {
+     "sender": "block 14 head 2",
+     "receiver": "block 24 head 12",
+     "alone": 0.1109,
+     "held": 0.1332
+    }
+   ]
+  }
+ ]
+}

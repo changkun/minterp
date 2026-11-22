@@ -1,0 +1,1675 @@
+{
+ "model": {
+  "name": "seed1",
+  "step": 6000,
+  "val_loss": 1.4608,
+  "config": {
+   "vocab_size": 4096,
+   "max_seq_len": 256,
+   "dim": 384,
+   "n_layers": 8,
+   "n_heads": 6,
+   "n_kv_heads": 2,
+   "mlp_dim": 1024,
+   "rope_theta": 10000.0,
+   "norm_eps": 0.0,
+   "tie_embeddings": true,
+   "qkv_bias": false,
+   "n_experts": 0,
+   "n_active": 2,
+   "rope_scaling": null,
+   "kv_latent": 0,
+   "rope_dim": 32
+  }
+ },
+ "heads": [
+  {
+   "block": 4,
+   "head": 4,
+   "carry": 0.207,
+   "acts at": "S"
+  },
+  {
+   "block": 6,
+   "head": 0,
+   "carry": 0.072,
+   "acts at": "end"
+  },
+  {
+   "block": 8,
+   "head": 0,
+   "carry": 0.694,
+   "acts at": "end"
+  },
+  {
+   "block": 8,
+   "head": 1,
+   "carry": 0.137,
+   "acts at": "end"
+  }
+ ],
+ "versions": [
+  "clean",
+  "flipped",
+  "neutral"
+ ],
+ "places": [
+  "first token",
+  "A",
+  "B",
+  "stop",
+  "S",
+  "S+1",
+  "end"
+ ],
+ "names that go on with She": [
+  "Lily",
+  "Mia",
+  "Lucy",
+  "Anna",
+  "Sue",
+  "Sara"
+ ],
+ "templates": [
+  {
+   "template": "Once upon a time, {A} and {B} went to the park. {S} gave a toy to",
+   "attention": {
+    "block 4 head 4": {
+     "clean": {
+      "first token": 0.0093,
+      "A": 0.0447,
+      "B": 0.8414,
+      "stop": 0.008,
+      "S": 0.0049,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0094,
+      "A": 0.7898,
+      "B": 0.0907,
+      "stop": 0.0083,
+      "S": 0.0051,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.0041,
+      "A": 0.5232,
+      "B": 0.4188,
+      "stop": 0.0041,
+      "S": 0.0021,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "first token": 0.0034,
+      "A": 0.0045,
+      "B": 0.0142,
+      "stop": 0.1132,
+      "S": 0.3263,
+      "S+1": 0.1294,
+      "end": 0.0111
+     },
+     "flipped": {
+      "first token": 0.0034,
+      "A": 0.0044,
+      "B": 0.0136,
+      "stop": 0.1173,
+      "S": 0.307,
+      "S+1": 0.1266,
+      "end": 0.0118
+     },
+     "neutral": {
+      "first token": 0.0033,
+      "A": 0.0042,
+      "B": 0.0133,
+      "stop": 0.1149,
+      "S": 0.3332,
+      "S+1": 0.1208,
+      "end": 0.0113
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "first token": 0.0004,
+      "A": 0.027,
+      "B": 0.0756,
+      "stop": 0.0003,
+      "S": 0.8888,
+      "S+1": 0.0015,
+      "end": 0.0009
+     },
+     "flipped": {
+      "first token": 0.0003,
+      "A": 0.0189,
+      "B": 0.0504,
+      "stop": 0.0002,
+      "S": 0.9246,
+      "S+1": 0.0011,
+      "end": 0.0007
+     },
+     "neutral": {
+      "first token": 0.0003,
+      "A": 0.0193,
+      "B": 0.0532,
+      "stop": 0.0002,
+      "S": 0.9205,
+      "S+1": 0.0012,
+      "end": 0.0007
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "first token": 0.001,
+      "A": 0.0073,
+      "B": 0.0283,
+      "stop": 0.0189,
+      "S": 0.898,
+      "S+1": 0.0243,
+      "end": 0.0039
+     },
+     "flipped": {
+      "first token": 0.0008,
+      "A": 0.0058,
+      "B": 0.0212,
+      "stop": 0.0161,
+      "S": 0.914,
+      "S+1": 0.0236,
+      "end": 0.0032
+     },
+     "neutral": {
+      "first token": 0.0009,
+      "A": 0.0064,
+      "B": 0.0234,
+      "stop": 0.0189,
+      "S": 0.9034,
+      "S+1": 0.026,
+      "end": 0.0037
+     }
+    }
+   },
+   "elsewhere": {
+    "block 4 head 4": {
+     "clean": {
+      "token": "and",
+      "weight": 0.0188
+     },
+     "flipped": {
+      "token": "and",
+      "weight": 0.0207
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0106
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "token": "toy",
+      "weight": 0.2639
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.2768
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.266
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "token": "toy",
+      "weight": 0.0029
+     },
+     "flipped": {
+      "token": "toy",
+      "weight": 0.0021
+     },
+     "neutral": {
+      "token": "toy",
+      "weight": 0.0023
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "token": "a",
+      "weight": 0.0094
+     },
+     "flipped": {
+      "token": "a",
+      "weight": 0.0079
+     },
+     "neutral": {
+      "token": "a",
+      "weight": 0.0092
+     }
+    }
+   },
+   "writes": {
+    "block 6 head 0": {
+     "clean": {
+      "A": -0.0284,
+      "B": 0.0127,
+      "C": 0.0008
+     },
+     "flipped": {
+      "A": 0.0164,
+      "B": -0.0308,
+      "C": 0.001
+     },
+     "neutral": {
+      "A": 0.0151,
+      "B": 0.011,
+      "C": -0.0395
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "A": -1.412,
+      "B": 0.3581,
+      "C": 0.0074
+     },
+     "flipped": {
+      "A": 0.4427,
+      "B": -1.5143,
+      "C": -0.057
+     },
+     "neutral": {
+      "A": 0.3096,
+      "B": 0.1813,
+      "C": -1.631
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "A": -0.3145,
+      "B": 0.1348,
+      "C": 0.0062
+     },
+     "flipped": {
+      "A": 0.1498,
+      "B": -0.3361,
+      "C": -0.0124
+     },
+     "neutral": {
+      "A": 0.1123,
+      "B": 0.0804,
+      "C": -0.3821
+     }
+    }
+   },
+   "by kind": {
+    "block 6 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0082,
+       "He": -0.0367
+      },
+      "due": {
+       "She": 0.0069,
+       "He": 0.0113
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0131,
+       "He": -0.035
+      },
+      "due": {
+       "She": 0.0095,
+       "He": 0.0187
+      }
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.2405,
+       "He": -1.1164
+      },
+      "due": {
+       "She": 0.0674,
+       "He": 0.2949
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2542,
+       "He": -1.1231
+      },
+      "due": {
+       "She": 0.0721,
+       "He": 0.3848
+      }
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "acts": {
+       "She": -0.0393,
+       "He": -0.2196
+      },
+      "due": {
+       "She": 0.0409,
+       "He": 0.1299
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0464,
+       "He": -0.228
+      },
+      "due": {
+       "She": 0.0481,
+       "He": 0.1407
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 6 head 0",
+     "alone": 0.2128,
+     "held": 0.1742
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 0",
+     "alone": 0.2128,
+     "held": 0.0702
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 1",
+     "alone": 0.2128,
+     "held": 0.1885
+    }
+   ]
+  },
+  {
+   "template": "One day, {A} and {B} were playing in the garden. {S} said hello to",
+   "attention": {
+    "block 4 head 4": {
+     "clean": {
+      "first token": 0.0067,
+      "A": 0.0503,
+      "B": 0.842,
+      "stop": 0.0042,
+      "S": 0.0059,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0065,
+      "A": 0.7896,
+      "B": 0.0996,
+      "stop": 0.0041,
+      "S": 0.0064,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.0031,
+      "A": 0.5163,
+      "B": 0.4292,
+      "stop": 0.0021,
+      "S": 0.0026,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "first token": 0.0001,
+      "A": 0.0015,
+      "B": 0.0042,
+      "stop": 0.0046,
+      "S": 0.9557,
+      "S+1": 0.0071,
+      "end": 0.0011
+     },
+     "flipped": {
+      "first token": 0.0001,
+      "A": 0.0015,
+      "B": 0.0038,
+      "stop": 0.0048,
+      "S": 0.9543,
+      "S+1": 0.0078,
+      "end": 0.0012
+     },
+     "neutral": {
+      "first token": 0.0001,
+      "A": 0.0016,
+      "B": 0.0042,
+      "stop": 0.0051,
+      "S": 0.9511,
+      "S+1": 0.0082,
+      "end": 0.0013
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "first token": 0.0,
+      "A": 0.0039,
+      "B": 0.0144,
+      "stop": 0.0002,
+      "S": 0.9796,
+      "S+1": 0.0014,
+      "end": 0.0001
+     },
+     "flipped": {
+      "first token": 0.0,
+      "A": 0.002,
+      "B": 0.0058,
+      "stop": 0.0001,
+      "S": 0.9907,
+      "S+1": 0.0011,
+      "end": 0.0001
+     },
+     "neutral": {
+      "first token": 0.0,
+      "A": 0.0027,
+      "B": 0.0085,
+      "stop": 0.0001,
+      "S": 0.9867,
+      "S+1": 0.0015,
+      "end": 0.0001
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "first token": 0.0004,
+      "A": 0.0035,
+      "B": 0.0261,
+      "stop": 0.025,
+      "S": 0.9278,
+      "S+1": 0.004,
+      "end": 0.0017
+     },
+     "flipped": {
+      "first token": 0.0005,
+      "A": 0.004,
+      "B": 0.0266,
+      "stop": 0.0271,
+      "S": 0.9227,
+      "S+1": 0.0046,
+      "end": 0.0011
+     },
+     "neutral": {
+      "first token": 0.0005,
+      "A": 0.0038,
+      "B": 0.0252,
+      "stop": 0.0288,
+      "S": 0.9215,
+      "S+1": 0.0054,
+      "end": 0.0013
+     }
+    }
+   },
+   "elsewhere": {
+    "block 4 head 4": {
+     "clean": {
+      "token": ",",
+      "weight": 0.0184
+     },
+     "flipped": {
+      "token": ",",
+      "weight": 0.0193
+     },
+     "neutral": {
+      "token": ",",
+      "weight": 0.0091
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.0193
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.0201
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.0217
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "token": "hello",
+      "weight": 0.0002
+     },
+     "flipped": {
+      "token": "hello",
+      "weight": 0.0001
+     },
+     "neutral": {
+      "token": "hello",
+      "weight": 0.0002
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "token": "were",
+      "weight": 0.0043
+     },
+     "flipped": {
+      "token": "were",
+      "weight": 0.0051
+     },
+     "neutral": {
+      "token": "were",
+      "weight": 0.0048
+     }
+    }
+   },
+   "writes": {
+    "block 6 head 0": {
+     "clean": {
+      "A": -0.0706,
+      "B": 0.0302,
+      "C": 0.0003
+     },
+     "flipped": {
+      "A": 0.0312,
+      "B": -0.0739,
+      "C": 0.0004
+     },
+     "neutral": {
+      "A": 0.0262,
+      "B": 0.0241,
+      "C": -0.0855
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "A": -1.2348,
+      "B": 0.4155,
+      "C": 0.0122
+     },
+     "flipped": {
+      "A": 0.4043,
+      "B": -1.2243,
+      "C": -0.0417
+     },
+     "neutral": {
+      "A": 0.2901,
+      "B": 0.2337,
+      "C": -1.4134
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "A": -0.272,
+      "B": 0.1209,
+      "C": 0.005
+     },
+     "flipped": {
+      "A": 0.1155,
+      "B": -0.2704,
+      "C": -0.0113
+     },
+     "neutral": {
+      "A": 0.0879,
+      "B": 0.0719,
+      "C": -0.3205
+     }
+    }
+   },
+   "by kind": {
+    "block 6 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0252,
+       "He": -0.0936
+      },
+      "due": {
+       "She": 0.0148,
+       "He": 0.0264
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0311,
+       "He": -0.0917
+      },
+      "due": {
+       "She": 0.0154,
+       "He": 0.0374
+      }
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.1917,
+       "He": -1.0082
+      },
+      "due": {
+       "She": 0.0919,
+       "He": 0.3303
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.191,
+       "He": -0.9479
+      },
+      "due": {
+       "She": 0.0789,
+       "He": 0.3495
+      }
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "acts": {
+       "She": -0.0337,
+       "He": -0.2076
+      },
+      "due": {
+       "She": 0.039,
+       "He": 0.1088
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0399,
+       "He": -0.1978
+      },
+      "due": {
+       "She": 0.0374,
+       "He": 0.1058
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 6 head 0",
+     "alone": 0.2238,
+     "held": 0.1709
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 0",
+     "alone": 0.2238,
+     "held": 0.1137
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 1",
+     "alone": 0.2238,
+     "held": 0.1948
+    }
+   ]
+  },
+  {
+   "template": "Once there were two friends, {A} and {B}. One day, {S} gave a big hug to",
+   "attention": {
+    "block 4 head 4": {
+     "clean": {
+      "first token": 0.0022,
+      "A": 0.0531,
+      "B": 0.8872,
+      "stop": 0.005,
+      "S": 0.0201,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0025,
+      "A": 0.799,
+      "B": 0.134,
+      "stop": 0.0055,
+      "S": 0.0219,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.0011,
+      "A": 0.508,
+      "B": 0.4614,
+      "stop": 0.0026,
+      "S": 0.0099,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "first token": 0.0015,
+      "A": 0.003,
+      "B": 0.0058,
+      "stop": 0.0026,
+      "S": 0.2179,
+      "S+1": 0.1892,
+      "end": 0.0077
+     },
+     "flipped": {
+      "first token": 0.0014,
+      "A": 0.0028,
+      "B": 0.0054,
+      "stop": 0.0025,
+      "S": 0.2037,
+      "S+1": 0.1925,
+      "end": 0.0078
+     },
+     "neutral": {
+      "first token": 0.0014,
+      "A": 0.0028,
+      "B": 0.0055,
+      "stop": 0.0025,
+      "S": 0.2177,
+      "S+1": 0.1885,
+      "end": 0.0077
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "first token": 0.0003,
+      "A": 0.0197,
+      "B": 0.028,
+      "stop": 0.0009,
+      "S": 0.9368,
+      "S+1": 0.0006,
+      "end": 0.0006
+     },
+     "flipped": {
+      "first token": 0.0002,
+      "A": 0.013,
+      "B": 0.0169,
+      "stop": 0.0006,
+      "S": 0.9592,
+      "S+1": 0.0004,
+      "end": 0.0005
+     },
+     "neutral": {
+      "first token": 0.0002,
+      "A": 0.0159,
+      "B": 0.0218,
+      "stop": 0.0007,
+      "S": 0.9489,
+      "S+1": 0.0006,
+      "end": 0.0006
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "first token": 0.002,
+      "A": 0.0086,
+      "B": 0.0443,
+      "stop": 0.0074,
+      "S": 0.7858,
+      "S+1": 0.0215,
+      "end": 0.0028
+     },
+     "flipped": {
+      "first token": 0.0017,
+      "A": 0.0069,
+      "B": 0.0342,
+      "stop": 0.0061,
+      "S": 0.8177,
+      "S+1": 0.0228,
+      "end": 0.0023
+     },
+     "neutral": {
+      "first token": 0.0019,
+      "A": 0.0075,
+      "B": 0.0377,
+      "stop": 0.0068,
+      "S": 0.803,
+      "S+1": 0.0238,
+      "end": 0.0025
+     }
+    }
+   },
+   "elsewhere": {
+    "block 4 head 4": {
+     "clean": {
+      "token": "friends",
+      "weight": 0.0079
+     },
+     "flipped": {
+      "token": "friends",
+      "weight": 0.0088
+     },
+     "neutral": {
+      "token": "friends",
+      "weight": 0.0037
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "token": "hug",
+      "weight": 0.3863
+     },
+     "flipped": {
+      "token": "hug",
+      "weight": 0.3987
+     },
+     "neutral": {
+      "token": "hug",
+      "weight": 0.3907
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "token": "hug",
+      "weight": 0.0052
+     },
+     "flipped": {
+      "token": "hug",
+      "weight": 0.0039
+     },
+     "neutral": {
+      "token": "hug",
+      "weight": 0.0048
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "token": "friends",
+      "weight": 0.0529
+     },
+     "flipped": {
+      "token": "friends",
+      "weight": 0.0454
+     },
+     "neutral": {
+      "token": "friends",
+      "weight": 0.0481
+     }
+    }
+   },
+   "writes": {
+    "block 6 head 0": {
+     "clean": {
+      "A": -0.0233,
+      "B": 0.0054,
+      "C": 0.0002
+     },
+     "flipped": {
+      "A": 0.006,
+      "B": -0.024,
+      "C": 0.0003
+     },
+     "neutral": {
+      "A": 0.0053,
+      "B": 0.0043,
+      "C": -0.0264
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "A": -1.5285,
+      "B": 0.345,
+      "C": 0.0157
+     },
+     "flipped": {
+      "A": 0.3887,
+      "B": -1.5809,
+      "C": -0.0504
+     },
+     "neutral": {
+      "A": 0.2318,
+      "B": 0.1298,
+      "C": -1.6658
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "A": -0.3088,
+      "B": 0.0806,
+      "C": 0.0057
+     },
+     "flipped": {
+      "A": 0.1008,
+      "B": -0.3371,
+      "C": -0.0099
+     },
+     "neutral": {
+      "A": 0.0627,
+      "B": 0.0323,
+      "C": -0.351
+     }
+    }
+   },
+   "by kind": {
+    "block 6 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0125,
+       "He": -0.0257
+      },
+      "due": {
+       "She": 0.0023,
+       "He": 0.0064
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.015,
+       "He": -0.0238
+      },
+      "due": {
+       "She": 0.0032,
+       "He": 0.0079
+      }
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.2441,
+       "He": -1.2119
+      },
+      "due": {
+       "She": 0.0542,
+       "He": 0.2509
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2506,
+       "He": -1.2056
+      },
+      "due": {
+       "She": 0.0497,
+       "He": 0.3013
+      }
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "acts": {
+       "She": -0.0506,
+       "He": -0.24
+      },
+      "due": {
+       "She": 0.0129,
+       "He": 0.0674
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.057,
+       "He": -0.2609
+      },
+      "due": {
+       "She": 0.0198,
+       "He": 0.0832
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 6 head 0",
+     "alone": 0.1997,
+     "held": 0.1799
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 0",
+     "alone": 0.1997,
+     "held": 0.0589
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 1",
+     "alone": 0.1997,
+     "held": 0.177
+    }
+   ]
+  },
+  {
+   "template": "One sunny day, {A} and {B} had a red ball. {S} threw the ball to",
+   "attention": {
+    "block 4 head 4": {
+     "clean": {
+      "first token": 0.0067,
+      "A": 0.0458,
+      "B": 0.8366,
+      "stop": 0.0053,
+      "S": 0.0048,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0065,
+      "A": 0.7868,
+      "B": 0.0912,
+      "stop": 0.0049,
+      "S": 0.0049,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.0032,
+      "A": 0.5171,
+      "B": 0.4223,
+      "stop": 0.0027,
+      "S": 0.0021,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "first token": 0.0013,
+      "A": 0.0118,
+      "B": 0.0486,
+      "stop": 0.0186,
+      "S": 0.7706,
+      "S+1": 0.0916,
+      "end": 0.0045
+     },
+     "flipped": {
+      "first token": 0.0013,
+      "A": 0.0115,
+      "B": 0.043,
+      "stop": 0.0202,
+      "S": 0.765,
+      "S+1": 0.0984,
+      "end": 0.005
+     },
+     "neutral": {
+      "first token": 0.0013,
+      "A": 0.0118,
+      "B": 0.0463,
+      "stop": 0.021,
+      "S": 0.7579,
+      "S+1": 0.1001,
+      "end": 0.0051
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "first token": 0.0001,
+      "A": 0.0045,
+      "B": 0.0334,
+      "stop": 0.0003,
+      "S": 0.9484,
+      "S+1": 0.0024,
+      "end": 0.0014
+     },
+     "flipped": {
+      "first token": 0.0,
+      "A": 0.0015,
+      "B": 0.0092,
+      "stop": 0.0001,
+      "S": 0.9812,
+      "S+1": 0.0011,
+      "end": 0.0009
+     },
+     "neutral": {
+      "first token": 0.0,
+      "A": 0.0023,
+      "B": 0.0169,
+      "stop": 0.0002,
+      "S": 0.9694,
+      "S+1": 0.0019,
+      "end": 0.0013
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "first token": 0.0002,
+      "A": 0.0022,
+      "B": 0.0172,
+      "stop": 0.0057,
+      "S": 0.9544,
+      "S+1": 0.0066,
+      "end": 0.0017
+     },
+     "flipped": {
+      "first token": 0.0001,
+      "A": 0.0012,
+      "B": 0.0085,
+      "stop": 0.0033,
+      "S": 0.9752,
+      "S+1": 0.0045,
+      "end": 0.0009
+     },
+     "neutral": {
+      "first token": 0.0001,
+      "A": 0.0015,
+      "B": 0.0108,
+      "stop": 0.0044,
+      "S": 0.9683,
+      "S+1": 0.0057,
+      "end": 0.0011
+     }
+    }
+   },
+   "elsewhere": {
+    "block 4 head 4": {
+     "clean": {
+      "token": "sunny",
+      "weight": 0.0267
+     },
+     "flipped": {
+      "token": "sunny",
+      "weight": 0.0278
+     },
+     "neutral": {
+      "token": "sunny",
+      "weight": 0.0133
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.01
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0109
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.011
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.0081
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0052
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.0067
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "token": "ball",
+      "weight": 0.0067
+     },
+     "flipped": {
+      "token": "ball",
+      "weight": 0.0035
+     },
+     "neutral": {
+      "token": "ball",
+      "weight": 0.0043
+     }
+    }
+   },
+   "writes": {
+    "block 6 head 0": {
+     "clean": {
+      "A": -0.0814,
+      "B": 0.0234,
+      "C": 0.0004
+     },
+     "flipped": {
+      "A": 0.0279,
+      "B": -0.0862,
+      "C": -0.0
+     },
+     "neutral": {
+      "A": 0.0227,
+      "B": 0.0181,
+      "C": -0.0934
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "A": -1.7343,
+      "B": 0.473,
+      "C": 0.0023
+     },
+     "flipped": {
+      "A": 0.5371,
+      "B": -1.8056,
+      "C": -0.0607
+     },
+     "neutral": {
+      "A": 0.3776,
+      "B": 0.2614,
+      "C": -1.9793
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "A": -0.3851,
+      "B": 0.1678,
+      "C": 0.0027
+     },
+     "flipped": {
+      "A": 0.1743,
+      "B": -0.4024,
+      "C": -0.0183
+     },
+     "neutral": {
+      "A": 0.1293,
+      "B": 0.1074,
+      "C": -0.4714
+     }
+    }
+   },
+   "by kind": {
+    "block 6 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0325,
+       "He": -0.0952
+      },
+      "due": {
+       "She": 0.0102,
+       "He": 0.0247
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0401,
+       "He": -0.0911
+      },
+      "due": {
+       "She": 0.0139,
+       "He": 0.0368
+      }
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.2549,
+       "He": -1.3822
+      },
+      "due": {
+       "She": 0.1044,
+       "He": 0.4313
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2551,
+       "He": -1.3559
+      },
+      "due": {
+       "She": 0.0983,
+       "He": 0.5098
+      }
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "acts": {
+       "She": -0.046,
+       "He": -0.2613
+      },
+      "due": {
+       "She": 0.0497,
+       "He": 0.1838
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0524,
+       "He": -0.2663
+      },
+      "due": {
+       "She": 0.0481,
+       "He": 0.1907
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 6 head 0",
+     "alone": 0.1845,
+     "held": 0.1567
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 0",
+     "alone": 0.1845,
+     "held": 0.0705
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 1",
+     "alone": 0.1845,
+     "held": 0.1593
+    }
+   ]
+  },
+  {
+   "template": "One morning, {A} and {B} went to the zoo. {S} showed the map to",
+   "attention": {
+    "block 4 head 4": {
+     "clean": {
+      "first token": 0.0079,
+      "A": 0.0484,
+      "B": 0.8417,
+      "stop": 0.0059,
+      "S": 0.0038,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "flipped": {
+      "first token": 0.0073,
+      "A": 0.7881,
+      "B": 0.0997,
+      "stop": 0.0057,
+      "S": 0.004,
+      "S+1": 0.0,
+      "end": 0.0
+     },
+     "neutral": {
+      "first token": 0.0035,
+      "A": 0.5174,
+      "B": 0.4265,
+      "stop": 0.0031,
+      "S": 0.0017,
+      "S+1": 0.0,
+      "end": 0.0
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "first token": 0.0008,
+      "A": 0.0128,
+      "B": 0.0371,
+      "stop": 0.0404,
+      "S": 0.7392,
+      "S+1": 0.0807,
+      "end": 0.0075
+     },
+     "flipped": {
+      "first token": 0.0008,
+      "A": 0.013,
+      "B": 0.0361,
+      "stop": 0.0454,
+      "S": 0.7239,
+      "S+1": 0.0826,
+      "end": 0.0083
+     },
+     "neutral": {
+      "first token": 0.0008,
+      "A": 0.0128,
+      "B": 0.0358,
+      "stop": 0.0457,
+      "S": 0.7256,
+      "S+1": 0.0823,
+      "end": 0.0083
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "first token": 0.0004,
+      "A": 0.0162,
+      "B": 0.0739,
+      "stop": 0.0007,
+      "S": 0.904,
+      "S+1": 0.0006,
+      "end": 0.0015
+     },
+     "flipped": {
+      "first token": 0.0003,
+      "A": 0.0122,
+      "B": 0.0457,
+      "stop": 0.0006,
+      "S": 0.9356,
+      "S+1": 0.0005,
+      "end": 0.0018
+     },
+     "neutral": {
+      "first token": 0.0003,
+      "A": 0.0124,
+      "B": 0.0534,
+      "stop": 0.0007,
+      "S": 0.9271,
+      "S+1": 0.0006,
+      "end": 0.002
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "first token": 0.0,
+      "A": 0.002,
+      "B": 0.0196,
+      "stop": 0.0029,
+      "S": 0.972,
+      "S+1": 0.0013,
+      "end": 0.0002
+     },
+     "flipped": {
+      "first token": 0.0,
+      "A": 0.0017,
+      "B": 0.0142,
+      "stop": 0.0031,
+      "S": 0.9774,
+      "S+1": 0.0014,
+      "end": 0.0002
+     },
+     "neutral": {
+      "first token": 0.0,
+      "A": 0.0019,
+      "B": 0.0155,
+      "stop": 0.0041,
+      "S": 0.9742,
+      "S+1": 0.0017,
+      "end": 0.0003
+     }
+    }
+   },
+   "elsewhere": {
+    "block 4 head 4": {
+     "clean": {
+      "token": "morning",
+      "weight": 0.0224
+     },
+     "flipped": {
+      "token": "morning",
+      "weight": 0.0229
+     },
+     "neutral": {
+      "token": "and",
+      "weight": 0.0116
+     }
+    },
+    "block 6 head 0": {
+     "clean": {
+      "token": "the",
+      "weight": 0.0291
+     },
+     "flipped": {
+      "token": "the",
+      "weight": 0.0327
+     },
+     "neutral": {
+      "token": "the",
+      "weight": 0.0326
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "token": "map",
+      "weight": 0.0013
+     },
+     "flipped": {
+      "token": "map",
+      "weight": 0.0017
+     },
+     "neutral": {
+      "token": "map",
+      "weight": 0.0018
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "token": "the",
+      "weight": 0.0007
+     },
+     "flipped": {
+      "token": "the",
+      "weight": 0.0006
+     },
+     "neutral": {
+      "token": "the",
+      "weight": 0.0007
+     }
+    }
+   },
+   "writes": {
+    "block 6 head 0": {
+     "clean": {
+      "A": -0.0705,
+      "B": 0.0255,
+      "C": 0.0015
+     },
+     "flipped": {
+      "A": 0.0268,
+      "B": -0.0757,
+      "C": -0.0
+     },
+     "neutral": {
+      "A": 0.0229,
+      "B": 0.0181,
+      "C": -0.0824
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "A": -1.3849,
+      "B": 0.3591,
+      "C": 0.0086
+     },
+     "flipped": {
+      "A": 0.4027,
+      "B": -1.4372,
+      "C": -0.0541
+     },
+     "neutral": {
+      "A": 0.2944,
+      "B": 0.1807,
+      "C": -1.5801
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "A": -0.3324,
+      "B": 0.1531,
+      "C": 0.0035
+     },
+     "flipped": {
+      "A": 0.1427,
+      "B": -0.3364,
+      "C": -0.0149
+     },
+     "neutral": {
+      "A": 0.1099,
+      "B": 0.0938,
+      "C": -0.4011
+     }
+    }
+   },
+   "by kind": {
+    "block 6 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.0266,
+       "He": -0.0822
+      },
+      "due": {
+       "She": 0.012,
+       "He": 0.0239
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0314,
+       "He": -0.0788
+      },
+      "due": {
+       "She": 0.0105,
+       "He": 0.0342
+      }
+     }
+    },
+    "block 8 head 0": {
+     "clean": {
+      "acts": {
+       "She": -0.2245,
+       "He": -1.0681
+      },
+      "due": {
+       "She": 0.0789,
+       "He": 0.295
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.2249,
+       "He": -1.0447
+      },
+      "due": {
+       "She": 0.0593,
+       "He": 0.3718
+      }
+     }
+    },
+    "block 8 head 1": {
+     "clean": {
+      "acts": {
+       "She": -0.0519,
+       "He": -0.2144
+      },
+      "due": {
+       "She": 0.0536,
+       "He": 0.1538
+      }
+     },
+     "flipped": {
+      "acts": {
+       "She": -0.0512,
+       "He": -0.2105
+      },
+      "due": {
+       "She": 0.041,
+       "He": 0.1464
+      }
+     }
+    }
+   },
+   "holds": [
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 6 head 0",
+     "alone": 0.212,
+     "held": 0.1598
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 0",
+     "alone": 0.212,
+     "held": 0.1018
+    },
+    {
+     "sender": "block 4 head 4",
+     "receiver": "block 8 head 1",
+     "alone": 0.212,
+     "held": 0.1905
+    }
+   ]
+  }
+ ]
+}
