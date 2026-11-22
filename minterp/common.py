@@ -19,8 +19,9 @@ MINLLM = os.environ.get("MINLLM_DIR", "../minllm")
 
 # The models the notes report. They differ only in the seed of their training
 # run: `uv run scripts/train.py` and `uv run scripts/train.py --seed 1 --out
-# out/base-seed1` in minllm.
-MODELS = {"seed0": "out/base/ckpt.pt", "seed1": "out/base-seed1/ckpt.pt"}
+# out/base-seed1` in minllm. Step 8 adds a third, `--seed 2 --out
+# out/base-seed2`.
+MODELS = {"seed0": "out/base/ckpt.pt", "seed1": "out/base-seed1/ckpt.pt", "seed2": "out/base-seed2/ckpt.pt"}
 
 # A published model of 0.5 billion parameters, for step 8. minllm's stage 5
 # reads its weights and tokenizer into the same Transformer class, so every
