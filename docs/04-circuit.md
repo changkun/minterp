@@ -246,6 +246,11 @@ mention, attend to the first mention of the same name, where the fetching
 heads here attend to the other name. The models, the task and the prompts
 all differ, so this is a resemblance and no more.
 
+[Step 8](08-limits.md) takes this note's first two measures and the hold
+to a published model of 24 blocks. Its head at the acting name reads that
+name's own first mention, as the duplicate token heads do, and two heads
+of its last block lower the name that is due.
+
 ## The set against random sets
 
 Is the set of seven heads the mechanism, or seven heads among many that

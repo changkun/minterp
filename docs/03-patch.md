@@ -323,6 +323,8 @@ seed0.
 
 Step 4 starts from the first two points: what do the heads found here
 attend to, what do they write, and which of them reads which?
+[Step 8](08-limits.md) moves the parts of a published model of 24 blocks
+in the same way, where no head carries more than 0.22 of the gap.
 
 ## Exercises
 
