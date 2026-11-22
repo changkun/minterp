@@ -1,7 +1,8 @@
 # 8. Limits
 
 Scripts: [`scripts/limits.py`](../scripts/limits.py),
-[`scripts/open.py`](../scripts/open.py) ·
+[`scripts/open.py`](../scripts/open.py),
+[`scripts/heads.py`](../scripts/heads.py) ·
 Tests: [`tests/test_limits.py`](../tests/test_limits.py),
 [`tests/test_open.py`](../tests/test_open.py) ·
 Results: [`runs/limits/`](../runs/limits/), [`runs/open/`](../runs/open/)
@@ -16,7 +17,7 @@ the three a little.
   applied to 24 numbers picked from the seven notes?
 - **A second dictionary.** Steps 5 to 7 again with a dictionary trained in
   the same way from another seed.
-- **Another model.** Parts of steps 1, 3 and 7 on a published model of 0.5
+- **Another model.** Parts of steps 1, 3, 4 and 7 on a published model of 0.5
   billion parameters, 35 times the story model.
 
 The rule: two numbers are called the same when they differ by at most a
@@ -37,7 +38,11 @@ uv run scripts/steer.py --dict s1               # step 7 on it
 
 uv run scripts/behavior.py --model qwen         # step 1 on the open model
 uv run scripts/lens.py --model qwen
-uv run scripts/patch.py --model qwen --stream-only
+uv run scripts/patch.py --model qwen --stream-only   # step 3's first half: minutes
+uv run scripts/patch.py --model qwen           # and with every part moved: hours; it writes the same file
+uv run scripts/heads.py                         # where the heads it finds look, and what they write
+uv run scripts/heads.py --model seed0           # the same on the story models, to set beside step 4
+uv run scripts/heads.py --model seed1
 uv run scripts/open.py                          # step 7's first experiment there
 uv run scripts/open.py --model seed0 --block 4  # and on the story models, by depth
 uv run scripts/open.py --model seed1 --block 4
@@ -231,11 +236,14 @@ to the logit difference, and the recomputed attention is the model's own.
 All twelve names are single tokens in its vocabulary, and it follows the
 same six with " She".
 
-The scripts of steps 1 and 3 run on it as they are, the latter on the
-stream only. `scripts/open.py` repeats step 7's first experiment at the
-acting name after block 12, the middle of the model. Block 4 of the story
-model was chosen as the block of the fetching heads. Where the open model
-fetches is not known, so the two places match in depth only.
+The scripts of steps 1 and 3 run on it as they are. Step 3's has two
+halves: the stream moved by position and depth, and every part moved one
+at a time, which has a section of its own below. `scripts/open.py` repeats
+step 7's first experiment at the acting name after block 12, the middle of
+the model. Block 4 of the story model was chosen as the block of the
+fetching heads. Block 12 was chosen before the open model's parts had been
+moved, so the two places match in depth only. The one head found acting at
+the acting name sits two blocks later.
 
 | Step | Number | seed0 | seed1 | open | The open model is the same as |
 |---|---|---|---|---|---|
@@ -323,6 +331,215 @@ The pair direction is 0.60 of the stream's size there, against 0.85 and
 0.78. The mean stream in place of the prompt's takes the answer 0.49 of
 the way (0.38 and 0.50 in the story models).
 
+## The open model, part by part
+
+Step 3 moved the output of every head and MLP from the clean prompt into
+the flipped run, one part at a time. `scripts/patch.py --model qwen` does
+that to the open model's 336 heads and 24 MLPs: at all positions, at the
+last position only, at all positions before it and at the acting name
+only, in both directions. It also replaces each part on the clean run by
+the four stand-ins of step 3, and moves the four largest parts besides the
+first MLP two at a time. The stream half of its record is the record the
+section above used, value for value. `scripts/heads.py` then records where
+the heads found this way look, what they write, and which later heads the
+one at the acting name works through, by measures of steps 4 and 6.
+
+![Left: every head and MLP of the open model moved from the clean prompt into the flipped run at all positions, the share of the gap that comes along as a mean over the five sentence patterns, shaded up to 0.25. Right: the parts whose mean share is 0.05 or more in size, the first MLP aside, with that share and the share in the other direction in each of the five patterns; the ticks are the means](figures/limits-parts.svg)
+
+The nine largest parts. Carry is the clean part moved into the flipped
+run, break the flipped part moved into the clean run, both as a share of
+the gap between the two runs and as a mean over the five patterns.
+
+| Part | carry | over the five patterns | at the last position | at the acting name | break |
+|---|---|---|---|---|---|
+| block 1, MLP | 1.00 | 1.00 to 1.00 | 0.00 | 1.00 | 1.00 |
+| block 21, head 9 | 0.22 | 0.16 to 0.29 | 0.21 | 0.00 | 0.23 |
+| block 14, head 2 | 0.18 | 0.11 to 0.30 | 0.00 | 0.18 | 0.14 |
+| block 17, MLP | 0.17 | 0.13 to 0.22 | 0.11 | 0.04 | 0.15 |
+| block 15, head 3 | 0.16 | 0.09 to 0.21 | 0.15 | 0.00 | 0.15 |
+| block 23, MLP | 0.16 | 0.11 to 0.18 | 0.16 | 0.00 | 0.16 |
+| block 16, MLP | 0.14 | 0.10 to 0.20 | 0.13 | 0.00 | 0.25 |
+| block 24, head 12 | −0.12 | −0.14 to −0.09 | −0.12 | 0.00 | −0.12 |
+| block 20, head 6 | −0.12 | −0.14 to −0.07 | −0.12 | 0.00 | −0.13 |
+
+**The first MLP carries all of it, as in the story models.** Moved at the
+acting name it carries 1.00 of the gap in every pattern, against 1.00 and
+0.99. The embedding of the acting name is 0.013 in root mean square and
+the stream after block 1 is 0.25, nearly all of it what the first MLP
+adds. The story models have 0.05 against 0.85 and 0.79. In all three the
+embedding is about a twentieth of the stream after block 1: 0.052, 0.056
+and 0.060. Step 3's limit holds here too: patching does not tell a part
+that works something out from a part that hands its input on.
+
+**No head carries most of it.** The largest head carries 0.22 of the gap,
+between 0.16 and 0.29 over the patterns. The largest heads of the story
+models carry 0.87 and 0.69. Of the open model's 336 heads, 14 have a share
+of 0.05 or more in either direction, nine of them positive. The story
+models have 7 and 4 such heads of 48. No head of the first thirteen blocks
+has a share above 0.03. One of the nine has its share at no single place:
+head 0 of block 15 carries 0.11 moved at all positions, 0.045 at the last
+position alone and 0.02 at the positions before it.
+
+**One head acts at the acting name in each model. The open model's reads
+something else there.** Head 2 of block 14, of 24, carries 0.18, all of it
+at the acting name's position, and is the only head with 0.05 or more
+there. The story models have one such head each, both in block 4 of 8:
+0.52 in seed0 and 0.21 in seed1. Step 4 called those two fetching heads,
+because from the acting name they read the other name: with 0.91 and 0.78
+of their attention in clean and flipped prompts in seed0, and 0.85 and
+0.79 in seed1. Head 2 of block 14 reads the acting name's own first
+mention: 0.56 of its attention is on the first name in clean prompts,
+where the first name acts, and 0.75 on the second name in flipped ones
+(0.51 to 0.64 and 0.71 to 0.81 over the patterns), with 0.02 and 0.01 on
+the other name. In neutral prompts, where the acting name has not been
+mentioned before, 0.96 is on the first token. Wang et al. (2023) call a
+head that reads the first mention of a repeated name a duplicate token
+head, and step 4 named this as what separates their heads from the
+fetching heads. What head 2 of block 14 writes at the acting name was not
+decoded. It sits in the last block after which that position alone still
+carries the gap: 0.98 after block 14, 0.55 after block 15.
+
+Step 4's hold says which later heads it works through. Its clean output
+alone carries 0.18. With head 3 of block 15 held at the flipped run's own
+output 0.02 comes along, and with head 0 of block 15 held, 0.04. These are
+means over the patterns: in the second, 0.17 of 0.30 still comes along
+with head 3 held. With any one of the eleven later heads held, between
+0.12 and 0.30 comes along, for seven of them more than the 0.18. In the
+story models the hold points at the strong veto head: of seed0's 0.52,
+0.06 comes along with head 0 of block 7 held, and of seed1's 0.21, 0.08
+with head 0 of block 8 held. The two heads of block 15 add nothing to a
+name directly, as the next paragraph shows, so in the open model something
+must follow them. Which later head does, no single hold shows.
+
+**The parts at the last position lie at about the two depths where the
+stream moved.** Of the 18 parts with 0.05 or more at the last position,
+three lie in blocks 15 to 17 and fifteen in blocks 20 to 24. No part of
+blocks 18 and 19 has a share above 0.03. The stream's share at the last
+position rises by 0.28 and 0.26 at blocks 15 and 16 and by 0.23, 0.09 and
+0.15 at blocks 21 to 23. At blocks 17, 20 and 24, where eight of the 18
+lie, it changes by 0.03 or less. So the parts and the stream agree on two
+depths and not block by block. At the first depth, the two heads of block
+15 that the head at the acting name works through read that name's
+position from the last one. Head 0 puts 0.51 and 0.56 of its attention
+there in clean and flipped prompts, the most in every pattern. Head 3 puts
+0.35 and 0.39 there and 0.24 and 0.23 on the second name, whoever acts,
+and in two of the five patterns more on the second name. Both add 0.00
+logits to any name directly. Wang et al.'s S-inhibition heads are active
+at the last token, attend to the second mention of the subject and write
+into the query of the heads that copy. Whether the two heads of block 15
+write that way was not tested. On neutral prompts, where the acting name
+is no second mention, they still put 0.46 and 0.29 on its position. No
+head of block 16 carries 0.05 or more. Its part is the MLP, with 0.13 at
+the last position, as is block 17's, with 0.11. An MLP moves nothing
+between positions.
+
+**At the second depth heads veto and copy, as in the story models, and
+two heads lower the due name.** For each head of 0.05 or more in either
+direction, `scripts/heads.py` records what it reads from the position
+where it acts and, for a head at the last position, what it adds there to
+the logit of each name, against the mean of the nine names that are in no
+version of the prompt. Each cell gives clean prompts, then flipped ones.
+
+| Head | share | reads most, of the seven places recorded | adds to the name that acts | adds to the name that is due |
+|---|---|---|---|---|
+| block 21, head 9 | 0.22 | the acting name's position: 0.42, 0.47 | −2.01, −2.22 | −0.27, −0.27 |
+| block 23, head 0 | 0.09 | the acting name's position: 0.27, 0.29 | −1.04, −1.18 | −0.59, −0.42 |
+| block 22, head 0 | 0.07 | the acting name's position: 0.35, 0.38 | −0.67, −0.74 | −0.16, −0.12 |
+| block 21, head 12 | 0.09 | the name that is due: 0.53, 0.61 | +0.67, +0.34 | +1.23, +1.67 |
+| block 22, head 11 | 0.06 | the name that is due: 0.45, 0.40 | +0.46, +0.37 | +0.83, +0.85 |
+| block 24, head 12 | −0.12 | the name that is due: 0.42, 0.34 | −0.28, −0.14 | −1.11, −0.96 |
+| block 24, head 2 | −0.07 | the name that is due: 0.33, 0.36 | −0.28, −0.17 | −0.63, −0.73 |
+| block 23, head 6 | −0.06 | no one place: at most 0.19 | +0.97, +0.95 | +0.48, +0.60 |
+| block 20, head 6 | −0.12 | the name that is due: 0.60, 0.42 | 0.00, 0.00 | 0.00, 0.00 |
+| block 20, head 8 | −0.09 | its own position: 0.53, 0.55 | 0.00, 0.00 | −0.01, −0.01 |
+| block 20, head 11 | 0.10 | its own position: 0.36, 0.35 | 0.00, 0.00 | 0.01, 0.01 |
+
+The places recorded are seven, and the table reads from means. In single
+patterns a head can read more from a token outside them: head 11 of block
+20 puts 0.26 and 0.28 on the token before the last one, more than on its
+own position in the third pattern, and in one pattern head 12 of block 24
+reads a comma a little more than the due name.
+
+Head 9 of block 21 vetoes, in step 4's word: it reads the acting name's
+position, with 0.25 to 0.62 of its attention over the patterns and the two
+versions, and lowers the name that acts by 2.01 and 2.22 logits. Seed0's
+head 0 of block 7 reads that position with 0.79 and 0.83 and lowers the
+acting name by 1.38 and 1.56. It raises the due name by 0.42 and 0.52,
+where head 9 of block 21 lowers it a little. Heads 0 of blocks 22 and 23
+do the same more weakly, and head 0 of block 23 is at the edge of the
+word. It puts 0.27 and 0.29 on the acting name's position, where the
+weakest story-model head that meets step 4's definition puts 0.36, and it
+lowers the due name by 0.59 and 0.42, a third to somewhat over a half of
+what it takes off the acting name. On neutral prompts the three read the
+acting name's position less, with 0.26, 0.23 and 0.17, where the story
+models' strong veto heads keep 0.83 and 0.95. They still lower the name
+that acts, by 1.31, 0.47 and 0.69.
+
+Step 6 found, on clean prompts, that where a "She" name acts the story
+models' veto heads lower the kind more than the name: against the
+uninvolved names of her own kind, seed0's head 0 of block 7 lowers an
+acting "She" name by 0.26 and an acting "He" name by 1.12. On flipped
+prompts `scripts/heads.py` gets 0.31 and 1.24. Head 9 of block 21 lowers
+both against their own kind: "She" names by 1.59 on clean prompts and 1.82
+on flipped ones, "He" names by 1.98 and 2.18. Two of the open model's
+heads depend on the kind by a factor of more than two. Head 0 of block 22
+lowers an acting "She" name by 0.90 and 1.00 and a "He" name by 0.36 and
+0.38, and head 11 of block 22 raises a due "She" name by 1.20 and 1.22 and
+a "He" name by 0.31 and 0.31.
+
+Two heads copy: they read the due name and raise it more than the other.
+Two heads of the last block read the due name and lower it, which is what
+Wang et al. describe for their negative name movers. Step 4 cited that
+class for a head that lowers the name it reads. There the name is the
+acting one. Here it is the due one, as in Wang et al. Among the story
+models' heads of 0.05 or more at the last position, none reads the due
+name most and lowers it.
+
+So the five heads with a negative share are not of one kind. Two lower the
+due name directly. Head 6 of block 20 reads the due name and adds nothing
+to any name directly, head 8 of block 20 reads its own position, and head
+6 of block 23 raises both names of a clean or flipped prompt, the acting
+one more. The veto heads lower a name too, and their shares are positive.
+With nothing in its place, the clean logit difference rises by 0.90, 1.16,
+0.27 and 0.88 logits for four of the five, and by 0.14 for head 8 of block
+20, between −0.29 and +0.37 over the patterns. Seed0 has one head with a
+share below −0.05, at −0.07, and seed1 has none.
+
+**The four largest parts add up, and a little more.** Moved two at a
+time, the four largest parts besides the first MLP carry between 1.01 and
+1.19 of the sum of their two shares: 0.47 against 0.39 for head 9 of block
+21 with head 2 of block 14. In the story models the same test gave 0.65 to
+0.89 in seed0 and 0.81 to 1.05 in seed1, where the largest parts overlap.
+These are six pairs among four parts. Together exceeds the sum in all six
+pairs of the open model and in one of the twelve of the story models. Over
+all parts but the first MLP, the positive shares sum to 2.76 and the
+negative ones to −0.95. In the story models they sum to 2.99 and −0.13,
+and to 2.11 and −0.05.
+
+**Carry and break: the largest disagreement is larger, the usual one is
+not.** In the story models the two shares of a part differ by at most 0.07
+and 0.05. In the open model the largest difference is 0.11, for the MLP of
+block 16, which carries 0.14 and breaks 0.25, and the next is 0.06. Over
+the parts of 0.05 or more besides the first MLP, the median difference is
+0.008, against 0.025 and 0.013 in the story models. Within one pattern the
+two shares can be further apart: the MLP of block 16 carries 0.11 and
+breaks 0.38 in the fifth pattern, and head 2 of block 14 carries 0.30 and
+breaks 0.10 in the second. The largest such difference is 0.26, against
+0.14 and just under 0.10 in the story models. The break share is largest
+in size in the fifth pattern for 12 of the 21 parts of 0.05 or more
+besides the first MLP, and the carry share in the second pattern for 11.
+Why was not looked at.
+
+**What stood in can turn the sign, as in step 3.** Replacing head 9 of
+block 21 on the clean run lowers a logit difference of 7.07 by 3.67 logits
+with the flipped prompt's output, 2.27 with the neutral prompt's, 2.12
+with the average and 2.53 with nothing: one sign, and the flipped output
+about 1.6 times the neutral. For the MLP of block 20 the four give −0.95,
+−1.28, −0.32 and +2.01 logits, and the last is positive in every pattern.
+For head 12 of block 21, which copies, the first two give −1.34 and −1.04
+and the last two leave nothing: +0.10 and +0.12, of either sign by
+pattern.
+
 ## What this does not show
 
 - **A distribution.** Two seeds of the model, two seeds of the dictionary
@@ -333,10 +550,31 @@ the way (0.38 and 0.50 in the story models).
   fourteen are the same and not fifteen.
 - **That the rule is the right one.** A fifth, or 0.05. With another
   threshold some rows change sides.
-- **Anything inside the open model.** Its heads, a circuit, readers and a
-  dictionary were not looked at. What was run is the behavior, the stream
-  moved by position and depth, and the first experiment of step 7. The
-  pronoun task of step 7 was not run there.
+- **A circuit in the open model.** Its parts were moved one at a time, and
+  four of them two at a time. No set larger than a pair was moved
+  together, so nothing here says how much of the gap the heads above carry
+  between them, as step 4 said of seven heads in each story model. Step
+  4's hold was run for the head at the acting name only, and its other
+  tests not at all: which of the later heads works through which is not
+  known. What head 2 of block 14 writes at the acting name was not
+  decoded. Readers and a dictionary were not looked at, and the pronoun
+  task of step 7 was not run.
+- **The MLPs.** Seven of the 21 parts of 0.05 or more are MLPs. Each was
+  moved as a whole and not opened.
+- **The parts by kind of pair.** A share is taken on means over the 132
+  prompts of a pattern, and the record holds one per part and pattern.
+  Step 6 found that a measure on names can be about the kind of name.
+  Whether these shares are cannot be read from such a record, here or in
+  the story models'.
+- **A share as a property of a part.** The largest head's share runs from
+  0.16 to 0.29 over five sentence patterns, and one head's share in the
+  other direction from 0.04 to 0.33.
+- **Shares of parts as one quantity across models.** In the open model two
+  parts moved together carried more than the sum of their shares in all
+  six pairs, in the story models less in eleven of twelve. Its 338 parts
+  under 0.05 sum to +0.95 and −0.50, the story models' to +0.07 and −0.06
+  and to +0.31 and −0.05. So 0.22 against 0.87, and 14 heads against 7,
+  set numbers side by side that do not add up in the same way.
 - **The open model on its own ground.** It is a chat model, used here on
   raw story text. The twelve names and five sentence patterns were chosen
   for the story model, the kinds come from one sentence, and the prompts
@@ -369,10 +607,11 @@ Step 9 maps each piece of this repository to a library that exists for it.
 2. Train a dictionary twice as wide, under a name of its own so that it
    does not replace the first (`--width 8192 --dict wide`). Does the
    shared latent split, and by what?
-3. Run `scripts/patch.py --model qwen` without `--stream-only`. It makes
-   about eight times as many forward passes as the stream-only run, so
-   allow some hours. Which heads carry who acts, and at which position do
-   they act?
+3. `scripts/heads.py` runs step 4's hold for the head at the acting name
+   only. Lift that limit for the two heads of block 15, without
+   `MINTERP_RUNS=runs` so that the record of this note is not replaced: is
+   what each of them carries changed when head 9 of block 21 is held at
+   the flipped run's own output, or when a copying head is?
 4. Write the pronoun task of step 7 for the open model with
    `steer.steered` and the difference of means: `scripts/steer.py` needs a
    dictionary and cannot run there. Does one direction turn the pronoun?
@@ -382,4 +621,5 @@ Step 9 maps each piece of this repository to a library that exists for it.
 ## References
 
 - Chughtai, Chan and Nanda (2023), [A Toy Model of Universality: Reverse Engineering How Networks Learn Group Operations](https://arxiv.org/abs/2302.03025). Mixed evidence for universality: the family of circuits and features that networks learn on a task could be characterized, and for a given network the precise circuits learned were arbitrary.
+- Wang, Variengien, Conmy, Shlegeris and Steinhardt (2023), [Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small](https://arxiv.org/abs/2211.00593), ICLR 2023. Their duplicate token heads are active at the second mention of the subject and attend to the first; their S-inhibition heads are active at the last token and attend to the second mention; their negative name movers attend as the name movers do and write in the opposite direction of the names they attend to.
 - Paulo and Belrose (2025), [Sparse Autoencoders Trained on the Same Data Learn Different Features](https://arxiv.org/abs/2501.16615). Dictionaries trained on the same model and data that differ only in their seed identify different sets of features; in the largest case 30% were shared, and top-k dictionaries depended on the seed more than those trained with an L1 penalty.

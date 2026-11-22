@@ -153,10 +153,221 @@ def test_the_open_model_by_depth():
     at = lambda group: np.mean([t["travel"]["carry"] for t in r["templates"]], 0)[:, r["travel groups"].index(group)]
     assert len(at("S")) == 25 and round(at("S")[14], 2) == 0.98
     assert [round(v, 2) for v in at("end")[[14, 15, 16, 20, 21, 23]]] == [-0.03, 0.25, 0.50, 0.54, 0.76, 1.00]
-    assert "parts" not in r["templates"][0]  # the heads were not looked at there
     behavior = read("read/behavior-qwen")
     assert behavior["model"]["config"]["n_layers"] == 24 and behavior["model"]["config"]["n_heads"] == 14 and behavior["model"]["config"]["dim"] == 896
     assert len(behavior["names"]) == 12
+
+
+def parts(model, kind="carry", scope="all"):
+    """Each part's share in each pattern, (patterns, blocks, heads + 1), the MLP last."""
+    return np.array([t["parts"][kind][scope] for t in read(f"patch/patch-{model}")["templates"]])
+
+
+def test_the_open_model_part_by_part():
+    two = lambda v: round(float(v) + 0.0, 2)
+    r = read("patch/patch-qwen")
+    carry, broken, last, at_name = parts("qwen"), parts("qwen", "break"), parts("qwen", scope="last"), parts("qwen", scope="S")
+    assert carry.shape == (5, 24, 15)  # 336 heads and 24 MLPs
+    mlp = 14
+    # The table: carry, its range over the patterns, at the last position, at the acting name, break.
+    row = lambda b, h: [two(carry[:, b - 1, h].mean()), two(carry[:, b - 1, h].min()), two(carry[:, b - 1, h].max()),
+                        two(last[:, b - 1, h].mean()), two(at_name[:, b - 1, h].mean()), two(broken[:, b - 1, h].mean())]
+    assert row(1, mlp) == [1.00, 1.00, 1.00, 0.00, 1.00, 1.00]
+    assert row(21, 9) == [0.22, 0.16, 0.29, 0.21, 0.00, 0.23]
+    assert row(14, 2) == [0.18, 0.11, 0.30, 0.00, 0.18, 0.14]
+    assert row(17, mlp) == [0.17, 0.13, 0.22, 0.11, 0.04, 0.15]
+    assert row(15, 3) == [0.16, 0.09, 0.21, 0.15, 0.00, 0.15]
+    assert row(23, mlp) == [0.16, 0.11, 0.18, 0.16, 0.00, 0.16]
+    assert row(16, mlp) == [0.14, 0.10, 0.20, 0.13, 0.00, 0.25]
+    assert row(24, 12) == [-0.12, -0.14, -0.09, -0.12, 0.00, -0.12]
+    assert row(20, 6) == [-0.12, -0.14, -0.07, -0.12, 0.00, -0.13]
+    mean = carry.mean(0)
+    rest = np.abs(mean).copy()
+    rest[0, mlp] = 0
+    largest = [(int(b) + 1, int(h)) for b, h in np.dstack(np.unravel_index(np.argsort(-rest, axis=None), rest.shape))[0][:8]]
+    assert largest == [(21, 9), (14, 2), (17, mlp), (15, 3), (23, mlp), (16, mlp), (24, 12), (20, 6)]  # the rows after the first
+    # The first MLP, and how small the embedding is beside what it writes, in all three models.
+    size = lambda model: {k: float(np.mean([t["size at S"][k] for t in read(f"patch/patch-{model}")["templates"]])) for k in ("embedding", "after block 1")}
+    assert [two(parts(m)[:, 0, -1].mean()) for m in ("seed0", "seed1")] == [1.00, 0.99]
+    assert (round(size("qwen")["embedding"], 3), two(size("qwen")["after block 1"])) == (0.013, 0.25)
+    assert [(two(size(m)["embedding"]), two(size(m)["after block 1"])) for m in ("seed0", "seed1")] == [(0.05, 0.85), (0.05, 0.79)]
+    assert [round(size(m)["embedding"] / size(m)["after block 1"], 3) for m in ("qwen", "seed0", "seed1")] == [0.052, 0.056, 0.060]
+    # No head carries most of it.
+    heads = lambda m: parts(m).mean(0)[:, :-1]
+    assert [two(np.abs(heads(m)).max()) for m in ("qwen", "seed0", "seed1")] == [0.22, 0.87, 0.69]
+    count = lambda m: (int((np.abs(heads(m)) >= 0.05).sum()), int((heads(m) >= 0.05).sum()), heads(m).size)
+    assert [count(m) for m in ("qwen", "seed0", "seed1")] == [(14, 9, 336), (7, 6, 48), (4, 4, 48)]
+    assert np.abs(heads("qwen")[:13]).max() < 0.03
+    assert [two(parts("qwen", scope=s)[:, 14, 0].mean()) for s in ("all", "last", "not last")] == [0.11, 0.05, 0.02]
+    # One head acts at the acting name in each model.
+    there = lambda m: [(int(b) + 1, int(h), two(parts(m, scope="S").mean(0)[b, h])) for b, h in zip(*np.where(np.abs(parts(m, scope="S").mean(0)[:, :-1]) >= 0.05))]
+    assert [there(m) for m in ("qwen", "seed0", "seed1")] == [[(14, 2, 0.18)], [(4, 2, 0.52)], [(4, 4, 0.21)]]
+    stream = np.mean([t["travel"]["carry"] for t in r["templates"]], 0)[:, r["travel groups"].index("S")]
+    assert [two(stream[14]), two(stream[15])] == [0.98, 0.55]
+    # The parts at the last position, at two depths, against the stream.
+    at_last = last.mean(0)
+    where = [int(b) + 1 for b, h in zip(*np.where(np.abs(at_last) >= 0.05))]
+    assert len(where) == 18 and sum(15 <= b <= 17 for b in where) == 3 and sum(20 <= b <= 24 for b in where) == 15 and sum(b in (17, 20, 24) for b in where) == 8
+    assert np.abs(mean[17:19]).max() < 0.03 and np.abs(at_last[15, :mlp]).max() < 0.05
+    assert [two(at_last[b - 1, mlp]) for b in (16, 17)] == [0.13, 0.11]
+    end = np.mean([t["travel"]["carry"] for t in r["templates"]], 0)[:, r["travel groups"].index("end")]
+    rise = lambda b: two(end[b] - end[b - 1])
+    assert [rise(b) for b in (15, 16, 21, 22, 23)] == [0.28, 0.26, 0.23, 0.09, 0.15] and all(abs(rise(b)) <= 0.03 for b in (17, 20, 24))
+    # Five heads have a negative share.
+    against = [(int(b) + 1, int(h)) for b, h in zip(*np.where(heads("qwen") <= -0.05))]
+    assert against == [(20, 6), (20, 8), (23, 6), (24, 2), (24, 12)]
+    assert [two(mean[b - 1, h]) for b, h in against] == [-0.12, -0.09, -0.06, -0.07, -0.12]
+    choice = lambda b, h, c: np.array([t["choice"][c][b - 1][h] for t in r["templates"]])
+    stand_in = lambda b, h: [two(choice(b, h, c).mean()) for c in ("flipped", "neutral", "mean", "zero")]
+    assert [two(choice(b, h, "zero").mean()) for b, h in against] == [0.90, 0.14, 1.16, 0.27, 0.88]
+    assert (two(choice(20, 8, "zero").min()), two(choice(20, 8, "zero").max())) == (-0.29, 0.37)
+    assert [two(v) for v in heads("seed0")[heads("seed0") <= -0.05]] == [-0.07] and not (heads("seed1") <= -0.05).any()
+    # The four largest parts, two at a time, against the sum of their shares.
+    ratios = lambda m: [p["together"] / sum(p["each"]) for p in read(f"patch/patch-{m}")["pairs"]]
+    assert [(two(min(ratios(m))), two(max(ratios(m)))) for m in ("qwen", "seed0", "seed1")] == [(1.01, 1.19), (0.65, 0.89), (0.81, 1.05)]
+    first = r["pairs"][0]
+    assert first["parts"] == ["block 21 head 9", "block 14 head 2"] and (two(first["together"]), two(sum(first["each"]))) == (0.47, 0.39)
+    assert len(r["pairs"]) == 6 and len({part for p in r["pairs"] for part in p["parts"]}) == 4
+    assert [sum(x > 1 for x in ratios(m)) for m in ("qwen", "seed0", "seed1")] == [6, 0, 1]
+    rest_of = lambda m: np.delete(parts(m).mean(0).ravel(), parts(m).shape[2] - 1)  # every part but the first MLP
+    signed = lambda x: (two(x[x > 0].sum()), two(x[x < 0].sum()))
+    assert [signed(rest_of(m)) for m in ("qwen", "seed0", "seed1")] == [(2.76, -0.95), (2.99, -0.13), (2.11, -0.05)]
+    small = lambda m: rest_of(m)[np.abs(rest_of(m)) < 0.05]
+    assert small("qwen").size == 338 and [signed(small(m)) for m in ("qwen", "seed0", "seed1")] == [(0.95, -0.50), (0.07, -0.06), (0.31, -0.05)]
+    # Carry and break.
+    apart = lambda m: np.abs(parts(m).mean(0) - parts(m, "break").mean(0))
+    assert [two(apart(m).max()) for m in ("qwen", "seed0", "seed1")] == [0.11, 0.07, 0.05] and two(np.sort(apart("qwen").ravel())[-2]) == 0.06
+    large = lambda m: np.delete(np.abs(parts(m).mean(0)).ravel() >= 0.05, parts(m).shape[2] - 1)
+    assert [round(float(np.median(np.delete(apart(m).ravel(), parts(m).shape[2] - 1)[large(m)])), 3) for m in ("qwen", "seed0", "seed1")] == [0.008, 0.025, 0.013]
+    assert [(two(broken[:, b - 1, h].min()), two(broken[:, b - 1, h].max())) for b, h in ((15, 3), (14, 2))] == [(0.04, 0.33), (0.05, 0.26)]  # the last bullet under "does not show"
+    assert (two(carry[4, 15, mlp]), two(broken[4, 15, mlp]), two(carry[1, 13, 2]), two(broken[1, 13, 2])) == (0.11, 0.38, 0.30, 0.10)
+    within = lambda m: np.delete(np.abs(parts(m) - parts(m, "break")).reshape(5, -1), parts(m).shape[2] - 1, axis=1).max()
+    assert two(within("qwen")) == 0.26 and two(within("seed0")) == 0.14 and 0.09 < within("seed1") < 0.10
+    kept = np.abs(mean) >= 0.05
+    kept[0, mlp] = False
+    assert int(kept.sum()) == 21 and int(kept[:, mlp].sum()) == 7
+    assert int((np.abs(broken[:, kept]).argmax(0) == 4).sum()) == 12 and int((np.abs(carry[:, kept]).argmax(0) == 1).sum()) == 11
+    # What stood in.
+    assert two(np.mean([t["logit_diff"]["clean"] for t in r["templates"]])) == 7.07 and stand_in(21, 9) == [-3.67, -2.27, -2.12, -2.53]
+    assert round(3.67 / 2.27, 1) == 1.6 and stand_in(20, mlp) == [-0.95, -1.28, -0.32, 2.01] and stand_in(21, 12) == [-1.34, -1.04, 0.10, 0.12]
+    assert (choice(20, mlp, "zero") > 0).all() and all((choice(21, 12, c) > 0).any() and (choice(21, 12, c) < 0).any() for c in ("mean", "zero"))
+
+
+def looks(model):
+    with open(f"runs/open/heads-{model}.json") as f:
+        return json.load(f)
+
+
+def test_what_the_open_models_heads_read_and_write():
+    two = lambda v: round(float(v) + 0.0, 2)
+    r = looks("qwen")
+    T = r["templates"]
+    name = lambda b, h: f"block {b} head {h}"
+    reads = lambda b, h, version, place, record=T: np.array([t["attention"][name(b, h)][version][place] for t in record])
+    adds = lambda b, h, version, to, record=T: two(np.mean([t["writes"][name(b, h)][version][to] for t in record]))
+    assert len(r["heads"]) == 14 and [x["acts at"] for x in r["heads"]].count("S") == 1
+    # The head at the acting name reads that name's first mention, and the story models' read the other name.
+    assert (two(reads(14, 2, "clean", "A").mean()), two(reads(14, 2, "flipped", "B").mean())) == (0.56, 0.75)
+    assert [two(f(reads(14, 2, v, k))) for v, k in (("clean", "A"), ("flipped", "B")) for f in (np.min, np.max)] == [0.51, 0.64, 0.71, 0.81]
+    assert (two(reads(14, 2, "clean", "B").mean()), two(reads(14, 2, "flipped", "A").mean()), two(reads(14, 2, "neutral", "first token").mean())) == (0.02, 0.01, 0.96)
+    story = {m: looks(m)["templates"] for m in ("seed0", "seed1")}
+    assert [two(reads(4, h, v, k, story[m]).mean()) for m, h in (("seed0", 2), ("seed1", 4)) for v, k in (("clean", "B"), ("flipped", "A"))] == [0.91, 0.78, 0.85, 0.79]
+    # Step 4's hold: the head at the acting name works through the two heads of block 15, the fetching heads through a veto head.
+    held = lambda record: {h["receiver"]: (two(np.mean([t["holds"][i]["alone"] for t in record])), two(np.mean([t["holds"][i]["held"] for t in record]))) for i, h in enumerate(record[0]["holds"])}
+    left = held(T)
+    assert left[name(15, 3)] == (0.18, 0.02) and left[name(15, 0)] == (0.18, 0.04)
+    later = [v[1] for k, v in left.items() if not k.startswith("block 15 ")]
+    assert len(left) == 13 and len(later) == 11 and (min(later), max(later)) == (0.12, 0.30)
+    exact = {h["receiver"]: float(np.mean([t["holds"][i]["held"] for t in T])) for i, h in enumerate(T[0]["holds"])}
+    alone = float(np.mean([t["holds"][0]["alone"] for t in T]))
+    assert sum(v > alone for k, v in exact.items() if not k.startswith("block 15 ")) == 7
+    second = {h["receiver"]: (two(h["alone"]), two(h["held"])) for h in T[1]["holds"]}
+    assert second[name(15, 3)] == (0.30, 0.17)
+    assert held(story["seed0"])[name(7, 0)] == (0.52, 0.06) and held(story["seed1"])[name(8, 0)] == (0.21, 0.08)
+    # The two heads of block 15 read the acting name's position and add nothing to the names directly.
+    assert [two(reads(15, h, v, "S").mean()) for h in (3, 0) for v in ("clean", "flipped")] == [0.35, 0.39, 0.51, 0.56]
+    assert all(reads(15, 0, v, "S")[i] == max(t["attention"][name(15, 0)][v][k] for k in r["places"]) for v in ("clean", "flipped") for i, t in enumerate(T))
+    assert [two(reads(15, 3, v, "B").mean()) for v in ("clean", "flipped")] == [0.24, 0.23]
+    assert [int((reads(15, 3, v, "B") > reads(15, 3, v, "S")).sum()) for v in ("clean", "flipped", "neutral")] == [2, 2, 2]
+    assert all(abs(adds(15, h, v, k)) < 0.015 for h in (3, 0) for v in ("clean", "flipped") for k in ("A", "B", "C"))
+    # Outside the seven places.
+    other = lambda b, h, v: np.array([t["elsewhere"][name(b, h)][v]["weight"] for t in T])
+    assert [two(other(20, 11, v).mean()) for v in ("clean", "flipped")] == [0.26, 0.28] and other(20, 11, "clean")[2] > reads(20, 11, "clean", "end")[2]
+    assert int((other(24, 12, "flipped") > reads(24, 12, "flipped", "A")).sum()) == 1 and not (other(24, 12, "clean") > reads(24, 12, "clean", "B")).any()
+    # The table: what a head reads most, and what it adds to the name that acts and to the name that is due, clean then flipped.
+    acts, due = {"clean": "A", "flipped": "B"}, {"clean": "B", "flipped": "A"}
+    row = lambda b, h, place: ([two(reads(b, h, v, place(v)).mean()) for v in ("clean", "flipped")],
+                               [adds(b, h, v, acts[v]) for v in ("clean", "flipped")], [adds(b, h, v, due[v]) for v in ("clean", "flipped")])
+    at_name, due_name, own = (lambda v: "S"), (lambda v: due[v]), (lambda v: "end")
+    assert row(21, 9, at_name) == ([0.42, 0.47], [-2.01, -2.22], [-0.27, -0.27])
+    assert row(23, 0, at_name) == ([0.27, 0.29], [-1.04, -1.18], [-0.59, -0.42])
+    assert row(22, 0, at_name) == ([0.35, 0.38], [-0.67, -0.74], [-0.16, -0.12])
+    assert row(21, 12, due_name) == ([0.53, 0.61], [0.67, 0.34], [1.23, 1.67])
+    assert row(22, 11, due_name) == ([0.45, 0.40], [0.46, 0.37], [0.83, 0.85])
+    assert row(24, 12, due_name) == ([0.42, 0.34], [-0.28, -0.14], [-1.11, -0.96])
+    assert row(24, 2, due_name) == ([0.33, 0.36], [-0.28, -0.17], [-0.63, -0.73])
+    assert row(20, 6, due_name) == ([0.60, 0.42], [0.00, 0.00], [0.00, 0.00])
+    assert row(20, 8, own) == ([0.53, 0.55], [0.00, 0.00], [-0.01, -0.01])
+    assert row(20, 11, own) == ([0.36, 0.35], [0.00, 0.00], [0.01, 0.01])
+    assert row(23, 6, due_name)[1:] == ([0.97, 0.95], [0.48, 0.60])
+    assert two(max(reads(23, 6, v, k).mean() for v in ("clean", "flipped") for k in r["places"])) == 0.19
+    assert {(x["block"], x["head"]): two(x["carry"]) for x in r["heads"]}[(21, 9)] in (0.21, 0.22)  # 0.215 in the record of three decimals
+    # Seed0's veto head beside them, and no head of the story models that reads the due name and lowers it.
+    seven = lambda place: row_of("seed0", 7, 0, place)
+    row_of = lambda m, b, h, place: ([two(reads(b, h, v, place(v), story[m]).mean()) for v in ("clean", "flipped")],
+                                     [adds(b, h, v, acts[v], story[m]) for v in ("clean", "flipped")], [adds(b, h, v, due[v], story[m]) for v in ("clean", "flipped")])
+    assert seven(at_name) == ([0.79, 0.83], [-1.38, -1.56], [0.42, 0.52])
+    most = lambda record, b, h, v: max(r["places"], key=lambda k: np.mean([t["attention"][name(b, h)][v][k] for t in record]))
+    for m in ("seed0", "seed1"):
+        for x in looks(m)["heads"]:
+            if x["acts at"] == "end":
+                _, _, to_due = row_of(m, x["block"], x["head"], due_name)
+                reads_due_most = all(most(story[m], x["block"], x["head"], v) == due[v] for v in ("clean", "flipped"))
+                assert not (reads_due_most and max(to_due) < 0)
+    assert all(most(T, b, h, v) == due[v] for b, h in ((24, 12), (24, 2), (21, 12), (22, 11)) for v in ("clean", "flipped"))
+    # The veto heads: the range of the strongest, the edge case, and the neutral prompts.
+    both = np.concatenate([reads(21, 9, v, "S") for v in ("clean", "flipped")])
+    assert (two(both.min()), two(both.max())) == (0.25, 0.62)
+    assert [two(reads(3, 2, v, "S", story["seed0"]).mean()) for v in ("clean", "flipped")] == [0.36, 0.36]  # the weakest story-model head that meets step 4's definition
+    assert [two(reads(15, h, "neutral", "S").mean()) for h in (0, 3)] == [0.46, 0.29]
+    assert all(0.33 < x < 0.6 for x in (0.59 / 1.04, 0.42 / 1.18))
+    assert [two(reads(b, h, "neutral", "S").mean()) for b, h in ((21, 9), (22, 0), (23, 0))] == [0.26, 0.23, 0.17]
+    assert [two(reads(b, h, "neutral", "S", story[m]).mean()) for m, b, h in (("seed0", 7, 0), ("seed1", 8, 0))] == [0.83, 0.95]
+    assert [adds(b, h, "neutral", "C") for b, h in ((21, 9), (22, 0), (23, 0))] == [-1.31, -0.47, -0.69]
+    # Step 6's measure: against the uninvolved names of the name's own kind.
+    own = lambda b, h, role, kind, record=T: [two(np.mean([t["by kind"][name(b, h)][v][role][kind] for t in record])) for v in ("clean", "flipped")]
+    assert r["names that go on with She"] == looks("seed0")["names that go on with She"] == read("steer/steer-seed0")["names that go on with She"]
+    assert (own(7, 0, "acts", "She", story["seed0"]), own(7, 0, "acts", "He", story["seed0"])) == ([-0.26, -0.31], [-1.12, -1.24])
+    assert (own(21, 9, "acts", "She"), own(21, 9, "acts", "He")) == ([-1.59, -1.82], [-1.98, -2.18])
+    assert (own(22, 0, "acts", "She"), own(22, 0, "acts", "He")) == ([-0.90, -1.00], [-0.36, -0.38])
+    assert (own(22, 11, "due", "She"), own(22, 11, "due", "He")) == ([1.20, 1.22], [0.31, 0.31])
+    # Only those two differ between the kinds by a factor of more than two, in the role where the head writes most.
+    factor = lambda b, h, role: [max(abs(s), abs(m)) / min(abs(s), abs(m)) for s, m in zip(own(b, h, role, "She"), own(b, h, role, "He"))]
+    assert all(f > 2 for f in factor(22, 0, "acts") + factor(22, 11, "due"))
+    assert all(f < 2 for b, h, role in ((21, 9, "acts"), (23, 0, "acts"), (21, 12, "due"), (24, 12, "due"), (24, 2, "due")) for f in factor(b, h, role))
+
+
+def test_the_heads_script_gives_step_4s_numbers_on_the_story_models():
+    """scripts/heads.py repeats two measures of scripts/circuit.py on another choice of heads."""
+    for model in ("seed0", "seed1"):
+        mine = looks(model)["templates"]
+        with open(f"runs/circuit/circuit-{model}.json") as f:
+            theirs = json.load(f)["templates"]
+        shared = 0
+        for a, b in zip(mine, theirs):
+            assert a["template"] == b["template"]
+            for kind in ("attention", "writes"):
+                for head in set(a[kind]) & set(b[kind]):
+                    for version in a[kind][head]:
+                        for key in set(a[kind][head][version]) & set(b[kind][head][version]):
+                            assert abs(a[kind][head][version][key] - b[kind][head][version][key]) < 2e-4
+                            shared += 1
+            theirs_held = {(h["sender"], h["receiver"]): h for h in b["holds"]}
+            for h in a["holds"]:
+                if (h["sender"], h["receiver"]) in theirs_held:
+                    assert all(abs(h[k] - theirs_held[h["sender"], h["receiver"]][k]) < 2e-4 for k in ("alone", "held"))
+                    shared += 1
+        assert shared > 300
 
 
 def test_the_open_model_steered():
