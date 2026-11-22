@@ -278,6 +278,13 @@ carries 0.17 in seed0 and 0.27 in seed1; step 5's latents carry 0.09 and
 0.40 where both names are followed by "He"; and the estimate of the rebuilt
 part is further off in seed0 (0.57 of 0.94) than in seed1 (0.82 of 1.00).
 
+[Step 8](08-limits.md#a-third-model-a-third-dictionary) runs this step on a
+third model. There the head with the largest share lowers a "She" name by
+0.76 against its own kind as well as lowering the kind, and a second veto
+head beside it lowers mostly the kind. How many of the six names share the
+first head's first choice depends on the dictionary: two, five and five
+over three of them.
+
 ## What this does not show
 
 - **A circuit in latents.** This step looked at one place. A feature

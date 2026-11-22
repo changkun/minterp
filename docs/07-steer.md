@@ -355,8 +355,9 @@ of the mean value, before the cut that keeps the 32 largest. Taken away
 from a "She" name, 0.15 and 0.09 remain, which is the first of the two.
 The difference of means at dose 1, by contrast, is read back as 1.00 of
 the latent's mean value in both models. Step 6 left this open.
-[Step 8](08-limits.md) finds the second of the two things in three of four
-dictionaries: in one, the reading on a "He" name starts just above zero.
+[Step 8](08-limits.md) finds the second of the two things in five of six
+dictionaries, in two of them by less (−0.03 and −0.09). In one, the
+reading on a "He" name starts just above zero.
 
 ## The same in both models, and not
 
