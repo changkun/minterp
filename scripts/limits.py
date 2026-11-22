@@ -48,7 +48,9 @@ its row names; the number of heads its circuit has is recorded beside the
 row on what they carry together. The agreement of each pair is counted
 too, since the rows the same in all three can only be fewer than the rows
 the first two agreed on. One model and one dictionary are added to it,
-and one dictionary to each of the first two; no row is run again.
+and one dictionary to each of the first two; no row is run again. (Noted
+later: the six and six came from one forward pass per name made for this
+paragraph, when no record held the third model's kinds yet.)
 
 One look was added after the rows had been read, and is no row. Step 4's
 record of the third model has two heads at the last position that read
@@ -60,6 +62,13 @@ scripts/heads.py had been run on the third model: what the smaller, head
 kind on clean prompts is set beside the first two models' -0.26 and -0.23
 by the same rule, and reported whichever way it falls. The 24 rows and
 their tally stay as they are.
+
+An independent check of the note's section then measured two more things,
+and both are kept here as looks made after the check, with no comparison
+written beforehand and no row changed: step 6 on that second head
+(scripts/features.py --head 6.5), and a second and a third dictionary for
+the third model (--model seed2 --seed 1 --dict s1, and --seed 2 --dict
+s2) with steps 6 and 7 on each.
 
     uv run scripts/limits.py
 """
@@ -89,8 +98,12 @@ def record(folder, file, name, tag=""):
         return json.load(f)
 
 
+SPREAD = []  # what the last call of over() averaged: a row's value per sentence pattern, kept for the figure of the third seed
+
+
 def over(r, pick, key="templates"):
-    return float(np.mean([pick(t) for t in r[key]]))
+    SPREAD[:] = [float(pick(t)) for t in r[key]]
+    return float(np.mean(SPREAD))
 
 
 def same(a, b, kind):
@@ -99,6 +112,13 @@ def same(a, b, kind):
     if kind != "number":
         return a == b
     return abs(a - b) <= max(0.2 * max(abs(a), abs(b)), 0.05)
+
+
+def spread(value, name):
+    """A row's value per sentence pattern, where the row is a mean over the patterns; None where it is one number, a ratio of means or a count."""
+    SPREAD.clear()
+    value(name, "")
+    return list(SPREAD) or None
 
 
 def third(a, b, c, kind):
@@ -129,7 +149,7 @@ def blocks_of(name):
 def behavior(version, sign):
     def value(name, tag):
         r = record("read", "behavior", name)
-        return float(np.mean([(sign * np.array(t[version]["logit_diff"]) > 0).mean() for t in r["templates"]]))
+        return over(r, lambda t: (sign * np.array(t[version]["logit_diff"]) > 0).mean())
     return value
 
 
@@ -145,7 +165,7 @@ def due_at_half_depth(version):
         if r is None:
             return None
         a = np.array(r["new"]["accuracy"])[:, r["versions"].index(version), len(r["new"]["accuracy"][0][0]) // 2, r["roles"].index("S"), r["targets"].index("due")]
-        return float(a.mean())  # new pairs, mean over the held-out patterns
+        return over({"templates": a.tolist()}, float)  # new pairs, mean over the held-out patterns
     return value
 
 
@@ -211,7 +231,7 @@ def steered(direction, measure="share", group=None):
         i = doses.index(1.0)
         if group:
             return float(np.mean([t["steered"][direction]["moved, in logits, by pair"][group][i] for t in T]) / np.mean([t["pairs"][group]["gap"] for t in T]))
-        return float(np.mean([t["steered"][direction][measure][i] for t in T]))
+        return over({"templates": T}, lambda t: t["steered"][direction][measure][i])
     return value
 
 
@@ -345,7 +365,7 @@ if all(record(folder, file, THIRD) is not None for folder, file in needed):
     rows = []
     for (step, what, kind, value), row in zip(MODELS, result["models"]["rows"]):
         v = value(THIRD, "")
-        rows.append({"step": step, "what": what, "kind": kind, "value": v, **third(row["values"][0], row["values"][1], v, kind)})
+        rows.append({"step": step, "what": what, "kind": kind, "value": v, **third(row["values"][0], row["values"][1], v, kind), "by pattern": [spread(value, s) for s in (*SEEDS, THIRD)]})
     paired = list(zip(result["models"]["rows"], rows))
     result["models"]["a third seed"] = {
         "name": THIRD, "the block of its dictionary": record("sae", "sae", THIRD)["block"], "the block of the head with the largest share at the acting name": block_at_name(THIRD),
@@ -360,6 +380,33 @@ if all(record(folder, file, THIRD) is not None for folder, file in needed):
     for h in at_end[THIRD] or []:
         h["an acting She name, beside the first two models' veto heads"] = third(she_row(SEEDS[0], ""), she_row(SEEDS[1], ""), h["adds to an acting name against its own kind"]["She"], "number")
     result["models"]["a third seed"]["the heads at the last position, by kind"] = at_end
+    # Looks made after an independent check of the section, and no rows: step 6 on the third model's second veto head,
+    # and steps 6 and 7 on two more dictionaries for the third model.
+    measures = ("against the nine", "against its own kind", "its own kind against the other")
+
+    def step6(name, tag):
+        f = record("features", "features", name, tag)
+        return None if f is None else {
+            "head": f["veto head"], "She names that share its first choice": she_names_sharing(f),
+            "adds where a name of each kind acts": {k: {m: over(f, lambda t: t["head"]["by kind of the acting name"][k][m]) for m in measures} for k in ("She", "He")}}
+
+    def together(heads_):
+        """The two heads with the largest share among those that give the acting name more than half of their attention."""
+        two = sorted((h for h in heads_ if h["reads the acting name with"] > 0.5), key=lambda h: -h["carry"])[:2]
+        return {"heads": [h["head"] for h in two], **{k: sum(h["adds to an acting name against its own kind"][k] for h in two) for k in ("She", "He")}}
+
+    by_block = lambda name: np.mean([t["travel"]["carry"] for t in record("patch", "patch", name)["templates"]], 0)[:, record("patch", "patch", name)["travel groups"].index("S")].tolist()
+    after = {"by dictionary": {}, "the first two models' veto heads": {s: step6(s, "") for s in SEEDS},
+             "the two largest heads that read the acting name, together, against its own kind": {s: together(at_end[s]) for s in (*SEEDS, THIRD) if at_end[s]},
+             "the acting name's position moved alone, by block": {s: by_block(s) for s in (*SEEDS, THIRD)}}
+    # The second head is the other of the third model's two, found above and not named here.
+    picked = record("features", "features", THIRD)["veto head"]
+    other = next((h for h in together(at_end[THIRD] or [])["heads"] if "block {} head {}".format(*h.split(".")) != picked), None)
+    for label, tag in (("first", ""), ("second", "s1"), ("third", "s2")):
+        if record("features", "features", THIRD, tag) is not None:
+            after["by dictionary"][label] = {"the head step 6 picks": step6(THIRD, tag), "the second head": other and step6(THIRD, f"{tag}-h{other}" if tag else f"h{other}"),
+                                             "pronouns the shared latent turns, of 72": pronoun("latent", "turned")(THIRD, tag)}
+    result["models"]["a third seed"]["looks after the check"] = after
     r = record("open", "steer", THIRD)
     if r is not None:
         result["models"]["by depth"][THIRD] = {"depths": r["depths"], **{d: np.mean([t["depth"][d]["share"] for t in r["templates"]], 0).tolist() for d in ("pair", "means", "order", "means + order")}}
@@ -530,6 +577,19 @@ if t3:
             k = h["adds to an acting name against its own kind"]
             print(f"   {s} head {h['head']}: share {h['carry']:.2f}, reads the acting name with {h['reads the acting name with']:.2f}, adds to an acting name against its own kind: She {k['She']:.2f}, He {k['He']:.2f}"
                   + (f"   {sides(h[chr(34)[:0] + 'an acting She name, beside the first two models' + chr(39) + ' veto heads'])}" if s == THIRD else ""))
+if t3:
+    a3 = t3["looks after the check"]
+    kinds_ = lambda h: "  ".join(f"{k}: " + " / ".join(f"{h['adds where a name of each kind acts'][k][m]:.2f}" for m in ("against the nine", "against its own kind", "its own kind against the other")) for k in ("She", "He"))
+    print("   looks after the check (adds: against the nine / its own kind / its own kind against the other)")
+    for s, h in a3["the first two models' veto heads"].items():
+        print(f"   {s} {h['head']}: first choice shared by {h['She names that share its first choice']} She names; {kinds_(h)}")
+    for label, d in a3["by dictionary"].items():
+        for which in ("the head step 6 picks", "the second head"):
+            if d[which]:
+                print(f"   {t3['name']}, {label} dictionary, {which} ({d[which]['head']}): first choice shared by {d[which]['She names that share its first choice']} She names; {kinds_(d[which])}")
+        print(f"   {t3['name']}, {label} dictionary: the shared latent turns {d['pronouns the shared latent turns, of 72']} of 72 pronouns")
+    print("   together:", {s: {k: (v if k == "heads" else round(v, 2)) for k, v in d.items()} for s, d in a3["the two largest heads that read the acting name, together, against its own kind"].items()})
+    print("   the acting name's position moved alone, by block:", {s: [round(x, 2) for x in v] for s, v in a3["the acting name's position moved alone, by block"].items()})
 d3 = result["dictionaries"].get("a third dictionary")
 if d3:
     print(f"\na third dictionary\n{'':4}{'':90} {'seed0':>20} {'seed1':>20}")
