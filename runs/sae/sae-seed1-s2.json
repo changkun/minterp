@@ -1,0 +1,1608 @@
+{
+ "model": {
+  "name": "seed1",
+  "step": 6000,
+  "val_loss": 1.4608239859342576,
+  "config": {
+   "vocab_size": 4096,
+   "max_seq_len": 256,
+   "dim": 384,
+   "n_layers": 8,
+   "n_heads": 6,
+   "n_kv_heads": 2,
+   "mlp_dim": 1024,
+   "rope_theta": 10000.0,
+   "norm_eps": 1e-06,
+   "tie_embeddings": true,
+   "qkv_bias": false,
+   "n_experts": 0,
+   "n_active": 2,
+   "rope_scaling": null,
+   "kv_latent": 0,
+   "rope_dim": 32
+  }
+ },
+ "block": 4,
+ "width": 4096,
+ "k": 32,
+ "steps": 4000,
+ "seed": 2,
+ "training vectors": 1024000,
+ "held-out vectors": 76800,
+ "rebuilds": {
+  "log10 of how often each latent fires": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 8.0, 10.0, 72.0, 225.0, 499.0, 807.0, 926.0, 677.0, 372.0, 215.0, 139.0, 91.0, 35.0, 13.0, 4.0, 3.0, 0.0, 0.0],
+  "unexplained variance": 0.08457848049295245,
+  "unexplained variance with the same number of fixed directions": 0.5610619783401489,
+  "latents that never fire": 0,
+  "fires on share of tokens": {
+   "5%": 0.001015624962747097,
+   "median": 0.003945312462747097,
+   "95%": 0.02758137695491314,
+   "most": 0.3179296851158142
+  },
+  "active per token": 32.0
+ },
+ "costs": {
+  "loss": 1.489691138267517,
+  "loss with the rebuilt stream": 1.5480021238327026,
+  "loss with the mean stream": 7.437269687652588,
+  "share of the loss recovered": 0.9901958443959997,
+  "loss rises by": 0.039143003584622305
+ },
+ "fires on": [
+  {
+   "latent": 416,
+   "fires on share of tokens": 0.04833333194255829,
+   "examples": [
+    [
+     " and they all shared the sour apple.",
+     " They"
+    ],
+    [
+     " loved to play catch with his friends.",
+     " They"
+    ],
+    [
+     " take Lucky's ball. Lucky",
+     " and"
+    ],
+    [
+     " it was time to go home. Tom",
+     " and"
+    ],
+    [
+     " apple and shared it with his friends.",
+     " They"
+    ],
+    [
+     ". It was so sweet and yummy.",
+     " They"
+    ],
+    [
+     ". His friends liked the lollipop too.",
+     " They"
+    ],
+    [
+     "ade outside and called her friends over.",
+     " They"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.6,
+   "share of all its firings on its commonest token": 0.2941810344827586,
+   "share of all its firings on the token of its strongest example": 0.029903016984462738
+  },
+  {
+   "latent": 2828,
+   "fires on share of tokens": 0.01835937425494194,
+   "examples": [
+    [
+     " ugly duck. The duck was sad because",
+     " he"
+    ],
+    [
+     " in the woods. Tiny felt upset because",
+     " he"
+    ],
+    [
+     " trees. Pine was very sad because",
+     " he"
+    ],
+    [
+     " little dog. The dog was sad because",
+     " he"
+    ],
+    [
+     " One day, the bird was worried because",
+     " he"
+    ],
+    [
+     " rain came. Tim was sad because",
+     " he"
+    ],
+    [
+     " named Tom. Tom was very important because",
+     " he"
+    ],
+    [
+     " boy named Tom. Tom was sad because",
+     " he"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.4,
+   "share of all its firings on its commonest token": 0.18652482269503545,
+   "share of all its firings on the token of its strongest example": 0.14326241612434387
+  },
+  {
+   "latent": 212,
+   "fires on share of tokens": 0.011106770485639572,
+   "examples": [
+    [
+     ", a boy named Tim went to the",
+     " st"
+    ],
+    [
+     " It was his favorite toy. At the",
+     " st"
+    ],
+    [
+     " yarn. One day, Kitty found a",
+     " st"
+    ],
+    [
+     "ll and his friends went back to the",
+     " st"
+    ],
+    [
+     ", and they were all happy. The",
+     " st"
+    ],
+    [
+     " for help. Doggy tried to fix the",
+     " st"
+    ],
+    [
+     "Birdy knew how to fix the",
+     " st"
+    ],
+    [
+     ". Tim and his dad looked around the",
+     " st"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.26666666666666666,
+   "share of all its firings on its commonest token": 0.07620164126611957,
+   "share of all its firings on the token of its strongest example": 0.016412660479545593
+  },
+  {
+   "latent": 860,
+   "fires on share of tokens": 0.008268228732049465,
+   "examples": [
+    [
+     ", too. Jack had a great day",
+     " at"
+    ],
+    [
+     " near the stand and had a great day",
+     " at"
+    ],
+    [
+     ", and they all had a great day",
+     " at"
+    ],
+    [
+     " and smiling. They had a great day",
+     " at"
+    ],
+    [
+     ", and the duck had a fun day",
+     " at"
+    ],
+    [
+     " mom smiling. From that day",
+     " on"
+    ],
+    [
+     ", Ben. Have a good day",
+     " at"
+    ],
+    [
+     " also careful. He had a fun day",
+     " at"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.7333333333333333,
+   "share of all its firings on its commonest token": 0.8094488188976378,
+   "share of all its firings on the token of its strongest example": 0.018897637724876404
+  },
+  {
+   "latent": 2553,
+   "fires on share of tokens": 0.006679687649011612,
+   "examples": [
+    [
+     " you help stop the war?\" The cat",
+     " whispered"
+    ],
+    [
+     " the big road. She remembered her mom",
+     " tell"
+    ],
+    [
+     " could",
+     " write"
+    ],
+    [
+     " then on, she made sure to keep",
+     " tell"
+    ],
+    [
+     " wise owl asked. \"I want to",
+     " write"
+    ],
+    [
+     " cat. The cat could whisper and",
+     " tell"
+    ],
+    [
+     " lady smiled. \u201cGood, let me",
+     " tell"
+    ],
+    [
+     " careless. They wished they had not wr",
+     "itten"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.3333333333333333,
+   "share of all its firings on its commonest token": 0.1267056530214425,
+   "share of all its firings on the token of its strongest example": 0.001949317753314972
+  },
+  {
+   "latent": 1643,
+   "fires on share of tokens": 0.005546874832361937,
+   "examples": [
+    [
+     " love you",
+     " too"
+    ],
+    [
+     " it was",
+     " too"
+    ],
+    [
+     " mom said no. She said it was",
+     " too"
+    ],
+    [
+     " pull it out, but it was",
+     " too"
+    ],
+    [
+     " king helps others",
+     " too"
+    ],
+    [
+     "ing the waterfall. It was",
+     " too"
+    ],
+    [
+     " mom said no. She said it was",
+     " too"
+    ],
+    [
+     " the other candles, but I am",
+     " too"
+    ]
+   ],
+   "share of its 30 strongest on one token": 1.0,
+   "share of all its firings on its commonest token": 0.3732394366197183,
+   "share of all its firings on the token of its strongest example": 0.3732394278049469
+  },
+  {
+   "latent": 2214,
+   "fires on share of tokens": 0.004817708395421505,
+   "examples": [
+    [
+     "",
+     " ate"
+    ],
+    [
+     " met a girl named Sue. Sue was",
+     " eating"
+    ],
+    [
+     " man sitting on a bench. He was",
+     " eating"
+    ],
+    [
+     " little girl named Jane. Jane loved to",
+     " eat"
+    ],
+    [
+     " a great time. They played games,",
+     " ate"
+    ],
+    [
+     " little girl named Sue. Sue loved to",
+     " eat"
+    ],
+    [
+     " a friend named Tom. Tom loved to",
+     " eat"
+    ],
+    [
+     " little boy named Tim. Tim loved to",
+     " eat"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.43333333333333335,
+   "share of all its firings on its commonest token": 0.0972972972972973,
+   "share of all its firings on the token of its strongest example": 0.062162160873413086
+  },
+  {
+   "latent": 2839,
+   "fires on share of tokens": 0.004218750167638063,
+   "examples": [
+    [
+     " We gave you soft leaves to make a",
+     " com"
+    ],
+    [
+     " Tim. It's okay. I will",
+     " com"
+    ],
+    [
+     " a break to",
+     " rest"
+    ],
+    [
+     " took a nice, long",
+     " nap"
+    ],
+    [
+     " made a soft bed with the leaves and",
+     " slept"
+    ],
+    [
+     " had to lie on the ground and",
+     " sleep"
+    ],
+    [
+     ". They were all tired and wanted to",
+     " rest"
+    ],
+    [
+     " were very tired. They all needed to",
+     " rest"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.3333333333333333,
+   "share of all its firings on its commonest token": 0.08333333333333333,
+   "share of all its firings on the token of its strongest example": 0.006172839552164078
+  },
+  {
+   "latent": 1520,
+   "fires on share of tokens": 0.0036718749906867743,
+   "examples": [
+    [
+     " little fish named Fin. One day,",
+     " Ollie"
+    ],
+    [
+     " best. Finally, he brushed his",
+     " teeth"
+    ],
+    [
+     ". He held it tightly in his",
+     " teeth"
+    ],
+    [
+     " loved her doll, even with the weird",
+     " gum"
+    ],
+    [
+     " girl named Lily. She had a boring",
+     " bottle"
+    ],
+    [
+     " lesson. They decided not to play with",
+     " gum"
+    ],
+    [
+     " and harder, but he only hurts his",
+     " teeth"
+    ],
+    [
+     ",\" Tom says. He wipes his",
+     " mouth"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.3333333333333333,
+   "share of all its firings on its commonest token": 0.08156028368794327,
+   "share of all its firings on the token of its strongest example": 0.01773049682378769
+  },
+  {
+   "latent": 3106,
+   "fires on share of tokens": 0.0032161457929760218,
+   "examples": [
+    [
+     ", \"Surprise! I was",
+     " hiding"
+    ],
+    [
+     " give up. He knew his ball was",
+     " hiding"
+    ],
+    [
+     " \"Look, Tim! The car was",
+     " hiding"
+    ],
+    [
+     " the green parrot. She found the parrot",
+     " hiding"
+    ],
+    [
+     " bird's help, they found the needle",
+     " hiding"
+    ],
+    [
+     " pink rock agreed and they started to play",
+     " hide"
+    ],
+    [
+     "As she",
+     " hid"
+    ],
+    [
+     " They had fun chasing each other and",
+     " hiding"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.5,
+   "share of all its firings on its commonest token": 0.07692307692307693,
+   "share of all its firings on the token of its strongest example": 0.04048582911491394
+  },
+  {
+   "latent": 520,
+   "fires on share of tokens": 0.002825520932674408,
+   "examples": [
+    [
+     " go to the",
+     " we"
+    ],
+    [
+     " like. One day, she saw a",
+     " we"
+    ],
+    [
+     " was fun. On the way to the",
+     " we"
+    ],
+    [
+     " feeling a bit sad because of the gloomy",
+     " we"
+    ],
+    [
+     " both became friends. They went to the",
+     " we"
+    ],
+    [
+     " a red glove on the scale. It",
+     " we"
+    ],
+    [
+     " can be loved and enjoyed with the people",
+     " we"
+    ],
+    [
+     " our friends and be careful with the things",
+     " we"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.9666666666666667,
+   "share of all its firings on its commonest token": 0.4608294930875576,
+   "share of all its firings on the token of its strongest example": 0.460829496383667
+  },
+  {
+   "latent": 1733,
+   "fires on share of tokens": 0.0023828125558793545,
+   "examples": [
+    [
+     " day on, Lily and the bird became",
+     " best"
+    ],
+    [
+     " day on, Tom and the bird became",
+     " best"
+    ],
+    [
+     " great cheese. They were safe and became",
+     " best"
+    ],
+    [
+     " on, Tim and the big dog became",
+     " best"
+    ],
+    [
+     " elderly dog was happy too. They became",
+     " best"
+    ],
+    [
+     " From that day on, they all became",
+     " best"
+    ],
+    [
+     " a threat anymore. They became",
+     " best"
+    ],
+    [
+     " on, Spot and the little bird became",
+     " best"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.8666666666666667,
+   "share of all its firings on its commonest token": 0.453551912568306,
+   "share of all its firings on the token of its strongest example": 0.3715847134590149
+  },
+  {
+   "latent": 2044,
+   "fires on share of tokens": 0.002018229104578495,
+   "examples": [
+    [
+     " And from that day on, Kitty was",
+     " kn"
+    ],
+    [
+     " room and saw Joe struggling. She",
+     " kn"
+    ],
+    [
+     " many things that could hurt her, like",
+     " kn"
+    ],
+    [
+     " the sea. Every day, he would",
+     " stand"
+    ],
+    [
+     " cannot move or talk. He can only",
+     " stand"
+    ],
+    [
+     " because people come here to pray. They",
+     " stand"
+    ],
+    [
+     " He looked more lively and strong. He",
+     " stood"
+    ],
+    [
+     " go to the bathroom. He tried to",
+     " stand"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.3,
+   "share of all its firings on its commonest token": 0.07096774193548387,
+   "share of all its firings on the token of its strongest example": 0.025806451216340065
+  },
+  {
+   "latent": 801,
+   "fires on share of tokens": 0.0016666667070239782,
+   "examples": [
+    [
+     " a white block. They",
+     " finish"
+    ],
+    [
+     " They are happy and have fun. They",
+     " finish"
+    ],
+    [
+     " was looking shiny and new. When they",
+     " finished"
+    ],
+    [
+     " girl were all",
+     " finished"
+    ],
+    [
+     " allowed to watch cartoons until he",
+     " finished"
+    ],
+    [
+     " the bread and butter quickly. When he",
+     " finished"
+    ],
+    [
+     " counting down from ten. When she had",
+     " finished"
+    ],
+    [
+     " to be patient and wait for Tom to",
+     " finish"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.5,
+   "share of all its firings on its commonest token": 0.2734375,
+   "share of all its firings on the token of its strongest example": 0.0234375
+  },
+  {
+   "latent": 1317,
+   "fires on share of tokens": 0.0012760416138917208,
+   "examples": [
+    [
+     " something. It was a big, shiny",
+     " thing"
+    ],
+    [
+     " tree. He saw a big, round",
+     " thing"
+    ],
+    [
+     " something shiny. She walked to the shiny",
+     " thing"
+    ],
+    [
+     " then, something unexpected happened! The shiny",
+     " thing"
+    ],
+    [
+     ". One day Butch noticed a sharp",
+     " thing"
+    ],
+    [
+     ". Chirpy was so happy! The unexpected",
+     " thing"
+    ],
+    [
+     " dug until he found a shiny, sharp",
+     " thing"
+    ],
+    [
+     " and shiny. It has a big round",
+     " thing"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.7333333333333333,
+   "share of all its firings on its commonest token": 0.22448979591836735,
+   "share of all its firings on the token of its strongest example": 0.22448979318141937
+  },
+  {
+   "latent": 501,
+   "fires on share of tokens": 0.0007291666697710752,
+   "examples": [
+    [
+     " Tim had a scooter that he loved to",
+     " ride"
+    ],
+    [
+     " finished they both agreed it was the best",
+     " ride"
+    ],
+    [
+     "ear-old boy. Peter would take",
+     " rid"
+    ],
+    [
+     "",
+     " more"
+    ],
+    [
+     " loud bird named Bob. Bob loved to",
+     " surf"
+    ],
+    [
+     " tried to get the bug",
+     " off"
+    ],
+    [
+     " bird and she didn't know how to",
+     " surf"
+    ],
+    [
+     " sharp teeth. Tom and Sam want to",
+     " pet"
+    ]
+   ],
+   "share of its 30 strongest on one token": 0.2,
+   "share of all its firings on its commonest token": 0.10714285714285714,
+   "share of all its firings on the token of its strongest example": 0.0357142873108387
+  }
+ ],
+ "one token": {
+  "latents whose 30 strongest are one token in 80% or more": 0.33837890625,
+  "in under 30%": 0.157958984375
+ },
+ "task": {
+  "prompts": 1320,
+  "veto head": "block 8 head 0",
+  "names that go on with She": [
+   "Lily",
+   "Mia",
+   "Lucy",
+   "Anna",
+   "Sue",
+   "Sara"
+  ],
+  "effects": {
+   "plain": {
+    "clean": {
+     "logit difference": {
+      "mean": 5.246478652954101,
+      "by pattern": [4.595, 5.454, 3.008, 7.672, 5.503]
+     },
+     "right side": {
+      "mean": 0.9545454621315003,
+      "by pattern": [0.955, 0.97, 0.864, 0.992, 0.992]
+     },
+     "change per prompt": {
+      "mean": 0.0,
+      "by pattern": [0.0, 0.0, 0.0, 0.0, 0.0]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.458889889717102,
+      "by pattern": [-1.412, -1.235, -1.528, -1.734, -1.385]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.3901514053344727,
+      "by pattern": [0.358, 0.416, 0.345, 0.473, 0.359]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.1681818187236786,
+      "by pattern": [0.152, 0.235, 0.159, 0.152, 0.144]
+     }
+    },
+    "flipped": {
+     "logit difference": {
+      "mean": -2.2437175989151,
+      "by pattern": [-2.258, -2.076, -2.508, -1.94, -2.437]
+     },
+     "right side": {
+      "mean": 0.7575757503509521,
+      "by pattern": [0.773, 0.735, 0.841, 0.674, 0.765]
+     },
+     "change per prompt": {
+      "mean": 0.0,
+      "by pattern": [0.0, 0.0, 0.0, 0.0, 0.0]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.5124633312225342,
+      "by pattern": [-1.514, -1.224, -1.581, -1.806, -1.437]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.43508720993995664,
+      "by pattern": [0.443, 0.404, 0.389, 0.537, 0.403]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.16212121546268463,
+      "by pattern": [0.136, 0.212, 0.159, 0.167, 0.136]
+     }
+    }
+   },
+   "rebuilt at the acting name": {
+    "clean": {
+     "logit difference": {
+      "mean": 5.268355989456177,
+      "by pattern": [4.696, 5.444, 2.917, 7.588, 5.696]
+     },
+     "right side": {
+      "mean": 0.9545454621315003,
+      "by pattern": [0.955, 0.97, 0.864, 0.992, 0.992]
+     },
+     "change per prompt": {
+      "mean": 0.24503126442432405,
+      "by pattern": [0.278, 0.188, 0.169, 0.259, 0.331]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.4963184595108032,
+      "by pattern": [-1.447, -1.288, -1.554, -1.733, -1.46]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.3230720698833466,
+      "by pattern": [0.293, 0.359, 0.264, 0.382, 0.318]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.1530303031206131,
+      "by pattern": [0.129, 0.205, 0.144, 0.136, 0.152]
+     }
+    },
+    "flipped": {
+     "logit difference": {
+      "mean": -2.2267422676086426,
+      "by pattern": [-2.28, -2.02, -2.42, -1.884, -2.53]
+     },
+     "right side": {
+      "mean": 0.7575757503509521,
+      "by pattern": [0.773, 0.735, 0.841, 0.674, 0.765]
+     },
+     "change per prompt": {
+      "mean": 0.2518413096666336,
+      "by pattern": [0.275, 0.275, 0.153, 0.295, 0.26]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.5480545043945313,
+      "by pattern": [-1.55, -1.269, -1.598, -1.796, -1.528]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.3852452218532562,
+      "by pattern": [0.411, 0.355, 0.299, 0.469, 0.392]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.14242424368858336,
+      "by pattern": [0.129, 0.167, 0.136, 0.144, 0.136]
+     }
+    }
+   },
+   "rebuilt everywhere": {
+    "clean": {
+     "logit difference": {
+      "mean": 5.573061752319336,
+      "by pattern": [5.345, 6.441, 2.949, 7.56, 5.569]
+     },
+     "right side": {
+      "mean": 0.9530303120613098,
+      "by pattern": [0.947, 0.977, 0.871, 0.985, 0.985]
+     },
+     "change per prompt": {
+      "mean": 0.8553385734558105,
+      "by pattern": [0.886, 1.069, 0.725, 0.791, 0.806]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.5517546653747558,
+      "by pattern": [-1.539, -1.416, -1.61, -1.719, -1.475]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.3346285820007324,
+      "by pattern": [0.327, 0.376, 0.305, 0.323, 0.342]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.1530303031206131,
+      "by pattern": [0.129, 0.212, 0.144, 0.129, 0.152]
+     }
+    },
+    "flipped": {
+     "logit difference": {
+      "mean": -2.7538593769073487,
+      "by pattern": [-2.857, -2.657, -2.963, -2.493, -2.799]
+     },
+     "right side": {
+      "mean": 0.7742424368858337,
+      "by pattern": [0.811, 0.727, 0.864, 0.727, 0.742]
+     },
+     "change per prompt": {
+      "mean": 0.9924727201461792,
+      "by pattern": [0.975, 1.077, 0.869, 0.989, 1.053]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.6134082794189453,
+      "by pattern": [-1.632, -1.419, -1.637, -1.84, -1.539]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.4012404441833496,
+      "by pattern": [0.428, 0.386, 0.325, 0.465, 0.402]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.14696969985961914,
+      "by pattern": [0.136, 0.182, 0.136, 0.159, 0.121]
+     }
+    }
+   },
+   "the other name averaged out at the acting name": {
+    "clean": {
+     "logit difference": {
+      "mean": 4.643551301956177,
+      "by pattern": [4.022, 4.794, 2.537, 6.967, 4.898]
+     },
+     "right side": {
+      "mean": 0.9530303120613098,
+      "by pattern": [0.955, 0.97, 0.856, 0.992, 0.992]
+     },
+     "change per prompt": {
+      "mean": 0.6146089971065521,
+      "by pattern": [0.584, 0.665, 0.481, 0.715, 0.626]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.5080307006835938,
+      "by pattern": [-1.453, -1.271, -1.567, -1.813, -1.437]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.03234333712607622,
+      "by pattern": [0.011, 0.076, 0.008, 0.055, 0.012]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.09848485141992569,
+      "by pattern": [0.091, 0.121, 0.091, 0.091, 0.098]
+     }
+    },
+    "flipped": {
+     "logit difference": {
+      "mean": -1.5969593048095703,
+      "by pattern": [-1.655, -1.344, -1.996, -1.141, -1.848]
+     },
+     "right side": {
+      "mean": 0.7272727251052856,
+      "by pattern": [0.765, 0.705, 0.795, 0.606, 0.765]
+     },
+     "change per prompt": {
+      "mean": 0.6860298633575439,
+      "by pattern": [0.635, 0.774, 0.537, 0.838, 0.646]
+     },
+     "veto head adds to the acting name": {
+      "mean": -1.5530650854110717,
+      "by pattern": [-1.546, -1.249, -1.61, -1.873, -1.488]
+     },
+     "veto head adds to the other name": {
+      "mean": 0.062078898400068284,
+      "by pattern": [0.055, 0.075, 0.024, 0.098, 0.059]
+     },
+     "other name largest in what the veto head writes": {
+      "mean": 0.09848485141992569,
+      "by pattern": [0.098, 0.098, 0.098, 0.098, 0.098]
+     }
+    }
+   }
+  },
+  "misses at the acting name": {
+   "of the variance around the stories' mean": 0.12717154622077942,
+   "of the variance among these prompts": 0.32285913825035095,
+   "of the stream's size": 0.3328070640563965
+  },
+  "names": {
+   "acts": [
+    {
+     "name": "Lily",
+     "latent": 2633,
+     "fires when it is": 0.7090908885002136,
+     "fires when it is not": 0.0,
+     "fires on share of story tokens": 0.0032031249720603228,
+     "of its story firings, on the name's token": 0.21951219512195122,
+     "of the name's story tokens, fires on": 0.17704918032786884,
+     "the name's story tokens": 305,
+     "share of its 30 strongest on one token": 0.5,
+     "share of its 30 strongest on the name's token": 0.1666666716337204,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 1.0,
+     "its latent": 2924
+    },
+    {
+     "name": "Tom",
+     "latent": 3371,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.36033058166503906,
+     "fires on share of story tokens": 0.009231770411133766,
+     "of its story firings, on the name's token": 0.3526093088857546,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 250,
+     "share of its 30 strongest on one token": 0.8333333333333334,
+     "share of its 30 strongest on the name's token": 0.8333333134651184,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.9999173283576965,
+     "its latent": 3371
+    },
+    {
+     "name": "Tim",
+     "latent": 2975,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0016528925625607371,
+     "fires on share of story tokens": 0.011992187239229679,
+     "of its story firings, on the name's token": 0.5146579804560261,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 474,
+     "share of its 30 strongest on one token": 0.9666666666666667,
+     "share of its 30 strongest on the name's token": 0.9666666388511658,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 2975
+    },
+    {
+     "name": "Ben",
+     "latent": 2734,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0685950443148613,
+     "fires on share of story tokens": 0.0036979166325181723,
+     "of its story firings, on the name's token": 0.3274647887323944,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 93,
+     "share of its 30 strongest on one token": 0.9,
+     "share of its 30 strongest on the name's token": 0.8999999761581421,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 579
+    },
+    {
+     "name": "Mia",
+     "latent": 695,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0,
+     "fires on share of story tokens": 0.002877604216337204,
+     "of its story firings, on the name's token": 0.3755656108597285,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 83,
+     "share of its 30 strongest on one token": 0.23333333333333334,
+     "share of its 30 strongest on the name's token": 0.03333333507180214,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 695
+    },
+    {
+     "name": "Sam",
+     "latent": 2897,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0,
+     "fires on share of story tokens": 0.005065103992819786,
+     "of its story firings, on the name's token": 0.29048843187660667,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 113,
+     "share of its 30 strongest on one token": 0.7666666666666667,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 433
+    },
+    {
+     "name": "Lucy",
+     "latent": 3097,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.060330577194690704,
+     "fires on share of story tokens": 0.020390624180436134,
+     "of its story firings, on the name's token": 0.030012771392081736,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 47,
+     "share of its 30 strongest on one token": 0.6333333333333333,
+     "share of its 30 strongest on the name's token": 0.6333333253860474,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 0.9998347163200378,
+     "its latent": 3097
+    },
+    {
+     "name": "Max",
+     "latent": 664,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0,
+     "fires on share of story tokens": 0.003815104253590107,
+     "of its story firings, on the name's token": 0.37542662116040953,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 110,
+     "share of its 30 strongest on one token": 0.9666666666666667,
+     "share of its 30 strongest on the name's token": 0.9666666388511658,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 48
+    },
+    {
+     "name": "Anna",
+     "latent": 491,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.145454540848732,
+     "fires on share of story tokens": 0.003033854067325592,
+     "of its story firings, on the name's token": 0.09012875536480687,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 21,
+     "share of its 30 strongest on one token": 0.6333333333333333,
+     "share of its 30 strongest on the name's token": 0.6333333253860474,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 491
+    },
+    {
+     "name": "Sue",
+     "latent": 3349,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.06942148506641388,
+     "fires on share of story tokens": 0.011302083730697632,
+     "of its story firings, on the name's token": 0.18317972350230416,
+     "of the name's story tokens, fires on": 0.99375,
+     "the name's story tokens": 160,
+     "share of its 30 strongest on one token": 0.5666666666666667,
+     "share of its 30 strongest on the name's token": 0.5666666626930237,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 2289
+    },
+    {
+     "name": "Jack",
+     "latent": 3981,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.00826446246355772,
+     "fires on share of story tokens": 0.0005989583441987634,
+     "of its story firings, on the name's token": 0.21739130434782608,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 10,
+     "share of its 30 strongest on one token": 0.3333333333333333,
+     "share of its 30 strongest on the name's token": 0.3333333432674408,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 493
+    },
+    {
+     "name": "Sara",
+     "latent": 2852,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.0,
+     "fires on share of story tokens": 0.002955729141831398,
+     "of its story firings, on the name's token": 0.05726872246696035,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 13,
+     "share of its 30 strongest on one token": 0.3,
+     "share of its 30 strongest on the name's token": 0.06666667014360428,
+     "a latent that fires on 80% with and under 20% without": true,
+     "best separation by size": 1.0,
+     "its latent": 2852
+    }
+   ],
+   "other": [
+    {
+     "name": "Lily",
+     "latent": 2634,
+     "fires when it is": 0.9545454382896423,
+     "fires when it is not": 0.5603305697441101,
+     "fires on share of story tokens": 0.2273828089237213,
+     "of its story firings, on the name's token": 0.004981961862222986,
+     "of the name's story tokens, fires on": 0.28524590163934427,
+     "the name's story tokens": 305,
+     "share of its 30 strongest on one token": 0.16666666666666666,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.7353493571281433,
+     "its latent": 2634
+    },
+    {
+     "name": "Tom",
+     "latent": 433,
+     "fires when it is": 0.7090908885002136,
+     "fires when it is not": 0.3719008266925812,
+     "fires on share of story tokens": 0.008750000037252903,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 250,
+     "share of its 30 strongest on one token": 0.5,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.7445980906486511,
+     "its latent": 1090
+    },
+    {
+     "name": "Tim",
+     "latent": 2885,
+     "fires when it is": 0.5454545617103577,
+     "fires when it is not": 0.2586776912212372,
+     "fires on share of story tokens": 0.02096354216337204,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 474,
+     "share of its 30 strongest on one token": 0.4,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.7317054271697998,
+     "its latent": 2386
+    },
+    {
+     "name": "Ben",
+     "latent": 2634,
+     "fires when it is": 0.9272727370262146,
+     "fires when it is not": 0.562809944152832,
+     "fires on share of story tokens": 0.2273828089237213,
+     "of its story firings, on the name's token": 0.004867434003321308,
+     "of the name's story tokens, fires on": 0.9139784946236559,
+     "the name's story tokens": 93,
+     "share of its 30 strongest on one token": 0.16666666666666666,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.7167768478393555,
+     "its latent": 2634
+    },
+    {
+     "name": "Mia",
+     "latent": 3450,
+     "fires when it is": 0.5454545617103577,
+     "fires when it is not": 0.28016528487205505,
+     "fires on share of story tokens": 0.030976561829447746,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 83,
+     "share of its 30 strongest on one token": 0.5666666666666667,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.646821916103363,
+     "its latent": 3450
+    },
+    {
+     "name": "Sam",
+     "latent": 2885,
+     "fires when it is": 0.5363636612892151,
+     "fires when it is not": 0.25950413942337036,
+     "fires on share of story tokens": 0.02096354216337204,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 113,
+     "share of its 30 strongest on one token": 0.4,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.6661495566368103,
+     "its latent": 573
+    },
+    {
+     "name": "Lucy",
+     "latent": 3450,
+     "fires when it is": 0.5454545617103577,
+     "fires when it is not": 0.28016528487205505,
+     "fires on share of story tokens": 0.030976561829447746,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 47,
+     "share of its 30 strongest on one token": 0.5666666666666667,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.6454094648361206,
+     "its latent": 3450
+    },
+    {
+     "name": "Max",
+     "latent": 3174,
+     "fires when it is": 0.4909090995788574,
+     "fires when it is not": 0.00495867757126689,
+     "fires on share of story tokens": 0.031757812947034836,
+     "of its story firings, on the name's token": 0.003280032800328003,
+     "of the name's story tokens, fires on": 0.07272727272727272,
+     "the name's story tokens": 110,
+     "share of its 30 strongest on one token": 0.8,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.780879020690918,
+     "its latent": 1090
+    },
+    {
+     "name": "Anna",
+     "latent": 1929,
+     "fires when it is": 0.6272727251052856,
+     "fires when it is not": 0.1809917390346527,
+     "fires on share of story tokens": 0.07010416686534882,
+     "of its story firings, on the name's token": 0.0005572065378900445,
+     "of the name's story tokens, fires on": 0.14285714285714285,
+     "the name's story tokens": 21,
+     "share of its 30 strongest on one token": 0.43333333333333335,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.8096544146537781,
+     "its latent": 2634
+    },
+    {
+     "name": "Sue",
+     "latent": 3450,
+     "fires when it is": 0.5454545617103577,
+     "fires when it is not": 0.28016528487205505,
+     "fires on share of story tokens": 0.030976561829447746,
+     "of its story firings, on the name's token": 0.0,
+     "of the name's story tokens, fires on": 0.0,
+     "the name's story tokens": 160,
+     "share of its 30 strongest on one token": 0.5666666666666667,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.6411081552505493,
+     "its latent": 1051
+    },
+    {
+     "name": "Jack",
+     "latent": 2798,
+     "fires when it is": 0.581818163394928,
+     "fires when it is not": 0.07933884114027023,
+     "fires on share of story tokens": 0.039205729961395264,
+     "of its story firings, on the name's token": 0.00033211557622052476,
+     "of the name's story tokens, fires on": 0.1,
+     "the name's story tokens": 10,
+     "share of its 30 strongest on one token": 0.8333333333333334,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.9725168943405151,
+     "its latent": 3269
+    },
+    {
+     "name": "Sara",
+     "latent": 2634,
+     "fires when it is": 1.0,
+     "fires when it is not": 0.5561983585357666,
+     "fires on share of story tokens": 0.2273828089237213,
+     "of its story firings, on the name's token": 0.0007444310828609059,
+     "of the name's story tokens, fires on": 1.0,
+     "the name's story tokens": 13,
+     "share of its 30 strongest on one token": 0.16666666666666666,
+     "share of its 30 strongest on the name's token": 0.0,
+     "a latent that fires on 80% with and under 20% without": false,
+     "best separation by size": 0.8138617873191833,
+     "its latent": 2634
+    }
+   ]
+  },
+  "reader": {
+   "stream": {
+    "clean": 0.7954545454545455,
+    "flipped": 0.7090909090909091,
+    "by pattern": [
+     [0.8864, 0.7955],
+     [0.9545, 0.9091],
+     [0.4773, 0.5],
+     [0.7727, 0.6136],
+     [0.8864, 0.7273]
+    ],
+    "a name of the right kind": [0.9045, 0.8864]
+   },
+   "rebuilt": {
+    "clean": 0.32272727272727264,
+    "flipped": 0.32272727272727264,
+    "by pattern": [
+     [0.3182, 0.4318],
+     [0.3409, 0.3864],
+     [0.1364, 0.1136],
+     [0.3864, 0.3182],
+     [0.4318, 0.3636]
+    ],
+    "a name of the right kind": [0.7864, 0.8091]
+   },
+   "missed": {
+    "clean": 0.7863636363636364,
+    "flipped": 0.6727272727272727,
+    "by pattern": [
+     [0.9545, 0.8409],
+     [0.8864, 0.8182],
+     [0.4773, 0.3636],
+     [0.7727, 0.5909],
+     [0.8409, 0.75]
+    ],
+    "a name of the right kind": [0.9045, 0.8864]
+   },
+   "averaged": {
+    "clean": 0.0,
+    "flipped": 0.0,
+    "by pattern": [
+     [0.0, 0.0],
+     [0.0, 0.0],
+     [0.0, 0.0],
+     [0.0, 0.0],
+     [0.0, 0.0]
+    ],
+    "a name of the right kind": [0.4682, 0.4864]
+   }
+  },
+  "reader fitted on the stream": {
+   "from the missed part: share of the margin": [0.5743, 0.5489],
+   "right from the rebuilt part alone": [0.3409, 0.3545],
+   "right from the missed part alone": [0.6864, 0.5818]
+  },
+  "other-name latents": [
+   {
+    "latent": 2634,
+    "names": [
+     "Lily",
+     "Ben",
+     "Sara"
+    ],
+    "fires on share of story tokens": 0.2273828089237213,
+    "examples": [
+     [
+      " says",
+      ","
+     ],
+     [
+      " He says",
+      ","
+     ],
+     [
+      "",
+      " says"
+     ],
+     [
+      " They learned a hard lesson. They had",
+      " a"
+     ],
+     [
+      " me fix it.\" Mommy said. Ben",
+      " felt"
+     ],
+     [
+      " touch things he did not understand. Ben",
+      " felt"
+     ]
+    ]
+   },
+   {
+    "latent": 433,
+    "names": [
+     "Tom"
+    ],
+    "fires on share of story tokens": 0.008750000037252903,
+    "examples": [
+     [
+      " peanut. ",
+      "Sam"
+     ],
+     [
+      " him. He feels only snow.<|endoftext|>",
+      "Sam"
+     ],
+     [
+      " horse named Sam, for help. \"",
+      "Sam"
+     ],
+     [
+      "<|endoftext|>One day, a big dog named",
+      " Sam"
+     ],
+     [
+      ". They were very happy friends.<|endoftext|>",
+      "Sam"
+     ],
+     [
+      " storm coming!\" As",
+      " Sam"
+     ]
+    ]
+   },
+   {
+    "latent": 2885,
+    "names": [
+     "Tim",
+     "Sam"
+    ],
+    "fires on share of story tokens": 0.02096354216337204,
+    "examples": [
+     [
+      " the novel to his mom. He asked",
+      " her"
+     ],
+     [
+      ", Tim! You are so brave!\"",
+      " she"
+     ],
+     [
+      ", \"Thank you mom!\" He knew",
+      " she"
+     ],
+     [
+      " to encourage him to learn something.",
+      " She"
+     ],
+     [
+      " He hugged his mom and said he loved",
+      " her"
+     ],
+     [
+      ". The wise bird had an idea.",
+      " She"
+     ]
+    ]
+   },
+   {
+    "latent": 3450,
+    "names": [
+     "Mia",
+     "Lucy",
+     "Sue"
+    ],
+    "fires on share of story tokens": 0.030976561829447746,
+    "examples": [
+     [
+      " and met a new friend named Tim.",
+      " Tim"
+     ],
+     [
+      " her friend, Tom. She ran to",
+      " Tom"
+     ],
+     [
+      " visit her friend Tim. Sue walked to",
+      " Tim"
+     ],
+     [
+      " Sue was getting ready, her little brother",
+      " Tom"
+     ],
+     [
+      " Lily met a new friend named Tom.",
+      " Tom"
+     ],
+     [
+      ". She was almost done when her brother",
+      " Tom"
+     ]
+    ]
+   },
+   {
+    "latent": 3174,
+    "names": [
+     "Max"
+    ],
+    "fires on share of story tokens": 0.031757812947034836,
+    "examples": [
+     [
+      " Max liked to play outside in the sun",
+      "."
+     ],
+     [
+      ", there was a loyal dog named Max",
+      "."
+     ],
+     [
+      " dependable dog named Max went for a walk",
+      "."
+     ],
+     [
+      ", there was a brown dog named Max",
+      "."
+     ],
+     [
+      " brown dog named Max went for a walk",
+      "."
+     ],
+     [
+      ", there was a little dog named Max",
+      "."
+     ]
+    ]
+   },
+   {
+    "latent": 1929,
+    "names": [
+     "Anna"
+    ],
+    "fires on share of story tokens": 0.07010416686534882,
+    "examples": [
+     [
+      " buy it.\" When they got home,",
+      " Tim"
+     ],
+     [
+      " everything around him. As they walked,",
+      " Tim"
+     ],
+     [
+      " Don't shake the vase, ok?\" ",
+      "John"
+     ],
+     [
+      " They wanted to see a big game.",
+      " Tim"
+     ],
+     [
+      " to the mailbox.\" On the way,",
+      " Lucy"
+     ],
+     [
+      " paper, stickers, and glue.",
+      " Mia"
+     ]
+    ]
+   },
+   {
+    "latent": 2798,
+    "names": [
+     "Jack"
+    ],
+    "fires on share of story tokens": 0.039205729961395264,
+    "examples": [
+     [
+      " decided to try and comb her own hair",
+      "."
+     ],
+     [
+      " day she decided to go to the park",
+      "."
+     ],
+     [
+      " little boat and decided to explore the sea",
+      ".\n"
+     ],
+     [
+      ". She loved to dream about amazing things",
+      ".\n"
+     ],
+     [
+      " who wanted to succeed at something",
+      "."
+     ],
+     [
+      "Once there was a small bird called Peter",
+      "."
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -316,6 +316,767 @@
     "means": [1.0, 0.9998510360717774, 1.0038509726524354, 1.0037068247795105, 1.0284318923950195, 1.0392186522483826, 0.7953752756118775, 0.43556594252586367, 0.4337444484233856, 0.4541370809078217, 0.43055359125137327, 0.1456643059849739, 0.0],
     "order": [0.0, 0.00011170573852723465, -0.0028386049103573895, -0.0011320155928842724, 0.002850286290049553, -0.010511432588100434, 0.08790022917091847, 0.5382409155368805, -0.03862994387745857, -0.02189747418742627, -0.014275615103542805, 0.0039640382630750535, 0.0],
     "means + order": [1.0, 0.9994932889938355, 0.9979021310806274, 0.9973695755004883, 0.9999008178710938, 0.9976462483406067, 1.0043084025382996, 1.0229893684387208, 0.45238637924194336, 0.46980735659599304, 0.4478731691837311, 0.14312785714864731, 0.0]
+   },
+   "seed2": {
+    "depths": [0, 2, 4, 6, 8],
+    "pair": [1.0, 1.0014731168746949, 1.0626103401184082, 0.5876976311206817, 0.0],
+    "means": [1.0000000238418578, 1.001306664943695, 0.792559003829956, 0.4136580407619476, 0.0],
+    "order": [-5.327668990418033e-08, 0.001587548537645489, 0.05861455872654915, 0.006125770136713981, 0.0],
+    "means + order": [0.9999999761581421, 1.0004918217658996, 0.8527564167976379, 0.45714194774627687, 0.0]
+   }
+  },
+  "a third seed": {
+   "name": "seed2",
+   "the block of its dictionary": 4,
+   "the block of the head with the largest share at the acting name": 4,
+   "the same block for the first two": [4, 4],
+   "heads of the circuit": [7, 7, 7],
+   "names that go on with She": [
+    "Lily",
+    "Mia",
+    "Lucy",
+    "Anna",
+    "Sue",
+    "Sara"
+   ],
+   "rows": [
+    {
+     "step": 1,
+     "what": "clean prompts with B above A, share",
+     "kind": "number",
+     "value": 0.9924242424242424,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [1.0, 1.0, 1.0, 1.0, 0.9924242424242424],
+      [0.9545454545454546, 0.9696969696969697, 0.8636363636363636, 0.9924242424242424, 0.9924242424242424],
+      [0.9772727272727273, 1.0, 0.9924242424242424, 0.9924242424242424, 1.0]
+     ]
+    },
+    {
+     "step": 1,
+     "what": "flipped prompts with A above B, share",
+     "kind": "number",
+     "value": 0.8424242424242424,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [0.8787878787878788, 0.8787878787878788, 0.8257575757575758, 0.8181818181818182, 0.8257575757575758],
+      [0.7727272727272727, 0.7348484848484849, 0.8409090909090909, 0.6742424242424242, 0.7651515151515151],
+      [0.7196969696969697, 0.9090909090909091, 0.9621212121212122, 0.8257575757575758, 0.7954545454545454]
+     ]
+    },
+    {
+     "step": 1,
+     "what": "share of the clean logit difference written by the last quarter of the blocks",
+     "kind": "number",
+     "value": 0.7432652323268848,
+     "agrees with": [
+      false,
+      true
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 2,
+     "what": "the due name read at the acting name at half depth, on new pairs, clean prompts, share right",
+     "kind": "number",
+     "value": 0.8772800000000001,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [1.0, 1.0, 0.8636, 1.0, 0.8864],
+      [0.8864, 0.9545, 0.4773, 0.7727, 0.8864],
+      [0.9545, 1.0, 0.4773, 0.9773, 0.9773]
+     ]
+    },
+    {
+     "step": 2,
+     "what": "the same on flipped prompts",
+     "kind": "number",
+     "value": 0.8181799999999999,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [0.9091, 0.9773, 0.7727, 0.9545, 0.8636],
+      [0.7955, 0.9091, 0.5, 0.6136, 0.7273],
+      [0.9091, 0.9773, 0.4545, 0.8182, 0.9318]
+     ]
+    },
+    {
+     "step": 3,
+     "what": "the last depth at which the acting name alone carries half of the gap, as a share of the depth",
+     "kind": "number",
+     "value": 0.75,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 4,
+     "what": "the head that carries most at the last position (block.head)",
+     "kind": "name",
+     "value": "7.3",
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 4,
+     "what": "the seven heads of the circuit together carry, share of the gap",
+     "kind": "number",
+     "value": 1.07954,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [1.0974, 1.0312, 1.0783, 1.0307, 1.0983],
+      [0.9846, 0.9627, 1.0449, 0.9385, 0.9434],
+      [1.103, 1.0322, 1.0679, 1.055, 1.1396]
+     ]
+    },
+    {
+     "step": 5,
+     "what": "variance the dictionary misses on stories, share",
+     "kind": "number",
+     "value": 0.07581589276833944,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 5,
+     "what": "the loss rises by, share",
+     "kind": "number",
+     "value": 0.036461227840802746,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 6,
+     "what": "who acts carried by what the dictionary rebuilds, share of the gap",
+     "kind": "number",
+     "value": 1.0236880779266357,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [0.8990222215652466, 0.9189013838768005, 0.9725856781005859, 0.9450864791870117, 0.9437942504882812],
+      [0.9831631183624268, 0.9955520629882812, 1.0189762115478516, 0.9942194223403931, 0.9893898963928223],
+      [1.082303762435913, 0.9814667701721191, 1.000603199005127, 1.0108994245529175, 1.043167233467102]
+     ]
+    },
+    {
+     "step": 6,
+     "what": "carried by the highest-ranked latent",
+     "kind": "number",
+     "value": 0.2822243392467499,
+     "agrees with": [
+      false,
+      true
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [0.16505704820156097, 0.1612032651901245, 0.19034706056118011, 0.16965708136558533, 0.16934366524219513],
+      [0.26933079957962036, 0.2758053243160248, 0.3119998574256897, 0.26606523990631104, 0.2412491887807846],
+      [0.3070983290672302, 0.26951321959495544, 0.26319894194602966, 0.2808244526386261, 0.29048675298690796]
+     ]
+    },
+    {
+     "step": 6,
+     "what": "of the six She names, how many share the veto head's latent",
+     "kind": "count",
+     "value": 2,
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 6,
+     "what": "the veto head's write to an acting She name against its own kind, logits",
+     "kind": "number",
+     "value": -0.7572073698043823,
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [-0.21632662415504456, -0.29410505294799805, -0.34156396985054016, -0.27701255679130554, -0.1883765161037445],
+      [-0.24045370519161224, -0.1916869878768921, -0.24409881234169006, -0.2549237310886383, -0.22449207305908203],
+      [-0.5902401804924011, -0.757178544998169, -0.8869057893753052, -0.9081286787986755, -0.6435836553573608]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the pair direction at dose 1, share of the way",
+     "kind": "number",
+     "value": 1.0626200000000001,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [0.9294, 0.8965, 1.0181, 0.9577, 0.9708],
+      [1.0246, 1.064, 1.0103, 1.0213, 1.0569],
+      [1.0981, 1.0433, 0.9372, 1.0967, 1.1378]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "its part with a term per name",
+     "kind": "number",
+     "value": 1.0659,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [0.9317, 0.8986, 1.0295, 0.9609, 0.97],
+      [1.0298, 1.0636, 1.0102, 1.0239, 1.0618],
+      [1.1026, 1.0456, 0.9381, 1.0988, 1.1444]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the names' means with the vector every flipped prompt shares",
+     "kind": "number",
+     "value": 0.85276,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      [0.7892, 0.7442, 0.899, 0.8067, 0.7977],
+      [0.8437, 0.8695, 0.8233, 0.8307, 0.881],
+      [0.8658, 0.8511, 0.7458, 0.8948, 0.9063]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the names' means alone",
+     "kind": "number",
+     "value": 0.7925599999999999,
+     "agrees with": [
+      false,
+      true
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [0.3957, 0.3999, 0.3558, 0.3692, 0.4033],
+      [0.7963, 0.829, 0.7861, 0.8049, 0.8203],
+      [0.8039, 0.7741, 0.6896, 0.8354, 0.8598]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the shared vector alone",
+     "kind": "number",
+     "value": 0.05861999999999999,
+     "agrees with": [
+      false,
+      true
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [0.3935, 0.3377, 0.5563, 0.3591, 0.3388],
+      [0.063, 0.0888, 0.041, 0.0345, 0.1301],
+      [0.0672, 0.061, 0.0618, 0.0482, 0.0549]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "a random direction as long as the pair direction",
+     "kind": "number",
+     "value": 0.3116,
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      [0.3144, 0.1524, 0.1421, 0.1735, 0.3459],
+      [0.1437, 0.1274, 0.1001, 0.1581, 0.1856],
+      [0.4116, 0.2532, 0.2708, 0.2241, 0.3983]
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the kind alone, on pairs of two kinds, share of their gap",
+     "kind": "number",
+     "value": 0.4418045423978645,
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the gap between two She names against the gap between names of two kinds",
+     "kind": "number",
+     "value": 0.2962589754104743,
+     "agrees with": [
+      true,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 7,
+     "what": "pronouns turned by the difference of means at dose 1, of 72",
+     "kind": "count",
+     "value": 72,
+     "agrees with": [
+      true,
+      true
+     ],
+     "the same in all three": true,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "step": 7,
+     "what": "pronouns turned by the shared latent at its mean value, of 72",
+     "kind": "count",
+     "value": 27,
+     "agrees with": [
+      false,
+      false
+     ],
+     "the same in all three": false,
+     "by pattern": [
+      null,
+      null,
+      null
+     ]
+    }
+   ],
+   "tally": {
+    "rows": 24,
+    "the same in all three": 12,
+    "by pair": {
+     "the first and the second": 15,
+     "the first and the third": 14,
+     "the second and the third": 17
+    },
+    "of the rows the first two agreed on": {
+     "rows": 15,
+     "the third is the same as both": 12
+    },
+    "of the rows they differed on": {
+     "rows": 9,
+     "the first only": 1,
+     "the second only": 3,
+     "both": 1,
+     "neither": 4
+    }
+   },
+   "the depth row with another line": {
+    "0.9": 0.625,
+    "0.5": 0.75,
+    "0.25": 0.75,
+    "0.1": 0.75
+   },
+   "the heads at the last position, by kind": {
+    "seed0": [
+     {
+      "head": "3.2",
+      "carry": 0.073,
+      "adds to an acting name against its own kind": {
+       "She": -0.5913,
+       "He": -0.35418000000000005
+      },
+      "reads the acting name with": 0.35946
+     },
+     {
+      "head": "7.0",
+      "carry": 0.867,
+      "adds to an acting name against its own kind": {
+       "She": -0.26348000000000005,
+       "He": -1.11552
+      },
+      "reads the acting name with": 0.79444
+     },
+     {
+      "head": "7.1",
+      "carry": 0.13,
+      "adds to an acting name against its own kind": {
+       "She": -0.02198,
+       "He": -0.1526
+      },
+      "reads the acting name with": 0.8639199999999999
+     },
+     {
+      "head": "7.2",
+      "carry": -0.073,
+      "adds to an acting name against its own kind": {
+       "She": 0.05551999999999999,
+       "He": 0.17332
+      },
+      "reads the acting name with": 0.28434
+     },
+     {
+      "head": "8.3",
+      "carry": 0.114,
+      "adds to an acting name against its own kind": {
+       "She": 0.08249999999999999,
+       "He": 0.11288000000000001
+      },
+      "reads the acting name with": 0.020179999999999997
+     },
+     {
+      "head": "8.4",
+      "carry": 0.408,
+      "adds to an acting name against its own kind": {
+       "She": 0.729,
+       "He": 0.90016
+      },
+      "reads the acting name with": 0.011760000000000001
+     }
+    ],
+    "seed1": [
+     {
+      "head": "6.0",
+      "carry": 0.072,
+      "adds to an acting name against its own kind": {
+       "She": -0.020999999999999998,
+       "He": -0.06667999999999999
+      },
+      "reads the acting name with": 0.60194
+     },
+     {
+      "head": "8.0",
+      "carry": 0.694,
+      "adds to an acting name against its own kind": {
+       "She": -0.23113999999999998,
+       "He": -1.1573600000000002
+      },
+      "reads the acting name with": 0.9315200000000001
+     },
+     {
+      "head": "8.1",
+      "carry": 0.137,
+      "adds to an acting name against its own kind": {
+       "She": -0.044300000000000006,
+       "He": -0.22858
+      },
+      "reads the acting name with": 0.9076000000000001
+     }
+    ],
+    "seed2": [
+     {
+      "head": "5.3",
+      "carry": 0.084,
+      "adds to an acting name against its own kind": {
+       "She": -0.009739999999999999,
+       "He": -0.02474
+      },
+      "reads the acting name with": 0.21713999999999997,
+      "an acting She name, beside the first two models' veto heads": {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     },
+     {
+      "head": "6.5",
+      "carry": 0.445,
+      "adds to an acting name against its own kind": {
+       "She": -0.26048,
+       "He": -0.51088
+      },
+      "reads the acting name with": 0.89132,
+      "an acting She name, beside the first two models' veto heads": {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     },
+     {
+      "head": "7.3",
+      "carry": 0.62,
+      "adds to an acting name against its own kind": {
+       "She": -0.7572000000000001,
+       "He": -1.2902799999999999
+      },
+      "reads the acting name with": 0.70064,
+      "an acting She name, beside the first two models' veto heads": {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     },
+     {
+      "head": "8.5",
+      "carry": 0.123,
+      "adds to an acting name against its own kind": {
+       "She": 0.34814,
+       "He": 0.50298
+      },
+      "reads the acting name with": 0.01914,
+      "an acting She name, beside the first two models' veto heads": {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     }
+    ]
+   },
+   "looks after the check": {
+    "by dictionary": {
+     "first": {
+      "the head step 6 picks": {
+       "head": "block 7 head 3",
+       "She names that share its first choice": 2,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -1.1828134298324584,
+         "against its own kind": -0.7572073698043823,
+         "its own kind against the other": -0.7906322479248047
+        },
+        "He": {
+         "against the nine": -1.5954196453094482,
+         "against its own kind": -1.2902660727500916,
+         "its own kind against the other": -0.5693364024162293
+        }
+       }
+      },
+      "the second head": {
+       "head": "block 6 head 5",
+       "She names that share its first choice": 6,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -0.6683548092842102,
+         "against its own kind": -0.26046600341796877,
+         "its own kind against the other": -0.761924409866333
+        },
+        "He": {
+         "against the nine": -0.6102621197700501,
+         "against its own kind": -0.5109030663967132,
+         "its own kind against the other": -0.19633974134922028
+        }
+       }
+      },
+      "pronouns the shared latent turns, of 72": 27
+     },
+     "second": {
+      "the head step 6 picks": {
+       "head": "block 7 head 3",
+       "She names that share its first choice": 5,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -1.1828133583068847,
+         "against its own kind": -0.7572073698043823,
+         "its own kind against the other": -0.7906322002410888
+        },
+        "He": {
+         "against the nine": -1.5954196214675904,
+         "against its own kind": -1.2902660727500916,
+         "its own kind against the other": -0.5693363785743714
+        }
+       }
+      },
+      "the second head": {
+       "head": "block 6 head 5",
+       "She names that share its first choice": 6,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -0.6683548092842102,
+         "against its own kind": -0.2604660004377365,
+         "its own kind against the other": -0.761924409866333
+        },
+        "He": {
+         "against the nine": -0.6102621197700501,
+         "against its own kind": -0.5109030604362488,
+         "its own kind against the other": -0.19633975327014924
+        }
+       }
+      },
+      "pronouns the shared latent turns, of 72": 52
+     },
+     "third": {
+      "the head step 6 picks": {
+       "head": "block 7 head 3",
+       "She names that share its first choice": 5,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -1.1828134059906006,
+         "against its own kind": -0.7572074174880982,
+         "its own kind against the other": -0.7906322360038758
+        },
+        "He": {
+         "against the nine": -1.5954195976257324,
+         "against its own kind": -1.2902661085128784,
+         "its own kind against the other": -0.5693364024162293
+        }
+       }
+      },
+      "the second head": {
+       "head": "block 6 head 5",
+       "She names that share its first choice": 6,
+       "adds where a name of each kind acts": {
+        "She": {
+         "against the nine": -0.6683548092842102,
+         "against its own kind": -0.26046599745750426,
+         "its own kind against the other": -0.761924409866333
+        },
+        "He": {
+         "against the nine": -0.610262107849121,
+         "against its own kind": -0.5109030723571777,
+         "its own kind against the other": -0.1963397443294525
+        }
+       }
+      },
+      "pronouns the shared latent turns, of 72": 59
+     }
+    },
+    "the first two models' veto heads": {
+     "seed0": {
+      "head": "block 7 head 0",
+      "She names that share its first choice": 6,
+      "adds where a name of each kind acts": {
+       "She": {
+        "against the nine": -1.0052028059959413,
+        "against its own kind": -0.26347694396972654,
+        "its own kind against the other": -1.3967604637145996
+       },
+       "He": {
+        "against the nine": -1.7460910558700562,
+        "against its own kind": -1.1155359387397765,
+        "its own kind against the other": -1.1925299644470215
+       }
+      }
+     },
+     "seed1": {
+      "head": "block 8 head 0",
+      "She names that share its first choice": 6,
+      "adds where a name of each kind acts": {
+       "She": {
+        "against the nine": -1.1996526837348938,
+        "against its own kind": -0.23113106191158295,
+        "its own kind against the other": -1.8034669876098632
+       },
+       "He": {
+        "against the nine": -1.7181271076202393,
+        "against its own kind": -1.1573567390441895,
+        "its own kind against the other": -1.0686266660690307
+       }
+      }
+     }
+    },
+    "the two largest heads that read the acting name, together, against its own kind": {
+     "seed0": {
+      "heads": [
+       "7.0",
+       "7.1"
+      ],
+      "She": -0.28546000000000005,
+      "He": -1.2681200000000001
+     },
+     "seed1": {
+      "heads": [
+       "8.0",
+       "8.1"
+      ],
+      "She": -0.27544,
+      "He": -1.3859400000000002
+     },
+     "seed2": {
+      "heads": [
+       "7.3",
+       "6.5"
+      ],
+      "She": -1.0176800000000001,
+      "He": -1.8011599999999999
+     }
+    },
+    "the acting name's position moved alone, by block": {
+     "seed0": [1.0, 1.001, 1.0026, 0.9654, 0.968, 0.9396000000000001, 0.942, -0.0504, 0.0],
+     "seed1": [1.0, 0.9965999999999999, 1.0135999999999998, 1.033, 1.0361999999999998, 1.0142, 0.9006000000000001, 0.9176, 0.0],
+     "seed2": [1.0, 1.001, 1.002, 1.009, 1.0646, 1.0357999999999998, 0.5608000000000001, -0.023, 0.0]
+    }
    }
   }
  },
@@ -577,7 +1338,607 @@
      true
     ]
    }
-  ]
+  ],
+  "a third dictionary": {
+   "columns": [
+    "seed0, third",
+    "seed1, third"
+   ],
+   "rows": [
+    {
+     "step": 5,
+     "what": "variance the dictionary misses on stories, share",
+     "kind": "number",
+     "values": [0.07798767561922888, 0.08457848049295245],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 5,
+     "what": "the loss rises by, share",
+     "kind": "number",
+     "values": [0.03376750955561514, 0.039143003584622305],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "who acts carried by what the dictionary rebuilds",
+     "kind": "number",
+     "values": [0.8829847574234009, 0.9954346299171448],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "carried by the highest-ranked latent",
+     "kind": "number",
+     "values": [0.25964672267436983, 0.31442193388938905],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "by the eight highest",
+     "kind": "number",
+     "values": [0.750243604183197, 0.8304362058639526],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "by the 32 highest",
+     "kind": "number",
+     "values": [0.8611871242523194, 0.9823813438415527],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "the gradient's estimate against the real effect, correlation",
+     "kind": "number",
+     "values": [0.9416904211044311, 0.9812508583068847],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "the two names' latents moved for real, share of the gap",
+     "kind": "number",
+     "values": [0.3140634119510651, 0.4321619212627411],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "of the six She names, how many share the veto head's latent",
+     "kind": "count",
+     "values": [6, 6],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "different latents among the six He names",
+     "kind": "count",
+     "values": [3, 6],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        true,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "the shared latent off: the acting She name against the nine, logits",
+     "kind": "number",
+     "values": [0.8436365127563477, 0.9017770290374756],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 6,
+     "what": "the same against its own kind",
+     "kind": "number",
+     "values": [-0.04852053262293339, -0.030321989580988883],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the two names' latents steered, share of the way",
+     "kind": "number",
+     "values": [0.26048, 0.42594000000000004],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the shared latent at its mean value moves the pronoun measure after a He name by, logits (mean)",
+     "kind": "number",
+     "values": [7.526604189427694, 7.185208972803752],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "pronouns it turns, of 72",
+     "kind": "count",
+     "values": [32, 22],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "of them after the 36 He names",
+     "kind": "count",
+     "values": [18, 16],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "and after the 36 She names",
+     "kind": "count",
+     "values": [14, 6],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "at twice that value, of 72",
+     "kind": "count",
+     "values": [72, 72],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the rebuilt part of the difference of means turns, of 72",
+     "kind": "count",
+     "values": [72, 72],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the missed part turns, of 72",
+     "kind": "count",
+     "values": [0, 0],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the missed part moves the measure by, logits (the larger of the two groups' means)",
+     "kind": "number",
+     "values": [0.28587112223307276, 0.16429102719624922],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        true,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "the dictionary reads the latent back at, share of what was written",
+     "kind": "number",
+     "values": [0.8366333333333332, 0.8427166666666666],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "its encoder's reading of one unit of the latent's direction",
+     "kind": "number",
+     "values": [0.865656316280365, 0.9358038306236267],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "where the reading starts on a He name, share of the latent's mean value",
+     "kind": "number",
+     "values": [-0.029092980548739433, -0.09306777268648148],
+     "by model": [
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      },
+      {
+       "agrees with": [
+        false,
+        false
+       ],
+       "the same in all three": false
+      }
+     ]
+    },
+    {
+     "step": 7,
+     "what": "latents that differ by more than 0.5 between the kinds (mean of six sentences)",
+     "kind": "number",
+     "values": [29.166666666666668, 25.166666666666668],
+     "by model": [
+      {
+       "agrees with": [
+        true,
+        true
+       ],
+       "the same in all three": true
+      },
+      {
+       "agrees with": [
+        false,
+        true
+       ],
+       "the same in all three": false
+      }
+     ]
+    }
+   ],
+   "tally": {
+    "seed0": {
+     "rows": 25,
+     "the same in all three": 16,
+     "by pair": {
+      "the first and the second": 20,
+      "the first and the third": 16,
+      "the second and the third": 19
+     },
+     "of the rows the first two agreed on": {
+      "rows": 20,
+      "the third is the same as both": 16
+     },
+     "of the rows they differed on": {
+      "rows": 5,
+      "the first only": 0,
+      "the second only": 0,
+      "both": 0,
+      "neither": 5
+     }
+    },
+    "seed1": {
+     "rows": 25,
+     "the same in all three": 14,
+     "by pair": {
+      "the first and the second": 18,
+      "the first and the third": 18,
+      "the second and the third": 17
+     },
+     "of the rows the first two agreed on": {
+      "rows": 18,
+      "the third is the same as both": 14
+     },
+     "of the rows they differed on": {
+      "rows": 7,
+      "the first only": 3,
+      "the second only": 1,
+      "both": 0,
+      "neither": 3
+     }
+    }
+   }
+  }
  },
  "matches": {
   "seed0": {
@@ -802,7 +2163,30 @@
      "cosine of the best counterpart": 0.65315842628479,
      "the counterpart is the second dictionary's latent for most of these names": false
     }
-   ]
+   ],
+   "a third dictionary": {
+    "the first dictionary's latents with a counterpart in the third": {
+     "at a cosine of 0.9 or more": 0.02587890625,
+     "at 0.7 or more": 0.090576171875,
+     "at 0.5 or more": 0.308349609375,
+     "median cosine": 0.4111468493938446
+    },
+    "the second dictionary's latents with a counterpart in the third": {
+     "at a cosine of 0.9 or more": 0.030517578125,
+     "at 0.7 or more": 0.089599609375,
+     "at 0.5 or more": 0.304443359375,
+     "median cosine": 0.41445255279541016
+    },
+    "latents of the first with a counterpart at 0.7 or more in the second and in the third": 0.0634765625,
+    "of those that fire on more than 1% of story tokens": 0.28205129504203796,
+    "the shared latent": {
+     "third": 1166,
+     "cosine of the first's best counterpart": 0.7783527970314026,
+     "which is the third's shared latent": true,
+     "cosine of the second's best counterpart": 0.7988089323043823,
+     "which is the third's shared latent, from the second": true
+    }
+   }
   },
   "seed1": {
    "latents of the first dictionary": 4096,
@@ -1026,7 +2410,30 @@
      "cosine of the best counterpart": 0.6564708948135376,
      "the counterpart is the second dictionary's latent for most of these names": false
     }
-   ]
+   ],
+   "a third dictionary": {
+    "the first dictionary's latents with a counterpart in the third": {
+     "at a cosine of 0.9 or more": 0.040283203125,
+     "at 0.7 or more": 0.138671875,
+     "at 0.5 or more": 0.404296875,
+     "median cosine": 0.4544622302055359
+    },
+    "the second dictionary's latents with a counterpart in the third": {
+     "at a cosine of 0.9 or more": 0.041015625,
+     "at 0.7 or more": 0.13037109375,
+     "at 0.5 or more": 0.394775390625,
+     "median cosine": 0.45498958230018616
+    },
+    "latents of the first with a counterpart at 0.7 or more in the second and in the third": 0.09130859375,
+    "of those that fire on more than 1% of story tokens": 0.3922967314720154,
+    "the shared latent": {
+     "third": 2356,
+     "cosine of the first's best counterpart": 0.9060571789741516,
+     "which is the third's shared latent": true,
+     "cosine of the second's best counterpart": 0.7620959877967834,
+     "which is the third's shared latent, from the second": true
+    }
+   }
   }
  }
 }
