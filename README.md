@@ -51,7 +51,7 @@ The notes report two models that differ only in the seed of their training
 run. Yours will differ again: which head does what is not fixed by the
 recipe. So no script has a head or a position written into it. Each one
 finds them, and the notes say which findings were the same in both models
-and which were not.
+and which were not. Step 8 sets a third model beside the two.
 
 ## Where the ideas are explained
 
@@ -81,6 +81,7 @@ uv run scripts/train_tokenizer.py
 uv run scripts/encode_data.py
 uv run scripts/train.py                                  # the story model, 20 minutes
 uv run scripts/train.py --seed 1 --out out/base-seed1    # a second one, for the comparisons
+uv run scripts/train.py --seed 2 --out out/base-seed2    # a third: one section of step 8 only
 uv run scripts/download_qwen.py                          # an open model of 0.5 billion parameters, 1 GB: steps 8 and 9 only
 cd ../minterp
 
