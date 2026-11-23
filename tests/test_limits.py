@@ -403,6 +403,152 @@ def test_which_latents_come_back_a_third_time(seed, in_third, in_both, shared, h
     assert (start, back) == {"seed0": ([-0.17, 0.02, -0.03], [0.71, 0.89, 0.84]), "seed1": ([-0.18, -0.17, -0.09], [0.71, 0.74, 0.84])}[seed]
 
 
+def units():
+    with open("runs/limits/units.json") as f:
+        return json.load(f)
+
+
+UNITS = {  # per model and kind: latents, with a counterpart at 0.9 / 0.7 / 0.5 in % and the median, the stricter match in %, latents firing on more than 1% and of those at 0.7 in %, never firing, "She" names sharing a first choice
+    "seed0": {"plain": (4096, (3, 9, 30, 0.41), 5.3, (663, 33), [0, 0], [6, 6]), "batch": (4096, (2, 9, 26, 0.35), 5.1, (644, 32), [0, 0], [3, 6]), "wide": (8192, (2, 8, 22, 0.30), 4.7, (530, 52), [6, 6], [6, 6])},
+    "seed1": {"plain": (4096, (3, 13, 39, 0.46), 7.7, (701, 48), [0, 0], [6, 5]), "batch": (4096, (3, 13, 32, 0.36), 8.0, (682, 44), [0, 0], [6, 4]), "wide": (8192, (2, 11, 27, 0.32), 6.2, (568, 56), [5, 12], [6, 6])},
+}
+STRICT = "the same partner by encoder and decoder, 0.7 or more in both"
+pct = lambda d: (round(100 * d["at a cosine of 0.9 or more"]), round(100 * d["at 0.7 or more"]), round(100 * d["at 0.5 or more"]), round(d["median cosine"], 2))
+
+
+def test_a_newer_kind_of_dictionary():
+    u = units()
+    assert u["kinds"] == {"plain": ["", "s1"], "batch": ["b0", "b1"], "wide": ["w0", "w1"]} and "a fifth" in u["rule"]
+    for seed, kinds in UNITS.items():
+        for kind, (width, share, strict, often, dead, she) in kinds.items():
+            e = u["models"][seed][kind]
+            first = e["among latents that fire on more than 1% of story tokens"]
+            assert (e["width"], e["batch top-k"], pct(e["with a counterpart in the other seed"]), round(100 * e["one to one"][STRICT], 1)) == (width, kind != "plain", share, strict), (seed, kind)
+            assert ((first["latents"], round(100 * first["at 0.7 or more"])), e["latents that never fire on the stories"], e["step 6"]["She names that share the veto head's first choice"]) == (often, dead, she), (seed, kind)
+            assert e["story tokens"] == 76800 and all(31.9 < x < 32.5 for x in e["latents on per vector, mean"])
+            # The shared latent comes back in every pair: its best counterpart is the other dictionary's own.
+            assert e["step 6"]["which is the second's shared latent"] and 0.645 <= e["step 6"]["cosine of the first's best counterpart"] <= 0.865
+            assert sum(e["best cosines, counts in 40 bins from 0 to 1"]["the pair"]) == width
+            # Trained alike but for the kind, the width and the seed.
+            for i, tag in enumerate(u["kinds"][kind]):
+                r = read(f"sae/sae-{seed}{'-' + tag if tag else ''}")
+                # (the first dictionaries' records were written before a record named its seed, which was 0)
+                assert (r["width"], r["k"], r["steps"], r["block"], r.get("seed", 0), r.get("across batch", False)) == (width, 32, 4000, 4, i, kind != "plain")
+        # The question, by the rule: the same as the plain pair on both measures, at both widths.
+        for kind in ("batch", "wide"):
+            assert u["models"][seed][kind]["against the plain dictionaries"] == {"a counterpart at 0.7 or more": "the same", "the stricter one-to-one match": "the same"}
+        # The plain pair is the first and the second dictionary of the section on a second dictionary.
+        plain, before = u["models"][seed]["plain"], limits()["matches"][seed]
+        assert plain["with a counterpart in the other seed"] == before["with a counterpart in the second dictionary"] and plain["one to one"][STRICT] == before["one to one"][STRICT]
+    # What a dictionary costs: variance missed and the rise of the loss, for the two dictionaries of a pair.
+    cost = lambda seed, kind, key, digits: [round(x, digits) for x in u["models"][seed][kind][key]]
+    assert [cost(s, k, "variance missed", 3) for s in UNITS for k in ("plain", "batch", "wide")] == [[0.078, 0.078], [0.082, 0.083], [0.072, 0.073], [0.084, 0.084], [0.090, 0.091], [0.079, 0.079]]
+    assert [cost(s, k, "the loss rises by", 2) for s in UNITS for k in ("plain", "batch", "wide")] == [[0.03, 0.03], [0.04, 0.03], [0.03, 0.03], [0.04, 0.04], [0.04, 0.04], [0.04, 0.04]]
+    # Looked at after the result: the plain dictionary beside the batch top-k one from the same seed, and from the other.
+    look = lambda seed, which: u["models"][seed]["plain"]["set beside another kind, looked at after the result"][f"the batch dictionary from {which} seed"]
+    assert [round(100 * look(s, "the same")["at 0.7 or more"]) for s in UNITS] == [16, 17] and [round(100 * look(s, "the other")["at 0.7 or more"]) for s in UNITS] == [8, 11]
+    assert [round(100 * look(s, "the same")["the best counterpart has the same number"]) for s in UNITS] == [56, 44] and all(look(s, "the other")["the best counterpart has the same number"] < 0.001 for s in UNITS)
+
+
+def test_the_newer_kind_after_the_check():
+    u = units()
+    m, after = u["models"], u["looked at after the check"]
+    share = lambda s, k: m[s][k]["with a counterpart in the other seed"]["at 0.7 or more"]
+    strict = lambda s, k: m[s][k]["one to one"][STRICT]
+    # All eight comparisons of the question are within a fifth of the larger; seed1's wide pair at 0.7 exactly on the line.
+    for s in UNITS:
+        for k in ("batch", "wide"):
+            assert after[s][k]["the question's two comparisons, within a fifth of the larger alone"] == {
+                "a counterpart at 0.7 or more": True, "the stricter one-to-one match": True, "by the rule, as above": m[s][k]["against the plain dictionaries"]}
+    assert round(share("seed1", "plain") - share("seed1", "wide"), 9) == round(0.2 * share("seed1", "plain"), 9)
+    # At twice the width all four shares are lower, by a twentieth to a fifth; in latents they are more.
+    lower = [1 - f(s, "wide") / f(s, "plain") for s in UNITS for f in (share, strict)]
+    assert all(0.05 <= x <= 0.2 for x in lower) and round(min(lower), 3) == 0.051 and round(max(lower), 3) == 0.200
+    assert [round(share(s, k) * m[s][k]["width"]) for s in UNITS for k in ("plain", "wide")] == [353, 670, 545, 872]
+    # A fifth to a third of the latents of the batch top-k dictionaries stayed near their first direction; 1% to 2% of the plain ones.
+    near = lambda s, k: [round(100 * x[1]) for x in after[s][k]["share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary"]]
+    assert [near(s, k) for s in UNITS for k in ("plain", "batch", "wide")] == [[2, 1], [21, 22], [34, 35], [1, 1], [27, 29], [35, 36]]
+    for s in UNITS:
+        assert all(1.3 < 100 * x[1] < 1.7 for x in after[s]["plain"]["share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary"])
+        for k in ("plain", "batch", "wide"):
+            e = after[s][k]
+            assert e["latents near their first direction with a counterpart at 0.7 or more"] == 0
+            assert sum(e["best cosines of the latents that left, counts in 40 bins from 0 to 1"]) == e["among the latents that left their first direction"]["latents"]
+            assert e["among the latents that left their first direction"]["latents"] + e["latents at 0.7 or more to their first direction, each dictionary"][0] == m[s][k]["width"]
+    # They fire rarely, and their best cosines sit where random directions have theirs.
+    rate = lambda s, k: [round(100 * x, 2) for x in after[s][k]["first dictionary, how often a latent fires on story tokens, median: near its first direction, the others"]]
+    assert [rate(s, "batch") for s in UNITS] == [[0.14, 0.48], [0.08, 0.51]] and all(rate(s, "wide")[0] < rate(s, "batch")[0] for s in UNITS)
+    assert [round(after[s][k]["median best cosine of the latents near their first direction"], 2) for s in UNITS for k in ("batch", "wide")] == [0.21, 0.21, 0.20, 0.20]
+    edges = np.linspace(0, 1, 41)
+    for s in UNITS:
+        for k in ("plain", "wide"):
+            chance = np.cumsum(m[s][k]["best cosines, counts in 40 bins from 0 to 1"]["random directions"])
+            chance = chance / chance[-1]
+            assert [round(edges[i], 3) for i in (np.searchsorted(chance, 0.005), np.searchsorted(chance, 0.995) + 1)] == [0.15, 0.25]
+    # They make the peak near 0.2: the latents whose best counterpart lies from 0.15 to 0.25, and of them those near their start.
+    peak = [after[s][k]["best cosines from 0.15 to 0.25: latents, and of them near their first direction"] for s in UNITS for k in ("batch", "wide")]
+    assert peak == [[1150, 771], [3062, 2445], [1259, 1050], [3067, 2626]]
+    # Among the latents that left their start: a little higher in all four, the same by the rule, two by its 0.05 alone.
+    left = lambda s, k: after[s][k]["among the latents that left their first direction"]
+    assert [round(100 * left(s, k)["at 0.7 or more"]) for s in UNITS for k in ("plain", "batch", "wide")] == [9, 11, 12, 14, 18, 16]
+    assert [round(left(s, k)["median cosine"], 2) for s in UNITS for k in ("plain", "batch", "wide")] == [0.42, 0.40, 0.40, 0.46, 0.46, 0.45]
+    assert [after[s][k]["among the latents that left, against the plain dictionaries"] for s in UNITS for k in ("batch", "wide")] == [
+        {"by the rule": "the same", "within a fifth of the larger": True}, {"by the rule": "the same", "within a fifth of the larger": False},
+        {"by the rule": "the same", "within a fifth of the larger": False}, {"by the rule": "the same", "within a fifth of the larger": True}]
+    # At the same width the batch top-k dictionaries miss 5% to 8% more of the variance, and raise the loss slightly more.
+    ratio = [x / m[s]["plain"]["variance missed"][0] for s in UNITS for x in m[s]["batch"]["variance missed"]]
+    assert all(1.05 <= x <= 1.08 for x in ratio) and all(x < 1 for s in UNITS for x in m[s]["wide"]["variance missed"])
+    loss = lambda s, k: sorted(round(x, 3) for x in m[s][k]["the loss rises by"])
+    assert [loss(s, k) for s in UNITS for k in ("plain", "batch")] == [[0.032, 0.033], [0.034, 0.036], [0.039, 0.039], [0.041, 0.041]]
+    # After a second check: the verdict among the latents that left depends on the line to the start and on how often they fire.
+    under = lambda s, k, line: after[s][k]["among the latents under another line to their first direction, with a counterpart at 0.7 or more"][line]
+    assert [after[s][k]["under another line, against the plain dictionaries by the rule"] for s in UNITS for k in ("batch", "wide")] == [
+        {"0.9": "the same", "0.5": "the same"}, {"0.9": "the same", "0.5": "higher"}, {"0.9": "the same", "0.5": "higher"}, {"0.9": "the same", "0.5": "higher"}]
+    assert [round(100 * under(s, k, "0.5")["share"], 1) for s in UNITS for k in ("plain", "batch", "wide")] == [8.9, 12.4, 16.5, 13.8, 18.9, 20.5]
+    fire = lambda s, k: [round(100 * x, 2) for x in after[s][k]["the latents that left, how often they fire: the median, and the share on more than 1% of story tokens"]][0]
+    assert [fire(s, k) for s in UNITS for k in ("plain", "batch")] == [0.40, 0.48, 0.39, 0.51]
+    assert [round(100 * after[s]["batch"]["the latents that left, with a counterpart at 0.7 or more, weighted to the plain ones' firing rates"]) for s in UNITS] == [10, 15]
+    # A latent that fires often comes back more often, in every kind: the 500 that fire most often of every 4,096.
+    assert [round(100 * after[s][k]["the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more"]) for s in UNITS for k in ("plain", "batch", "wide")] == [39, 36, 40, 54, 52, 47]
+    assert all(m[s][k]["among latents that fire on more than 1% of story tokens"]["at 0.7 or more"] > 2 * share(s, k) for s in UNITS for k in ("plain", "batch", "wide"))
+    # The shared latent, seen from the second dictionary: the first's shared latent in five pairs of six.
+    back = {(s, k): after[s][k]["the second's shared latent, its best counterpart in the first"] for s in UNITS for k in ("plain", "batch", "wide")}
+    assert [b["which is the first's shared latent"] for b in back.values()] == [True, True, False, True, True, True]
+    assert (round(back["seed0", "wide"]["cosine"], 2), round(back["seed0", "wide"]["cosine to the first's shared latent"], 2)) == (0.90, 0.74)
+    assert [round(m[s]["batch"]["step 6"]["cosine of the first's best counterpart"], 3) for s in UNITS] == [0.647, 0.700] and m["seed1"]["batch"]["step 6"]["cosine of the first's best counterpart"] >= 0.7
+    # Kind against seed: another kind from the same seed, the same kind from another seed, both.
+    ks = [after[s]["the plain first dictionary, a counterpart at 0.7 or more"] for s in UNITS]
+    assert [[round(100 * k[w]) for w in ("another kind from the same seed", "the same kind from another seed", "another kind from another seed")] for k in ks] == [[16, 9, 8], [17, 13, 11]]
+    assert [k["the first two by the rule"] for k in ks] == ["differ", "the same"]
+
+
+def test_the_table_of_the_newer_kind_is_the_record():
+    with open("docs/08-limits.md") as f:
+        note = f.read()
+    header = "| Between two seeds of a dictionary | seed0: plain | batch | batch, wide | seed1: plain | batch | batch, wide |"
+    rows = {cells[0]: cells[1:] for cells in ([c.strip() for c in line.strip("|").split("|")] for line in note[note.index(header):].split("\n\n")[0].split("\n")[2:])}
+    u = units()["models"]
+    cells = lambda pick: [pick(u[s][k]) for s in ("seed0", "seed1") for k in ("plain", "batch", "wide")]
+    two = lambda values, digits: ", ".join(f"{v:.{digits}f}" if digits else str(v) for v in values)
+    share = lambda key: lambda e: f"{100 * e['with a counterpart in the other seed'][key]:.0f}%"
+    often = "among latents that fire on more than 1% of story tokens"
+    assert rows == {
+        "latents": cells(lambda e: f"{e['width']:,}"),
+        "with a counterpart at a cosine of 0.7 or more": cells(share("at 0.7 or more")),
+        "one to one, the same partner by encoder and decoder": cells(lambda e: f"{100 * e['one to one'][STRICT]:.1f}%"),
+        "read with the result: with a counterpart at 0.9 or more": cells(share("at a cosine of 0.9 or more")),
+        "read with the result: at 0.5 or more": cells(share("at 0.5 or more")),
+        "read with the result: median cosine of the best counterpart": cells(lambda e: f"{e['with a counterpart in the other seed']['median cosine']:.2f}"),
+        "latents on per vector, mean": cells(lambda e: two(e["latents on per vector, mean"], 2)),
+        "latents of the first dictionary that fire on more than 1% of story tokens": cells(lambda e: str(e[often]["latents"])),
+        "of those, with a counterpart at 0.7 or more": cells(lambda e: f"{100 * e[often]['at 0.7 or more']:.0f}%"),
+        "variance missed on stories, the two dictionaries": cells(lambda e: two(e["variance missed"], 2)),
+        "the loss rises by, as a share of the loss": cells(lambda e: two(e["the loss rises by"], 2)),
+        "latents that never fire on 76,800 story tokens": cells(lambda e: two(e["latents that never fire on the stories"], 0)),
+        '"She" names that share the veto head\'s first choice': cells(lambda e: two(e["step 6"]["She names that share the veto head's first choice"], 0)),
+    }
+
+
 def test_the_open_model_by_depth():
     r = read("patch/patch-qwen")
     at = lambda group: np.mean([t["travel"]["carry"] for t in r["templates"]], 0)[:, r["travel groups"].index(group)]

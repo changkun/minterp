@@ -2,7 +2,8 @@
 
 Scripts: [`scripts/limits.py`](../scripts/limits.py),
 [`scripts/open.py`](../scripts/open.py),
-[`scripts/heads.py`](../scripts/heads.py) ·
+[`scripts/heads.py`](../scripts/heads.py),
+[`scripts/units.py`](../scripts/units.py) ·
 Tests: [`tests/test_limits.py`](../tests/test_limits.py),
 [`tests/test_open.py`](../tests/test_open.py) ·
 Results: [`runs/limits/`](../runs/limits/), [`runs/open/`](../runs/open/)
@@ -22,6 +23,8 @@ the three a little.
 
 A later section sets a third model and a third dictionary beside the first
 two of each, read by a rule for three that was fixed before they were run.
+Another trains a newer kind of dictionary and asks whether its latents
+survive a change of seed better.
 
 The rule: two numbers are called the same when they differ by at most a
 fifth of the larger, or by 0.05 in the row's own unit. A count or a name
@@ -492,6 +495,162 @@ in the third model, and the count of names depends on the dictionary as
 well as on the model. Of the 20 and 18 rows two dictionaries agreed on,
 four and four did not hold in a third.
 
+## A newer kind of dictionary
+
+Step 5's dictionary keeps the 32 largest latents of every vector. Step 9
+finds a library that lists that design among its legacy ones. The batch
+top-k dictionary of Bussmann et al. (2024) keeps the largest latents over
+a whole batch while it trains, so that one vector may use more than 32 and
+another fewer, and keeps what exceeds one threshold when it is used.
+[`minterp/sae.py`](../minterp/sae.py) trains it with `across_batch`, a few
+dozen lines beside the plain one.
+
+The sections above found that which latent is which mostly does not
+survive another seed. Does it in this kind? What is compared was written
+into `scripts/units.py` and published before a batch top-k dictionary was
+trained on a model here. Three pairs of dictionaries that differ only in
+their seed, for seed0 and for seed1: the plain pair of the sections above,
+a batch top-k pair of the same width, and a batch top-k pair of twice the
+width. One question: is the share of latents with a counterpart in the
+other seed's dictionary higher than the plain pair's? It is read by this
+note's rule on two measures, the best counterpart at a cosine of 0.7 or
+more and the stricter one-to-one match. What was looked at after the
+result, before and after an independent check of this section, is marked
+as such, in the script and below.
+
+```sh
+export MINTERP_RUNS=runs
+for m in seed0 seed1; do
+  uv run scripts/sae.py --model $m --across-batch --dict b0
+  uv run scripts/sae.py --model $m --across-batch --seed 1 --dict b1
+  uv run scripts/sae.py --model $m --across-batch --width 8192 --dict w0
+  uv run scripts/sae.py --model $m --across-batch --width 8192 --seed 1 --dict w1
+  for d in b0 b1 w0 w1; do uv run scripts/features.py --model $m --dict $d; done
+done
+uv run scripts/units.py
+```
+
+| Between two seeds of a dictionary | seed0: plain | batch | batch, wide | seed1: plain | batch | batch, wide |
+|---|---|---|---|---|---|---|
+| latents | 4,096 | 4,096 | 8,192 | 4,096 | 4,096 | 8,192 |
+| with a counterpart at a cosine of 0.7 or more | 9% | 9% | 8% | 13% | 13% | 11% |
+| one to one, the same partner by encoder and decoder | 5.3% | 5.1% | 4.7% | 7.7% | 8.0% | 6.2% |
+| latents of the first dictionary that fire on more than 1% of story tokens | 663 | 644 | 530 | 701 | 682 | 568 |
+| of those, with a counterpart at 0.7 or more | 33% | 32% | 52% | 48% | 44% | 56% |
+| variance missed on stories, the two dictionaries | 0.08, 0.08 | 0.08, 0.08 | 0.07, 0.07 | 0.08, 0.08 | 0.09, 0.09 | 0.08, 0.08 |
+| the loss rises by, as a share of the loss | 0.03, 0.03 | 0.04, 0.03 | 0.03, 0.03 | 0.04, 0.04 | 0.04, 0.04 | 0.04, 0.04 |
+| latents that never fire on 76,800 story tokens | 0, 0 | 0, 0 | 6, 6 | 0, 0 | 0, 0 | 5, 12 |
+| latents on per vector, mean | 32.00, 32.00 | 32.22, 32.19 | 32.32, 32.28 | 32.00, 32.00 | 32.21, 32.22 | 32.35, 32.34 |
+| "She" names that share the veto head's first choice | 6, 6 | 3, 6 | 6, 6 | 6, 5 | 6, 4 | 6, 6 |
+| read with the result: with a counterpart at 0.9 or more | 3% | 2% | 2% | 3% | 3% | 2% |
+| read with the result: at 0.5 or more | 30% | 26% | 22% | 39% | 32% | 27% |
+| read with the result: median cosine of the best counterpart | 0.41 | 0.35 | 0.30 | 0.46 | 0.36 | 0.32 |
+
+The last three rows, and the figure, were not in what was written
+beforehand.
+
+![The cosine of every latent's best counterpart in the other seed's dictionary, as the share of latents in each of forty bins from 0 to 1, for seed0 and seed1 and three pairs of dictionaries: plain top-k, batch top-k of the same width and batch top-k of twice the width. Above for every latent of the first dictionary of a pair, below only for its latents that left the random direction they started from. A band marks where 99% of the best cosines of random directions fall, at either width, and a dashed line 0.7](figures/limits-units.svg)
+
+**No.** Each of the eight comparisons, two models by two kinds by two
+measures, reads the same as the plain pair by the rule: 9% and 13% of the
+latents have a counterpart at 0.7 or more in the plain pairs, 9% and 13%
+in the batch top-k pairs, and 8% and 11% at twice the width. On the
+stricter measure it is 5.3% and 7.7%, then 5.1% and 8.0%, then 4.7% and
+6.2%. All eight are within a fifth of the larger share, seed1's wide pair
+at 0.7 exactly on that line, so the rule's 0.05 decides none of them. At
+twice the width all four shares are lower than the plain ones, by a
+twentieth to a fifth of them; in latents they are more, 670 and 872
+against 353 and 545, since there are twice as many.
+
+**A fifth to more than a third of the latents stayed where they
+started.** This was
+found by the independent check and measured after it. A dictionary starts
+from random directions that its seed sets, and `scripts/units.py` makes
+them again and sets every latent beside the one it started from. In the
+batch top-k
+dictionaries, 21% and 22% of the latents of seed0's pair and 27% and 29%
+of seed1's are still at a cosine of 0.7 or more to the direction they
+started from, and 34% to 36% at twice the width; in the plain ones, 1% to
+2%. In the batch top-k dictionaries these latents fire rarely: half of them
+on fewer than 0.14% and 0.08% of story tokens in the first dictionary of
+each pair, against 0.48% and 0.51% for its other latents, and fewer still
+at twice the width. None of them has a counterpart at 0.7 in the other
+seed. Their best cosines have a median of 0.20 or 0.21, inside the band
+where random directions fall. They make the peak near 0.2 in the upper
+row of the figure: of the latents whose best counterpart lies between
+0.15 and 0.25, they are 771 of 1,150 and 1,050 of 1,259 in the batch
+top-k pairs, and 2,445 of 3,062 and 2,626 of 3,067 at twice the width. What
+keeps them there was not tested.
+
+**Among the latents that left their start, the comparison does not
+settle.** This too was measured after the check, and the last two
+measures after a second one. Of those latents, 11% and 18% have a
+counterpart at 0.7 or more in the batch top-k pairs and 12% and 16% at
+twice the width, against 9% and 14% in the plain pairs (of the 4,030 and
+4,037 plain latents that left, hence 14% here beside the table's 13%).
+By the rule all four are the same, two of them, seed1's batch pair and
+seed0's wide pair, by its 0.05 alone. Where the line to the start is
+drawn decides that: among the latents under 0.9 all four read the same,
+under 0.5 three of the four read higher. And the batch top-k latents that
+left fire more often than the plain ones, half of them on more than 0.48%
+and 0.51% of story tokens against 0.40% and 0.39%; weighted to the plain
+ones' firing rates, their share falls to 10% and 15%. Their median best
+cosines are 0.40 and 0.46, then 0.40 and 0.45, against 0.42 and 0.46. So
+this group supports neither "the same" nor "higher", and the answer to
+the question stays the one above. The lower row of the figure shows
+these latents.
+
+**Not a better dictionary here, and at the same width a slightly worse
+one.** At the same width the batch top-k dictionaries miss 5% to 8% more
+of the variance on stories, 0.082 and 0.083 against 0.078 in seed0 and
+0.090 and 0.091 against 0.084 in seed1, and raise the loss slightly more,
+by 0.034 and 0.036 of it against 0.032 and 0.033 in seed0, by 0.041 against
+0.039 in seed1. At twice the width they miss less, and 6, 6, 5 and 12 of their 8,192
+latents never fire; with no plain pair of that width, what the width does
+and what the kind does cannot be told apart there. Bussmann et al. report
+better reconstruction than top-k on GPT-2 Small and Gemma 2 2B, with
+dictionaries of 3,072 to 24,576 latents, trained on 10⁹ tokens with an
+auxiliary loss against latents that stop firing, for top-k and batch
+top-k alike. Here a dictionary of either kind is trained on 4,000 batches
+of 4,096 vectors drawn from about a million, 16 million draws against
+their 10⁹ tokens, and without that loss.
+
+**A latent that fires often comes back more often, in every kind of
+dictionary.** Of the latents of the first dictionary that fire on more
+than 1% of story tokens, 33% and 48% have a counterpart at 0.7 or more in
+the plain pairs, 32% and 44% in the batch top-k pairs, and 52% and 56% of
+the fewer such latents at twice the width. Counted after the check, as is
+the shared latent seen from the second dictionary below: of the 500 that
+fire most often in each first dictionary of 4,096 latents, it is 39% and
+54% in the plain pairs and 36% and 52% in the batch top-k pairs; of the
+1,000 that fire most often at twice the width, the same share of its
+latents, 40% and 47%. The shared latent of step 6, seen from the first
+dictionary of each pair, has the second's shared latent as its best
+counterpart in all six pairs, at cosines from 0.65 to 0.86: in seed0's
+batch top-k pair at 0.65, under the line of 0.7, and in seed1's at 0.700,
+on it. Seen from the second, it holds in five: in seed0's wide pair the second's shared latent
+is nearer another latent of the first (0.90) than the first's shared
+latent (0.74). How many of the six "She" names share the veto head's
+first choice varies again with the dictionary: three in one of seed0's
+batch top-k dictionaries, four in one of seed1's. Step 6's script ran on
+all eight new dictionaries, and only these rows of its records are read
+here; step 7 was not run on them.
+
+**Kind against seed, looked at after the result.** A dictionary's seed
+sets its first directions and the order of its training vectors, so the
+plain first dictionary and the batch top-k one from the same seed start
+alike and differ in kind alone. Of the plain first dictionary's latents,
+16% and 17% have a counterpart at 0.7 or more in that batch top-k
+dictionary, 9% and 13% in the plain dictionary from the other seed, which
+differs in seed alone, and 8% and 11% in the batch top-k dictionary from
+the other seed, which differs in both. By the rule, in seed0 a change of
+seed keeps fewer counterparts than a change of kind, and in seed1 the two
+are the same. For 56% and 44% of the plain first
+dictionary's latents, the best counterpart in the batch top-k dictionary
+from the same seed is the latent of the same index, the one that started
+from the same random direction; in the one from the other seed, almost
+none.
+
 ## Another model
 
 The open model is Qwen2.5-0.5B-Instruct: 24 blocks, 14 heads per block,
@@ -864,10 +1023,16 @@ pattern.
   so a partial direction's share means something else there. The controls
   and the dose curve were run at one depth.
 - **Other dictionaries.** The second and the third differ from the first
-  in their seed. Another width,
-  another number of active latents, longer training or another place were
-  not tried, and the share of latents with a counterpart may depend on all
-  of them.
+  in their seed. One other kind was trained, at one width and its double,
+  for two seeds each, and no plain pair at the double width, so there the
+  width and the kind are not apart (exercise 2). Neither kind was trained
+  with the auxiliary loss that Bussmann et al. use for both, and each for
+  4,000 steps; why a fifth to more than a third of the batch top-k
+  latents stay at their first directions was not tested. Another number of active latents, longer training, another
+  place or a larger model were not tried, and the share of latents with a
+  counterpart may depend on all of them. Of step 6's records on the batch
+  top-k dictionaries only the names that share a first choice and the
+  shared latent are read, and step 7 was not run on them.
 - **That a latent without a counterpart is noise.** A direction can be
   split over two latents in one dictionary and held by one in the other.
   The best single counterpart misses that.
@@ -884,9 +1049,12 @@ Step 9 maps each piece of this repository to a library that exists for it.
    Read "the shared latent switched off, where a She name acts" in it and
    in `features-seed0.json`. With the latent off, does the head's effect
    on the kind go and its effect on the name stay, in both?
-2. Train a dictionary twice as wide, under a name of its own so that it
-   does not replace the first (`--width 8192 --dict wide`). Does the
-   shared latent split, and by what?
+2. Train a plain dictionary twice as wide from two seeds, under names of
+   their own so that they do not replace the first (`--width 8192 --dict
+   wide` and `--width 8192 --seed 1 --dict wide1`): the plain pair that
+   the section on a newer kind of dictionary lacks. With
+   `minterp/match.py`, does the share with a counterpart fall with the
+   width in the plain kind too? Does the shared latent split, and by what?
 3. `scripts/heads.py` runs step 4's hold for the head at the acting name
    only. Lift that limit for the two heads of block 15, without
    `MINTERP_RUNS=runs` so that the record of this note is not replaced: is
@@ -900,6 +1068,7 @@ Step 9 maps each piece of this repository to a library that exists for it.
 
 ## References
 
+- Bussmann, Leask and Nanda (2024), [BatchTopK Sparse Autoencoders](https://arxiv.org/abs/2412.06410). The top n × k latents are kept across a batch of n vectors in place of the top k of each, with a threshold at use, the mean over batches of the smallest value kept, and the same auxiliary loss as top-k dictionaries against latents that stop firing. Trained on 10⁹ tokens, they report better reconstruction than top-k dictionaries on GPT-2 Small and Gemma 2 2B. How well latents survive another seed is not among their claims.
 - Chughtai, Chan and Nanda (2023), [A Toy Model of Universality: Reverse Engineering How Networks Learn Group Operations](https://arxiv.org/abs/2302.03025). Mixed evidence for universality: the family of circuits and features that networks learn on a task could be characterized, and for a given network the precise circuits learned were arbitrary.
 - Wang, Variengien, Conmy, Shlegeris and Steinhardt (2023), [Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small](https://arxiv.org/abs/2211.00593), ICLR 2023. Their duplicate token heads are active at the second mention of the subject and attend to the first; their S-inhibition heads are active at the last token and attend to the second mention; their negative name movers attend as the name movers do and write in the opposite direction of the names they attend to.
 - Paulo and Belrose (2025), [Sparse Autoencoders Trained on the Same Data Learn Different Features](https://arxiv.org/abs/2501.16615). Dictionaries trained on the same model and data that differ only in their seed identify different sets of features; in the largest case 30% were shared, and top-k dictionaries depended on the seed more than those trained with an L1 penalty.
