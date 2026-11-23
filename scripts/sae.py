@@ -26,6 +26,7 @@ the task    at the acting name's position, where step 4 found the other
     uv run scripts/sae.py                    # the model of minllm's stage 3, after block 4
     uv run scripts/sae.py --model seed1
     uv run scripts/sae.py --seed 1 --dict s1 # a second dictionary, for step 8
+    uv run scripts/sae.py --across-batch --dict b0   # a batch top-k dictionary, for step 8
 """
 
 import argparse

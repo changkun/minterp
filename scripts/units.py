@@ -120,7 +120,20 @@ for seed in SEEDS:
             a, b = step6[0]["the shared latent"], step6[1]["the shared latent"]
             entry["step 6"] = {"She names that share the veto head's first choice": [count(f) for f in step6], "the shared latents": [a, b],
                                "cosine of the first's best counterpart": top[0][a].item(), "which is the second's shared latent": bool(top[1][a].item() == b)}
+        # For the figure: how the best cosines are spread, in 40 bins from 0 to 1 (the pair, and two sets of random directions).
+        bins = lambda v: torch.histc(v.clamp(0, 1), bins=40, min=0, max=1).int().tolist()
+        entry["best cosines, counts in 40 bins from 0 to 1"] = {"the pair": bins(top[0]), "random directions": bins(match.by_chance(one.width, two.width, one.dec.shape[1]))}
         kinds[kind] = entry
+    # Looked at after the result, and not part of the question: a dictionary of another kind from the same seed.
+    # The seed sets the first directions, so the plain first dictionary and the batch one called b0 start alike.
+    if all(os.path.exists(S.path(seed, BLOCK, t)) for t in ("b0", "b1")):
+        first = S.load(S.path(seed, BLOCK), "cpu")
+        look = {}
+        for label, tag in (("the batch dictionary from the same seed", "b0"), ("the batch dictionary from the other seed", "b1")):
+            other = S.load(S.path(seed, BLOCK, tag), "cpu")
+            top = match.best(first, other)
+            look[label] = {**match.shares(top[0]), "the best counterpart has the same number": (top[1] == torch.arange(first.width)).float().mean().item()}
+        kinds["plain"]["set beside another kind, looked at after the result"] = look
     for kind in ("batch", "wide"):  # the question, by the rule
         if kind in kinds and "plain" in kinds:
             kinds[kind]["against the plain dictionaries"] = {
@@ -128,6 +141,90 @@ for seed in SEEDS:
                 "the stricter one-to-one match": against(kinds["plain"]["one to one"]["the same partner by encoder and decoder, 0.7 or more in both"],
                                                          kinds[kind]["one to one"]["the same partner by encoder and decoder, 0.7 or more in both"])}
     result["models"][seed] = kinds
+
+    # Looked at after an independent check of the result, and not part of the question. A dictionary starts from random
+    # directions that its seed sets (minterp/sae.py); they are made again here, through the same constructor, and set
+    # beside where each latent ended. Nothing above depends on what follows.
+    after, kept = {}, {}
+    for kind, tags in KINDS.items():
+        if kind not in kinds:
+            continue
+        pair = [S.load(S.path(seed, BLOCK, t), "cpu") for t in tags]
+        to_start = []
+        for t, d in zip(tags, pair):
+            r = record("sae", seed, t)
+            # The first dictionaries' records were written before a record named its seed; they were trained with the default of S.train, 0.
+            s = r["seed"] if "seed" in r else 0 if t == "" else None
+            assert s is not None, f"no seed recorded for {seed} {t}"
+            torch.manual_seed(s)
+            first = S.SAE(d.dec.shape[1], d.width, d.k, d.across_batch).dec.detach()
+            to_start.append((match.unit(d.dec.detach().float()) * first).sum(1))
+            assert (to_start[-1] >= 0.9).any(), f"no latent of {seed} {t} is near its start: the wrong seed?"
+        with torch.no_grad():
+            fires = sum((pair[0].encode(streams[i:i + 8192]) > 0).sum(0) for i in range(0, streams.shape[0], 8192))
+        rate = fires.float() / streams.shape[0]
+        top, back = match.best(*pair), match.best(pair[1], pair[0])
+        stayed = to_start[0] >= 0.7
+        left = ~stayed
+        peak = (top[0] >= 0.15) & (top[0] < 0.25)
+        often = rate.argsort(descending=True)[:500 * pair[0].width // 4096]
+        e = {
+            "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [[(c >= x).float().mean().item() for x in (0.9, 0.7, 0.5)] for c in to_start],
+            "latents at 0.7 or more to their first direction, each dictionary": [int((c >= 0.7).sum()) for c in to_start],
+            "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [rate[stayed].median().item(), rate[left].median().item()],
+            "first dictionary, the share of all firings that latents near their first direction make": (fires[stayed].sum() / fires.sum()).item(),
+            "latents near their first direction with a counterpart at 0.7 or more": int((top[0][stayed] >= 0.7).sum()),
+            "median best cosine of the latents near their first direction": top[0][stayed].median().item(),
+            "among the latents that left their first direction": {"latents": int(left.sum()), **match.shares(top[0][left])},
+            "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [int(peak.sum()), int((peak & stayed).sum())],
+            "best cosines of the latents that left, counts in 40 bins from 0 to 1": torch.histc(top[0][left].clamp(0, 1), bins=40, min=0, max=1).int().tolist(),
+            "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": (top[0][often] >= 0.7).float().mean().item(),
+            # After a second check: the latents that left, at other lines to their start, and how often they fire.
+            "among the latents under another line to their first direction, with a counterpart at 0.7 or more":
+                {str(line): {"latents": int((to_start[0] < line).sum()), "share": (top[0][to_start[0] < line] >= 0.7).float().mean().item()} for line in (0.9, 0.5)},
+            "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [rate[left].median().item(), (rate[left] > 1e-2).float().mean().item()],
+        }
+        kept[kind] = (rate.clamp_min(1e-6).log10(), left, top[0])
+        step6 = [record("features", seed, t) for t in tags]
+        if all(step6):
+            a, b = step6[0]["the shared latent"], step6[1]["the shared latent"]
+            e["the second's shared latent, its best counterpart in the first"] = {"latent": back[1][b].item(), "cosine": back[0][b].item(),
+                                                                                  "which is the first's shared latent": bool(back[1][b].item() == a),
+                                                                                  "cosine to the first's shared latent": match.cosines(*pair)[a, b].item()}
+        after[kind] = e
+    fifth = lambda p, o: abs(p - o) <= 0.2 * max(p, o)
+    for kind in ("batch", "wide"):
+        if kind in after and "plain" in after:
+            p, o = (after[k]["among the latents that left their first direction"]["at 0.7 or more"] for k in ("plain", kind))
+            after[kind]["among the latents that left, against the plain dictionaries"] = {"by the rule": against(p, o), "within a fifth of the larger": fifth(p, o)}
+            under = "among the latents under another line to their first direction, with a counterpart at 0.7 or more"
+            after[kind]["under another line, against the plain dictionaries by the rule"] = {line: against(after["plain"][under][line]["share"], after[kind][under][line]["share"]) for line in ("0.9", "0.5")}
+            q = kinds[kind]["against the plain dictionaries"]
+            after[kind]["the question's two comparisons, within a fifth of the larger alone"] = {
+                "a counterpart at 0.7 or more": fifth(kinds["plain"]["with a counterpart in the other seed"]["at 0.7 or more"], kinds[kind]["with a counterpart in the other seed"]["at 0.7 or more"]),
+                "the stricter one-to-one match": fifth(kinds["plain"]["one to one"]["the same partner by encoder and decoder, 0.7 or more in both"],
+                                                      kinds[kind]["one to one"]["the same partner by encoder and decoder, 0.7 or more in both"]),
+                "by the rule, as above": q}
+    # After a second check: the batch top-k latents that left, weighted to how often the plain ones that left fire (six bins of
+    # the log of the firing rate). Only at the same width, since a rate does not mean the same rank in a dictionary twice as wide.
+    if "batch" in kept and "plain" in kept:
+        edges = (-6, -3.5, -3, -2.5, -2, -1.5, 0)
+        (rate0, left0, _), (rate1, left1, best1) = kept["plain"], kept["batch"]
+        num = den = 0.0
+        for lo, hi in zip(edges[:-1], edges[1:]):
+            weight = ((rate0 >= lo) & (rate0 < hi) & left0).sum().item()
+            cell = (rate1 >= lo) & (rate1 < hi) & left1
+            if cell.any():
+                num, den = num + weight * (best1[cell] >= 0.7).float().mean().item(), den + weight
+        after["batch"]["the latents that left, with a counterpart at 0.7 or more, weighted to the plain ones' firing rates"] = num / den
+    if "set beside another kind, looked at after the result" in kinds.get("plain", {}):
+        look = kinds["plain"]["set beside another kind, looked at after the result"]
+        kind_only, both = (look[k]["at 0.7 or more"] for k in ("the batch dictionary from the same seed", "the batch dictionary from the other seed"))
+        seed_only = kinds["plain"]["with a counterpart in the other seed"]["at 0.7 or more"]
+        after["the plain first dictionary, a counterpart at 0.7 or more"] = {
+            "another kind from the same seed": kind_only, "the same kind from another seed": seed_only, "another kind from another seed": both,
+            "the first two by the rule": "the same" if same(kind_only, seed_only) else "differ"}
+    result.setdefault("looked at after the check", {})[seed] = after
     del model
 
 pct = lambda d: f"{100 * d['at a cosine of 0.9 or more']:.0f}% / {100 * d['at 0.7 or more']:.0f}% / {100 * d['at 0.5 or more']:.0f}%, median {d['median cosine']:.2f}"
@@ -139,4 +236,15 @@ for seed, kinds in result["models"].items():
         print(f"      never fire {e['latents that never fire on the stories']}, on per vector {[round(x, 1) for x in e['latents on per vector, mean']]}, "
               f"variance missed {[round(x, 3) for x in e['variance missed']]}, the loss rises by {[round(x, 3) for x in e['the loss rises by']]}"
               + (f", step 6: {e['step 6']}" if "step 6" in e else "") + (f"  -> {e['against the plain dictionaries']}" if "against the plain dictionaries" in e else ""))
+for seed, after in result.get("looked at after the check", {}).items():
+    for kind, e in after.items():
+        if kind not in KINDS:
+            print(f"{seed} {kind}: {e}")
+            continue
+        left, shared = e["among the latents that left their first direction"], e.get("the second's shared latent, its best counterpart in the first")
+        print(f"{seed} {kind:5s} near their first direction (0.9 / 0.7 / 0.5): {[[round(100 * x) for x in s] for s in e['share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary']]}%; "
+              f"of those left ({left['latents']}): {100 * left['at 0.7 or more']:.1f}% at 0.7, median {left['median cosine']:.2f}; "
+              f"0.15 to 0.25: {e['best cosines from 0.15 to 0.25: latents, and of them near their first direction']}; "
+              f"most often: {100 * e['the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more']:.1f}%"
+              + (f"; shared from the second: {shared}" if shared else ""))
 save("runs/limits/units.json", result)
