@@ -209,7 +209,10 @@ well: transformers' own are called 0 times.
    table takes a model that TransformerLens or transformers can load, and
    the story model is neither: SAELens's documentation (Extending SAELens)
    points to `SAETrainer` with your own source of activations. Does the
-   shared latent of step 6 appear in both?
+   shared latent of step 6 appear in both? Step 8 trains batch top-k
+   dictionaries with this repository's own code, which leaves out the
+   auxiliary loss of Bussmann et al. (2024), so its answer need not be the
+   library's.
 4. Split the logit difference by head through the library:
    `bridge.set_use_attn_result(True)`, then
    `cache.get_full_resid_decomposition(expand_neurons=False, pos_slice=-1, return_labels=True)`
@@ -234,3 +237,4 @@ Papers:
 
 - Fiotto-Kaufman et al. (2024), [NNsight and NDIF: Democratizing Access to Open-Weight Foundation Model Internals](https://arxiv.org/abs/2407.14561).
 - Ameisen et al. (2025), [Circuit Tracing: Revealing Computational Graphs in Language Models](https://transformer-circuits.pub/2025/attribution-graphs/methods.html).
+- Bussmann, Leask and Nanda (2024), [BatchTopK Sparse Autoencoders](https://arxiv.org/abs/2412.06410). Batch top-k dictionaries, trained with the same auxiliary loss as top-k ones against latents that stop firing.

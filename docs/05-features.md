@@ -40,8 +40,9 @@ k-sparse autoencoder, which Gao et al. (2024) apply to language models. It
 sets the number of active latents directly, where the variant with a
 penalty has a strength to tune.
 
-[`sae.py`](../minterp/sae.py) is that autoencoder in a hundred lines. Its
-test is superposition in miniature: vectors of 24 numbers are built as sums
+[`sae.py`](../minterp/sae.py) is that autoencoder, with a newer variant
+that step 8 tries beside it. The test of the autoencoder is superposition
+in miniature: vectors of 24 numbers are built as sums
 of 3 directions out of 60, and the autoencoder, shown only the vectors,
 finds a direction close to most of the 60.
 
