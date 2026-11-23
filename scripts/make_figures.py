@@ -750,6 +750,42 @@ def limits_seeds():
     save(fig, "limits-seeds")
 
 
+def limits_units():
+    """Step 8: how the cosine of every latent's best counterpart in the other seed's dictionary is spread, for three kinds of dictionary."""
+    run = read("limits/units")
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 5.4), sharex=True, sharey=True)
+    edges = np.linspace(0, 1, 41)
+    kinds = (("plain", INK[0], "plain top-k, 4,096 latents"), ("batch", BLUE[0], "batch top-k, 4,096"), ("wide", RED[0], "batch top-k, 8,192"))
+    for col, seed in enumerate(SEEDS):
+        entry, after = run["models"][seed], run["looked at after the check"][seed]
+        # Random directions put almost all their best cosines in a few bins: drawn as the band that holds 99% of them,
+        # at either width, so that their height does not set the scale.
+        lo, hi = 1.0, 0.0
+        for kind in ("plain", "wide"):
+            chance = np.array(entry[kind]["best cosines, counts in 40 bins from 0 to 1"]["random directions"])
+            cum = np.cumsum(chance) / chance.sum()
+            lo, hi = min(lo, edges[np.searchsorted(cum, 0.005)]), max(hi, edges[np.searchsorted(cum, 0.995) + 1])
+        for row, (says_row, counts_of) in enumerate((
+                ("every latent", lambda k: entry[k]["best cosines, counts in 40 bins from 0 to 1"]["the pair"]),
+                ("the latents that left their first direction", lambda k: after[k]["best cosines of the latents that left, counts in 40 bins from 0 to 1"]))):
+            ax = axes[row, col]
+            ax.axvspan(lo, hi, color=RULE[0], alpha=0.7, linewidth=0, zorder=0, label="where 99% of random directions fall")
+            for kind, color, says in kinds:
+                counts = np.array(counts_of(kind))
+                ax.stairs(counts / counts.sum(), edges, color=color, linewidth=1.5, label=says)
+            ax.axvline(0.7, color=MUTED[0], linewidth=0.8, linestyle=(0, (3, 2)), zorder=0)
+            ax.set_xlim(0, 1)
+            ax.set_title(f"{seed}: {says_row}")
+            if col == 0:
+                ax.set_ylabel("share of those latents")
+        axes[1, col].set_xlabel("cosine of the best counterpart in the other seed's dictionary")
+    axes[0, 0].text(0.71, axes[0, 0].get_ylim()[1] * 0.9, "0.7", color=MUTED[0], fontsize=8)
+    handles, labels = axes[0, 0].get_legend_handles_labels()
+    fig.tight_layout(w_pad=1.6, h_pad=1.2)
+    fig.legend(handles, labels, loc="lower center", ncol=4, bbox_to_anchor=(0.5, -0.06))
+    save(fig, "limits-units")
+
+
 def limits_dictionaries():
     """Step 8: two results of steps 6 and 7 with the first dictionary and with a second one trained from another seed."""
     rng = np.random.default_rng(0)
@@ -811,4 +847,5 @@ if __name__ == "__main__":
     limits_models()
     limits_parts()
     limits_seeds()
+    limits_units()
     limits_dictionaries()
