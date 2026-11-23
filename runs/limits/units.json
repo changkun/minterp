@@ -1,0 +1,683 @@
+{
+ "kinds": {
+  "plain": [
+   "",
+   "s1"
+  ],
+  "batch": [
+   "b0",
+   "b1"
+  ],
+  "wide": [
+   "w0",
+   "w1"
+  ]
+ },
+ "rule": "a share is the same as the plain one when the two differ by at most a fifth of the larger, or by 0.05",
+ "models": {
+  "seed0": {
+   "plain": {
+    "width": 4096,
+    "batch top-k": false,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.026123046875,
+     "at 0.7 or more": 0.086181640625,
+     "at 0.5 or more": 0.304443359375,
+     "median cosine": 0.41328302025794983
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.08447265625,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.05322265625
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 663,
+     "at a cosine of 0.9 or more": 0.1417797952890396,
+     "at 0.7 or more": 0.3333333432674408,
+     "at 0.5 or more": 0.7028657793998718,
+     "median cosine": 0.5993026494979858
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.00048828125,
+      "at 0.5 or more": 0.007568359375,
+      "median cosine": 0.24198584258556366
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.18181119859218597
+     }
+    },
+    "latents that never fire on the stories": [0, 0],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.0, 32.0],
+    "variance missed": [0.07833842804957404, 0.07806089836960857],
+    "the loss rises by": [0.032098333761994224, 0.03307212637322565],
+    "step 6": {
+     "She names that share the veto head's first choice": [6, 6],
+     "the shared latents": [1451, 3006],
+     "cosine of the first's best counterpart": 0.8329437375068665,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 1, 13, 53, 130, 216, 261, 292, 317, 304, 314, 264, 252, 223, 209, 187, 160, 113, 113, 106, 85, 76, 54, 37, 42, 37, 30, 29, 19, 27, 25, 22, 30, 34, 21],
+     "random directions": [0, 0, 0, 0, 0, 11, 1281, 2161, 583, 57, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "set beside another kind, looked at after the result": {
+     "the batch dictionary from the same seed": {
+      "at a cosine of 0.9 or more": 0.029541015625,
+      "at 0.7 or more": 0.155517578125,
+      "at 0.5 or more": 0.491943359375,
+      "median cosine": 0.49645644426345825,
+      "the best counterpart has the same number": 0.564453125
+     },
+     "the batch dictionary from the other seed": {
+      "at a cosine of 0.9 or more": 0.01953125,
+      "at 0.7 or more": 0.08056640625,
+      "at 0.5 or more": 0.283203125,
+      "median cosine": 0.39680248498916626,
+      "the best counterpart has the same number": 0.00048828125
+     }
+    }
+   },
+   "batch": {
+    "width": 4096,
+    "batch top-k": true,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.022705078125,
+     "at 0.7 or more": 0.08642578125,
+     "at 0.5 or more": 0.263916015625,
+     "median cosine": 0.3466757833957672
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.085205078125,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.05126953125
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 644,
+     "at a cosine of 0.9 or more": 0.13509316742420197,
+     "at 0.7 or more": 0.3183229863643646,
+     "at 0.5 or more": 0.6878882050514221,
+     "median cosine": 0.5880036950111389
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.001953125,
+      "median cosine": 0.21532434225082397
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.18181119859218597
+     }
+    },
+    "latents that never fire on the stories": [0, 0],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.22343826293945, 32.18791580200195],
+    "variance missed": [0.08233461238071517, 0.08288023040845871],
+    "the loss rises by": [0.035564603194920386, 0.03378279886007429],
+    "step 6": {
+     "She names that share the veto head's first choice": [3, 6],
+     "the shared latents": [1451, 3006],
+     "cosine of the first's best counterpart": 0.647413432598114,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 32, 333, 426, 359, 276, 261, 210, 183, 191, 192, 148, 134, 148, 122, 118, 117, 109, 105, 89, 74, 70, 45, 51, 54, 30, 39, 26, 18, 23, 20, 21, 23, 33, 16],
+     "random directions": [0, 0, 0, 0, 0, 11, 1281, 2161, 583, 57, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "against the plain dictionaries": {
+     "a counterpart at 0.7 or more": "the same",
+     "the stricter one-to-one match": "the same"
+    }
+   },
+   "wide": {
+    "width": 8192,
+    "batch top-k": true,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.0172119140625,
+     "at 0.7 or more": 0.081787109375,
+     "at 0.5 or more": 0.2215576171875,
+     "median cosine": 0.2984665334224701
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.0810546875,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.0465087890625
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 530,
+     "at a cosine of 0.9 or more": 0.21132075786590576,
+     "at 0.7 or more": 0.5150943398475647,
+     "at 0.5 or more": 0.7943395972251892,
+     "median cosine": 0.7104076743125916
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.000244140625,
+      "at 0.5 or more": 0.0025634765625,
+      "median cosine": 0.2192617803812027
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.1902785450220108
+     }
+    },
+    "latents that never fire on the stories": [6, 6],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.3154182434082, 32.28158950805664],
+    "variance missed": [0.07210721761856463, 0.07257890097632784],
+    "the loss rises by": [0.029272373995918866, 0.03009023171141023],
+    "step 6": {
+     "She names that share the veto head's first choice": [6, 6],
+     "the shared latents": [7316, 1013],
+     "cosine of the first's best counterpart": 0.7433904409408569,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 27, 921, 1282, 832, 613, 441, 409, 379, 276, 300, 240, 239, 219, 199, 170, 162, 171, 163, 125, 135, 106, 113, 86, 85, 84, 67, 82, 45, 50, 30, 35, 44, 36, 26],
+     "random directions": [0, 0, 0, 0, 0, 0, 799, 5158, 1980, 223, 31, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "against the plain dictionaries": {
+     "a counterpart at 0.7 or more": "the same",
+     "the stricter one-to-one match": "the same"
+    }
+   }
+  },
+  "seed1": {
+   "plain": {
+    "width": 4096,
+    "batch top-k": false,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.034912109375,
+     "at 0.7 or more": 0.133056640625,
+     "at 0.5 or more": 0.394775390625,
+     "median cosine": 0.4565088152885437
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.13037109375,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.076904296875
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 701,
+     "at a cosine of 0.9 or more": 0.17689014971256256,
+     "at 0.7 or more": 0.476462185382843,
+     "at 0.5 or more": 0.7831668853759766,
+     "median cosine": 0.688302218914032
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0009765625,
+      "at 0.5 or more": 0.010009765625,
+      "median cosine": 0.2494470179080963
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.18181119859218597
+     }
+    },
+    "latents that never fire on the stories": [0, 0],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.0, 32.0],
+    "variance missed": [0.08409662812886752, 0.08430469567225046],
+    "the loss rises by": [0.03911419536851901, 0.038972554972678264],
+    "step 6": {
+     "She names that share the veto head's first choice": [6, 5],
+     "the shared latents": [2201, 1301],
+     "cosine of the first's best counterpart": 0.7726490497589111,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 6, 19, 33, 63, 113, 203, 212, 253, 262, 274, 283, 261, 262, 235, 196, 175, 132, 140, 134, 107, 104, 84, 66, 63, 55, 54, 42, 33, 47, 42, 32, 37, 46, 28],
+     "random directions": [0, 0, 0, 0, 0, 11, 1281, 2161, 583, 57, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "set beside another kind, looked at after the result": {
+     "the batch dictionary from the same seed": {
+      "at a cosine of 0.9 or more": 0.04296875,
+      "at 0.7 or more": 0.16845703125,
+      "at 0.5 or more": 0.49853515625,
+      "median cosine": 0.49895593523979187,
+      "the best counterpart has the same number": 0.444580078125
+     },
+     "the batch dictionary from the other seed": {
+      "at a cosine of 0.9 or more": 0.030029296875,
+      "at 0.7 or more": 0.113037109375,
+      "at 0.5 or more": 0.364990234375,
+      "median cosine": 0.4271664321422577,
+      "the best counterpart has the same number": 0.0
+     }
+    }
+   },
+   "batch": {
+    "width": 4096,
+    "batch top-k": true,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.03369140625,
+     "at 0.7 or more": 0.1279296875,
+     "at 0.5 or more": 0.32373046875,
+     "median cosine": 0.36080312728881836
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.12646484375,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.080078125
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 682,
+     "at a cosine of 0.9 or more": 0.18035191297531128,
+     "at 0.7 or more": 0.44134896993637085,
+     "at 0.5 or more": 0.7624633312225342,
+     "median cosine": 0.6665909886360168
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.00048828125,
+      "at 0.5 or more": 0.00146484375,
+      "median cosine": 0.21292005479335785
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.18181119859218597
+     }
+    },
+    "latents that never fire on the stories": [0, 0],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.208438873291016, 32.21975326538086],
+    "variance missed": [0.08998097400543342, 0.09067865600941886],
+    "the loss rises by": [0.0413690784611771, 0.040785151925329055],
+    "step 6": {
+     "She names that share the veto head's first choice": [6, 4],
+     "the shared latents": [2201, 2212],
+     "cosine of the first's best counterpart": 0.700194239616394,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 77, 505, 426, 251, 219, 170, 182, 153, 146, 149, 137, 126, 121, 108, 125, 122, 105, 95, 92, 105, 90, 68, 76, 67, 52, 51, 42, 42, 29, 27, 34, 32, 49, 23],
+     "random directions": [0, 0, 0, 0, 0, 11, 1281, 2161, 583, 57, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "against the plain dictionaries": {
+     "a counterpart at 0.7 or more": "the same",
+     "the stricter one-to-one match": "the same"
+    }
+   },
+   "wide": {
+    "width": 8192,
+    "batch top-k": true,
+    "with a counterpart in the other seed": {
+     "at a cosine of 0.9 or more": 0.0235595703125,
+     "at 0.7 or more": 0.1064453125,
+     "at 0.5 or more": 0.270751953125,
+     "median cosine": 0.3151237368583679
+    },
+    "one to one": {
+     "at a cosine of 0.7 or more by the decoder": 0.105224609375,
+     "the same partner by encoder and decoder, 0.7 or more in both": 0.0618896484375
+    },
+    "among latents that fire on more than 1% of story tokens": {
+     "latents": 568,
+     "at a cosine of 0.9 or more": 0.2535211145877838,
+     "at 0.7 or more": 0.5633803009986877,
+     "at 0.5 or more": 0.8785211443901062,
+     "median cosine": 0.7422835826873779
+    },
+    "for comparison": {
+     "the nearest other latent of the same dictionary": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0025634765625,
+      "median cosine": 0.21771304309368134
+     },
+     "two sets of random directions": {
+      "at a cosine of 0.9 or more": 0.0,
+      "at 0.7 or more": 0.0,
+      "at 0.5 or more": 0.0,
+      "median cosine": 0.1902785450220108
+     }
+    },
+    "latents that never fire on the stories": [5, 12],
+    "story tokens": 76800,
+    "latents on per vector, mean": [32.35017013549805, 32.34126281738281],
+    "variance missed": [0.0788623167309946, 0.07868175744686759],
+    "the loss rises by": [0.03587631192416074, 0.035066721028837344],
+    "step 6": {
+     "She names that share the veto head's first choice": [6, 6],
+     "the shared latents": [1702, 6254],
+     "cosine of the first's best counterpart": 0.8561996817588806,
+     "which is the second's shared latent": true
+    },
+    "best cosines, counts in 40 bins from 0 to 1": {
+     "the pair": [0, 0, 0, 0, 0, 0, 52, 1151, 1244, 620, 448, 364, 370, 306, 310, 268, 223, 195, 226, 197, 181, 187, 216, 160, 153, 174, 151, 124, 115, 116, 109, 82, 74, 62, 62, 59, 50, 56, 46, 41],
+     "random directions": [0, 0, 0, 0, 0, 0, 799, 5158, 1980, 223, 31, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "against the plain dictionaries": {
+     "a counterpart at 0.7 or more": "the same",
+     "the stricter one-to-one match": "the same"
+    }
+   }
+  }
+ },
+ "looked at after the check": {
+  "seed0": {
+   "plain": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.0078125, 0.01611328125, 0.031982421875],
+     [0.006103515625, 0.014404296875, 0.03369140625]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [66, 59],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.0045312498696148396, 0.003971354104578495],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.009042561985552311,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.22470945119857788,
+    "among the latents that left their first direction": {
+     "latents": 4030,
+     "at a cosine of 0.9 or more": 0.026550868526101112,
+     "at 0.7 or more": 0.08759304881095886,
+     "at 0.5 or more": 0.3094292879104614,
+     "median cosine": 0.41641348600387573
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [197, 50],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 0, 2, 32, 113, 207, 260, 288, 316, 303, 314, 264, 252, 223, 209, 187, 160, 113, 113, 106, 85, 76, 54, 37, 42, 37, 30, 29, 19, 27, 25, 22, 30, 34, 21],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.3919999897480011,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 4064,
+      "share": 0.08686023950576782
+     },
+     "0.5": {
+      "latents": 3965,
+      "share": 0.08902900665998459
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.003971354104578495, 0.16426798701286316],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 1451,
+     "cosine": 0.8329437375068665,
+     "which is the first's shared latent": true,
+     "cosine to the first's shared latent": 0.8329437375068665
+    }
+   },
+   "batch": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.092529296875, 0.208740234375, 0.301025390625],
+     [0.115966796875, 0.22216796875, 0.31494140625]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [855, 910],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.0014192708767950535, 0.004791666753590107],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.06128796190023422,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.20611754059791565,
+    "among the latents that left their first direction": {
+     "latents": 3241,
+     "at a cosine of 0.9 or more": 0.028694847598671913,
+     "at 0.7 or more": 0.1092255488038063,
+     "at 0.5 or more": 0.33353903889656067,
+     "median cosine": 0.4023895263671875
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [1150, 771],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 1, 26, 129, 223, 223, 248, 200, 178, 189, 191, 148, 134, 148, 122, 118, 117, 109, 105, 89, 74, 70, 45, 51, 54, 30, 39, 26, 18, 23, 20, 21, 23, 33, 16],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.3619999885559082,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 3717,
+      "share": 0.095238097012043
+     },
+     "0.5": {
+      "latents": 2863,
+      "share": 0.12364652752876282
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.004791666753590107, 0.19716137647628784],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 1451,
+     "cosine": 0.647413432598114,
+     "which is the first's shared latent": true,
+     "cosine to the first's shared latent": 0.647413432598114
+    },
+    "among the latents that left, against the plain dictionaries": {
+     "by the rule": "the same",
+     "within a fifth of the larger": true
+    },
+    "under another line, against the plain dictionaries by the rule": {
+     "0.9": "the same",
+     "0.5": "the same"
+    },
+    "the question's two comparisons, within a fifth of the larger alone": {
+     "a counterpart at 0.7 or more": true,
+     "the stricter one-to-one match": true,
+     "by the rule, as above": {
+      "a counterpart at 0.7 or more": "the same",
+      "the stricter one-to-one match": "the same"
+     }
+    },
+    "the latents that left, with a counterpart at 0.7 or more, weighted to the plain ones' firing rates": 0.09543804078554509
+   },
+   "wide": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.2373046875, 0.3406982421875, 0.5062255859375],
+     [0.2421875, 0.3460693359375, 0.5098876953125]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [2791, 2835],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.0004036458267364651, 0.0023307292722165585],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.07135920971632004,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.2088783085346222,
+    "among the latents that left their first direction": {
+     "latents": 5401,
+     "at a cosine of 0.9 or more": 0.026106277480721474,
+     "at 0.7 or more": 0.12405110150575638,
+     "at 0.5 or more": 0.3360488712787628,
+     "median cosine": 0.40037381649017334
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [3062, 2445],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 0, 22, 178, 417, 453, 360, 370, 346, 262, 290, 236, 236, 219, 197, 170, 162, 171, 163, 125, 135, 106, 113, 86, 85, 84, 67, 82, 45, 50, 30, 35, 44, 36, 26],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.4000000059604645,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 6248,
+      "share": 0.10723431408405304
+     },
+     "0.5": {
+      "latents": 4045,
+      "share": 0.16538937389850616
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.0023307292722165585, 0.09757452458143234],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 3015,
+     "cosine": 0.9035370945930481,
+     "which is the first's shared latent": false,
+     "cosine to the first's shared latent": 0.7433904409408569
+    },
+    "among the latents that left, against the plain dictionaries": {
+     "by the rule": "the same",
+     "within a fifth of the larger": false
+    },
+    "under another line, against the plain dictionaries by the rule": {
+     "0.9": "the same",
+     "0.5": "higher"
+    },
+    "the question's two comparisons, within a fifth of the larger alone": {
+     "a counterpart at 0.7 or more": true,
+     "the stricter one-to-one match": true,
+     "by the rule, as above": {
+      "a counterpart at 0.7 or more": "the same",
+      "the stricter one-to-one match": "the same"
+     }
+    }
+   },
+   "the plain first dictionary, a counterpart at 0.7 or more": {
+    "another kind from the same seed": 0.155517578125,
+    "the same kind from another seed": 0.086181640625,
+    "another kind from another seed": 0.08056640625,
+    "the first two by the rule": "differ"
+   }
+  },
+  "seed1": {
+   "plain": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.009765625, 0.014404296875, 0.033935546875],
+     [0.009765625, 0.013916015625, 0.03515625]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [59, 57],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.005130208563059568, 0.00390625],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.0065726726315915585,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.2078695148229599,
+    "among the latents that left their first direction": {
+     "latents": 4037,
+     "at a cosine of 0.9 or more": 0.035422343760728836,
+     "at 0.7 or more": 0.13500124216079712,
+     "at 0.5 or more": 0.4005449712276459,
+     "median cosine": 0.45868319272994995
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [121, 48],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 1, 4, 13, 55, 109, 201, 210, 250, 262, 274, 283, 261, 262, 235, 196, 175, 132, 140, 134, 107, 104, 84, 66, 63, 55, 54, 42, 33, 47, 42, 32, 37, 46, 28],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.5440000295639038,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 4056,
+      "share": 0.13436883687973022
+     },
+     "0.5": {
+      "latents": 3957,
+      "share": 0.13773059844970703
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.00390625, 0.1736437976360321],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 2201,
+     "cosine": 0.7726490497589111,
+     "which is the first's shared latent": true,
+     "cosine to the first's shared latent": 0.7726490497589111
+    }
+   },
+   "batch": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.21240234375, 0.2734375, 0.322265625],
+     [0.248291015625, 0.293701171875, 0.33447265625]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [1120, 1203],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.0007552083116024733, 0.005143229383975267],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.05637231096625328,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.19946971535682678,
+    "among the latents that left their first direction": {
+     "latents": 2976,
+     "at a cosine of 0.9 or more": 0.0463709682226181,
+     "at 0.7 or more": 0.1760752648115158,
+     "at 0.5 or more": 0.44556450843811035,
+     "median cosine": 0.46267756819725037
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [1259, 1050],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 0, 14, 70, 125, 180, 147, 180, 150, 145, 148, 136, 126, 121, 108, 125, 122, 105, 95, 92, 105, 90, 68, 76, 67, 52, 51, 42, 42, 29, 27, 34, 32, 49, 23],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.515999972820282,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 3226,
+      "share": 0.16243025660514832
+     },
+     "0.5": {
+      "latents": 2776,
+      "share": 0.18876080214977264
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.005143229383975267, 0.22883065044879913],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 2201,
+     "cosine": 0.700194239616394,
+     "which is the first's shared latent": true,
+     "cosine to the first's shared latent": 0.700194239616394
+    },
+    "among the latents that left, against the plain dictionaries": {
+     "by the rule": "the same",
+     "within a fifth of the larger": false
+    },
+    "under another line, against the plain dictionaries by the rule": {
+     "0.9": "the same",
+     "0.5": "higher"
+    },
+    "the question's two comparisons, within a fifth of the larger alone": {
+     "a counterpart at 0.7 or more": true,
+     "the stricter one-to-one match": true,
+     "by the rule, as above": {
+      "a counterpart at 0.7 or more": "the same",
+      "the stricter one-to-one match": "the same"
+     }
+    },
+    "the latents that left, with a counterpart at 0.7 or more, weighted to the plain ones' firing rates": 0.1489276248367265
+   },
+   "wide": {
+    "share of the latents at a cosine to their first direction of 0.9, 0.7 and 0.5 or more, each dictionary": [
+     [0.2862548828125, 0.3519287109375, 0.4801025390625],
+     [0.2943115234375, 0.360107421875, 0.478515625]
+    ],
+    "latents at 0.7 or more to their first direction, each dictionary": [2883, 2950],
+    "first dictionary, how often a latent fires on story tokens, median: near its first direction, the others": [0.0001822916674427688, 0.0023567709140479565],
+    "first dictionary, the share of all firings that latents near their first direction make": 0.05470613017678261,
+    "latents near their first direction with a counterpart at 0.7 or more": 0,
+    "median best cosine of the latents near their first direction": 0.20390239357948303,
+    "among the latents that left their first direction": {
+     "latents": 5309,
+     "at a cosine of 0.9 or more": 0.03635336086153984,
+     "at 0.7 or more": 0.16424939036369324,
+     "at 0.5 or more": 0.41759276390075684,
+     "median cosine": 0.4482954144477844
+    },
+    "best cosines from 0.15 to 0.25: latents, and of them near their first direction": [3067, 2626],
+    "best cosines of the latents that left, counts in 40 bins from 0 to 1": [0, 0, 0, 0, 0, 0, 0, 11, 151, 279, 326, 308, 341, 287, 302, 256, 220, 190, 225, 196, 181, 187, 216, 159, 153, 174, 151, 124, 115, 116, 109, 82, 74, 62, 62, 59, 50, 56, 46, 41],
+    "the latents of the first dictionary that fire most often, 500 of every 4,096, with a counterpart at 0.7 or more": 0.47200000286102295,
+    "among the latents under another line to their first direction, with a counterpart at 0.7 or more": {
+     "0.9": {
+      "latents": 5847,
+      "share": 0.14913630485534668
+     },
+     "0.5": {
+      "latents": 4259,
+      "share": 0.204742893576622
+     }
+    },
+    "the latents that left, how often they fire: the median, and the share on more than 1% of story tokens": [0.0023567709140479565, 0.10679977387189865],
+    "the second's shared latent, its best counterpart in the first": {
+     "latent": 1702,
+     "cosine": 0.8561996817588806,
+     "which is the first's shared latent": true,
+     "cosine to the first's shared latent": 0.8561996817588806
+    },
+    "among the latents that left, against the plain dictionaries": {
+     "by the rule": "the same",
+     "within a fifth of the larger": true
+    },
+    "under another line, against the plain dictionaries by the rule": {
+     "0.9": "the same",
+     "0.5": "higher"
+    },
+    "the question's two comparisons, within a fifth of the larger alone": {
+     "a counterpart at 0.7 or more": true,
+     "the stricter one-to-one match": true,
+     "by the rule, as above": {
+      "a counterpart at 0.7 or more": "the same",
+      "the stricter one-to-one match": "the same"
+     }
+    }
+   },
+   "the plain first dictionary, a counterpart at 0.7 or more": {
+    "another kind from the same seed": 0.16845703125,
+    "the same kind from another seed": 0.133056640625,
+    "another kind from another seed": 0.113037109375,
+    "the first two by the rule": "the same"
+   }
+  }
+ }
+}
