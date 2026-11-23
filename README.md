@@ -39,7 +39,7 @@ is read from.
 | 5 | [Features](docs/05-features.md) | These are the units | A sparse autoencoder on the stream: what it rebuilds, what it costs the model, what its latents fire on, and whether it has a unit for what the mechanism of step 4 uses |
 | 6 | [Feature circuit](docs/06-feature-circuit.md) | The mechanism in those units | The answer attributed to latents by a gradient, checked by moving them for real, and set beside the veto head of step 4 |
 | 7 | [Steer](docs/07-steer.md) | The description is good enough to change the behavior | Directions from steps 2, 3 and 6 added to the stream at one position: the dose, the controls, the effect, and what else changes |
-| 8 | [Limits](docs/08-limits.md) | This much holds for another model | What held in both models through the first seven steps, a second dictionary, and the same task in an open model of 0.5 billion parameters |
+| 8 | [Limits](docs/08-limits.md) | This much holds for another model | What held in both models through the first seven steps and in a third, with other dictionaries and a newer kind of dictionary, and the same task in an open model of 0.5 billion parameters, down to its heads |
 | 9 | [The practitioner's stack](docs/09-stack.md) | | Each piece mapped to a library that exists for it, every call read in its documentation on a stated day, and one library run beside this repository's own code |
 
 Every note ends with what its finding does not show, and the next step
